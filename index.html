@@ -3,17 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title> 用药记录器</title>
+    <title>用药记录器</title>
     <style>
-      /* =========================
-       用药记录器
-       by FLAAAAKING
-       ========================= */
-
       :root {
         --bg: #fff5fb;
         --bg2: #ffe8f4;
-        --panel: #ffffff;
+        --panel: #fff;
         --panel2: #ffffffcc;
         --text: #1f2937;
         --muted: #6b7280;
@@ -23,7 +18,7 @@
 
         --accent: #ff4fa3;
         --accent2: #ff8cc7;
-        --accent3: #ffb6d9;
+        --accent3: #ffd1e6;
 
         --ok: #16a34a;
         --warn: #f59e0b;
@@ -31,10 +26,8 @@
 
         --radius: 18px;
         --radius2: 14px;
-
         --font: ui-rounded, "SF Pro Rounded", "PingFang SC", "Microsoft YaHei",
           system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
-
         --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
           "Liberation Mono", monospace;
 
@@ -45,11 +38,11 @@
         --animSlow: 520ms;
       }
 
-      /* ============ Themes (12) ============ */
+      /* 12 themes */
       html[data-theme="katy-pink"] {
         --bg: #fff5fb;
         --bg2: #ffe8f4;
-        --panel: #ffffff;
+        --panel: #fff;
         --text: #1f2937;
         --muted: #6b7280;
         --accent: #ff4fa3;
@@ -60,7 +53,7 @@
       html[data-theme="milk-tea"] {
         --bg: #fff7ee;
         --bg2: #fbe9d6;
-        --panel: #ffffff;
+        --panel: #fff;
         --text: #2b2b2b;
         --muted: #7c6f64;
         --accent: #c97a3d;
@@ -71,7 +64,7 @@
       html[data-theme="peach"] {
         --bg: #fff1ef;
         --bg2: #ffe0dc;
-        --panel: #ffffff;
+        --panel: #fff;
         --text: #1f2937;
         --muted: #7a6f7b;
         --accent: #ff5b4d;
@@ -82,7 +75,7 @@
       html[data-theme="mint"] {
         --bg: #eefcf6;
         --bg2: #daf6e7;
-        --panel: #ffffff;
+        --panel: #fff;
         --text: #0f172a;
         --muted: #57706a;
         --accent: #10b981;
@@ -93,7 +86,7 @@
       html[data-theme="blue-calm"] {
         --bg: #eff7ff;
         --bg2: #dbeeff;
-        --panel: #ffffff;
+        --panel: #fff;
         --text: #0f172a;
         --muted: #556277;
         --accent: #3b82f6;
@@ -116,7 +109,7 @@
       html[data-theme="moonlight"] {
         --bg: #f6f2ff;
         --bg2: #e8ddff;
-        --panel: #ffffff;
+        --panel: #fff;
         --text: #0f172a;
         --muted: #5f5b78;
         --accent: #8b5cf6;
@@ -155,7 +148,7 @@
       html[data-theme="minimal-paper"] {
         --bg: #fbfbfb;
         --bg2: #f2f2f2;
-        --panel: #ffffff;
+        --panel: #fff;
         --text: #111827;
         --muted: #6b7280;
         --accent: #111827;
@@ -168,7 +161,7 @@
       html[data-theme="mono-grey"] {
         --bg: #f3f4f6;
         --bg2: #e5e7eb;
-        --panel: #ffffff;
+        --panel: #fff;
         --text: #111827;
         --muted: #6b7280;
         --accent: #374151;
@@ -179,7 +172,7 @@
       html[data-theme="clinic-white"] {
         --bg: #f7fbff;
         --bg2: #e8f3ff;
-        --panel: #ffffff;
+        --panel: #fff;
         --text: #0f172a;
         --muted: #4b5563;
         --accent: #2563eb;
@@ -188,14 +181,12 @@
         --border: rgba(15, 23, 42, 0.1);
       }
 
-      /* ============ Motion toggle ============ */
       html[data-motion="off"] * {
         transition: none !important;
         animation: none !important;
         scroll-behavior: auto !important;
       }
 
-      /* ============ Base ============ */
       * {
         box-sizing: border-box;
       }
@@ -203,6 +194,7 @@
         margin: 0;
         font-family: var(--font);
         color: var(--text);
+        min-height: 100vh;
         background: radial-gradient(
             1200px 800px at 20% 20%,
             var(--bg2),
@@ -214,17 +206,8 @@
             transparent 55%
           ),
           linear-gradient(180deg, var(--bg), var(--bg));
-        min-height: 100vh;
       }
-      a {
-        color: inherit;
-      }
-      button,
-      input,
-      select,
-      textarea {
-        font-family: inherit;
-      }
+
       .app {
         max-width: 1100px;
         margin: 32px auto 86px;
@@ -232,7 +215,6 @@
         position: relative;
       }
 
-      /* ============ Decorative layer ============ */
       .decorLayer {
         position: absolute;
         inset: -40px -10px 0 -10px;
@@ -272,14 +254,12 @@
       }
       @keyframes floaty {
         from {
-          transform: translateY(0px) rotate(-1deg);
+          transform: translateY(0) rotate(-1deg);
         }
         to {
           transform: translateY(-10px) rotate(1deg);
         }
       }
-
-      /* Inline SVG tokens (cute bows/pills) */
       .svgToken {
         width: 80px;
         height: 80px;
@@ -293,7 +273,6 @@
         height: 48px;
       }
 
-      /* ============ Layout ============ */
       .topBar {
         display: flex;
         align-items: center;
@@ -340,7 +319,7 @@
       }
       .titleBlock .title {
         font-size: 18px;
-        font-weight: 800;
+        font-weight: 900;
         letter-spacing: 0.3px;
         margin: 0;
       }
@@ -366,9 +345,6 @@
         padding: 16px;
         backdrop-filter: blur(10px);
       }
-      html[data-theme="sky-glass"] .panel {
-        background: var(--panel);
-      }
       html[data-theme="night-cat"] .panel,
       html[data-theme="ink-black"] .panel {
         backdrop-filter: none;
@@ -377,24 +353,13 @@
       .grid2 {
         display: grid;
         grid-template-columns: 1.2fr 0.8fr;
-        gap: var(--gridGap);
+        gap: 10px;
       }
       @media (max-width: 980px) {
         .grid2 {
           grid-template-columns: 1fr;
         }
       }
-      .grid3 {
-        display: grid;
-        grid-template-columns: 1.1fr 1.1fr 0.8fr;
-        gap: var(--gridGap);
-      }
-      @media (max-width: 980px) {
-        .grid3 {
-          grid-template-columns: 1fr;
-        }
-      }
-
       .sectionTitle {
         display: flex;
         align-items: center;
@@ -412,19 +377,18 @@
         color: var(--muted);
       }
 
-      /* ============ Controls ============ */
       .btn {
         border: 1px solid transparent;
         border-radius: 14px;
         padding: 10px 12px;
         cursor: pointer;
-        font-weight: 700;
-        transition: transform var(--animFast), filter var(--animFast),
-          background var(--animFast), border var(--animFast);
+        font-weight: 800;
         user-select: none;
         display: inline-flex;
         align-items: center;
         gap: 8px;
+        transition: transform var(--animFast), filter var(--animFast),
+          background var(--animFast), border var(--animFast);
         box-shadow: 0 10px 22px rgba(0, 0, 0, 0.08);
         background: linear-gradient(135deg, var(--accent), var(--accent2));
         color: #fff;
@@ -434,7 +398,7 @@
         transform: translateY(-1px);
       }
       .btn:active {
-        transform: translateY(0px) scale(0.99);
+        transform: translateY(0) scale(0.99);
       }
       .btn.secondary {
         background: transparent;
@@ -458,25 +422,8 @@
       .btn.small {
         padding: 8px 10px;
         border-radius: 12px;
-        font-weight: 700;
+        font-weight: 800;
         box-shadow: none;
-      }
-
-      .pill {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 8px 10px;
-        border-radius: 999px;
-        border: 1px solid var(--border);
-        color: var(--muted);
-        background: rgba(255, 255, 255, 0.35);
-        backdrop-filter: blur(10px);
-      }
-      html[data-theme="night-cat"] .pill,
-      html[data-theme="ink-black"] .pill {
-        background: rgba(255, 255, 255, 0.06);
-        backdrop-filter: none;
       }
 
       .toggle {
@@ -499,7 +446,6 @@
         height: 16px;
         border-radius: 999px;
         background: rgba(107, 114, 128, 0.3);
-        position: relative;
         transition: background var(--animFast);
       }
       .toggle.on .dot {
@@ -508,7 +454,7 @@
       .toggle span {
         font-size: 12px;
         color: var(--muted);
-        font-weight: 700;
+        font-weight: 800;
       }
 
       .select,
@@ -561,7 +507,6 @@
         }
       }
 
-      /* ============ Calendar ============ */
       .calHead {
         display: flex;
         align-items: center;
@@ -593,7 +538,7 @@
         color: var(--muted);
         text-align: center;
         padding: 6px 0;
-        font-weight: 800;
+        font-weight: 900;
       }
       .dayCell {
         border: 1px solid var(--border);
@@ -603,9 +548,9 @@
         background: rgba(255, 255, 255, 0.55);
         position: relative;
         cursor: pointer;
+        overflow: hidden;
         transition: transform var(--animFast), background var(--animFast),
           border var(--animFast);
-        overflow: hidden;
       }
       html[data-theme="night-cat"] .dayCell,
       html[data-theme="ink-black"] .dayCell {
@@ -636,7 +581,6 @@
           ),
           rgba(255, 255, 255, 0.06);
       }
-
       .dayNum {
         font-weight: 900;
         font-size: 14px;
@@ -695,17 +639,16 @@
         border-radius: 999px;
         border: 1px solid var(--border);
         background: rgba(255, 255, 255, 0.35);
-        max-width: 100%;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        max-width: 100%;
       }
       html[data-theme="night-cat"] .miniChip,
       html[data-theme="ink-black"] .miniChip {
         background: rgba(255, 255, 255, 0.06);
       }
 
-      /* ============ Lists / Med box ============ */
       .list {
         display: flex;
         flex-direction: column;
@@ -768,24 +711,6 @@
         justify-content: flex-end;
       }
 
-      /* ============ Day detail ============ */
-      .dayDetailHead {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 10px;
-        margin-bottom: 10px;
-      }
-      .dayDetailHead .left {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        flex-wrap: wrap;
-      }
-      .dayTitle {
-        font-weight: 900;
-        letter-spacing: 0.2px;
-      }
       .doseRow {
         border: 1px solid var(--border);
         border-radius: 16px;
@@ -879,7 +804,23 @@
         color: #fecaca;
       }
 
-      /* ============ Modals ============ */
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 10px;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        color: var(--muted);
+        background: rgba(255, 255, 255, 0.35);
+        backdrop-filter: blur(10px);
+      }
+      html[data-theme="night-cat"] .pill,
+      html[data-theme="ink-black"] .pill {
+        background: rgba(255, 255, 255, 0.06);
+        backdrop-filter: none;
+      }
+
       .modalMask {
         position: fixed;
         inset: 0;
@@ -947,7 +888,6 @@
         background: rgba(255, 255, 255, 0.06);
       }
 
-      /* ============ Toast ============ */
       .toastWrap {
         position: fixed;
         left: 50%;
@@ -990,11 +930,7 @@
       }
       .toast .msg {
         font-size: 13px;
-        font-weight: 800;
-        color: var(--text);
-      }
-      html[data-theme="night-cat"] .toast .msg,
-      html[data-theme="ink-black"] .toast .msg {
+        font-weight: 900;
         color: var(--text);
       }
       .toast .miniBtn {
@@ -1012,7 +948,6 @@
         color: var(--text);
       }
 
-      /* ============ Footer author ============ */
       .author {
         position: fixed;
         right: 14px;
@@ -1024,14 +959,13 @@
       }
       .author code {
         font-family: var(--mono);
-        font-weight: 800;
+        font-weight: 900;
       }
     </style>
   </head>
 
   <body>
     <div class="app">
-      <!-- Decorative -->
       <div class="decorLayer" aria-hidden="true">
         <div class="floatSticker s1">
           <svg class="svgToken small" viewBox="0 0 120 120">
@@ -1122,34 +1056,21 @@
         </div>
       </div>
 
-      <!-- TopBar -->
       <div class="topBar">
         <div class="brand">
-          <div class="logo" title="Katy">
-            <span>🎀</span>
-          </div>
+          <div class="logo" title="Katy"><span>🎀</span></div>
           <div class="titleBlock">
-            <p class="title"> 用药记录器</p>
+            <p class="title">用药记录器</p>
             <p class="sub" id="modeLabel">公共空白模式</p>
           </div>
         </div>
 
         <div class="actions">
-          <div
-            class="toggle"
-            id="toggleDecor"
-            onclick="uiToggleDecor()"
-            title="装饰开关"
-          >
+          <div class="toggle" id="toggleDecor" onclick="uiToggleDecor()">
             <div class="dot"></div>
             <span>装饰</span>
           </div>
-          <div
-            class="toggle"
-            id="toggleMotion"
-            onclick="uiToggleMotion()"
-            title="动效开关"
-          >
+          <div class="toggle" id="toggleMotion" onclick="uiToggleMotion()">
             <div class="dot"></div>
             <span>动效</span>
           </div>
@@ -1159,7 +1080,6 @@
             id="themeSelect"
             style="max-width: 240px"
             onchange="setTheme(this.value)"
-            title="皮肤"
           >
             <option value="katy-pink">🎀 Katy Pink</option>
             <option value="milk-tea">🧋 奶茶 Milk Tea</option>
@@ -1175,55 +1095,48 @@
             <option value="clinic-white">🩺 医疗白 Clinic</option>
           </select>
 
-          <button
-            class="btn secondary"
-            onclick="openPrivacy()"
-            title="隐私/切换空间"
-          >
+          <button class="btn secondary" type="button" onclick="openPrivacy()">
             🔑 隐私
           </button>
-          <button
-            class="btn secondary"
-            onclick="openDataTools()"
-            title="导入导出"
-          >
+          <button class="btn secondary" type="button" onclick="openDataTools()">
             📦 数据
           </button>
         </div>
       </div>
 
       <div class="grid2">
-        <!-- Left -->
         <div class="panel">
           <div class="sectionTitle">
             <h2>📅 月历</h2>
             <div class="hint">点击任意日期：查看/补录</div>
           </div>
-
           <div class="calHead">
             <div class="month">
-              <button class="btn ghost" onclick="calPrev()">◀</button>
+              <button class="btn ghost" type="button" onclick="calPrev()">
+                ◀
+              </button>
               <span id="calMonthText">—</span>
-              <button class="btn ghost" onclick="calNext()">▶</button>
+              <button class="btn ghost" type="button" onclick="calNext()">
+                ▶
+              </button>
               <span class="tag" id="calStatsTag">—</span>
             </div>
-            <button class="btn small secondary" onclick="goToday()">
+            <button
+              class="btn small secondary"
+              type="button"
+              onclick="goToday()"
+            >
               回到今天
             </button>
           </div>
-
-          <div class="calGrid" id="calGrid">
-            <!-- injected -->
-          </div>
+          <div class="calGrid" id="calGrid"></div>
         </div>
 
-        <!-- Right -->
         <div class="panel">
           <div class="sectionTitle">
             <h2>🧾 今日用药</h2>
             <div class="hint" id="todayHint">—</div>
           </div>
-
           <div id="todayList" class="list"></div>
 
           <div style="height: 12px"></div>
@@ -1232,7 +1145,6 @@
             <h2>🎒 我的药箱</h2>
             <div class="hint">添加/编辑/删除</div>
           </div>
-
           <div class="row">
             <input
               class="input"
@@ -1271,7 +1183,9 @@
             placeholder="备注（可选：饭前/饭后/忌口/反应等）"
           ></textarea>
           <div style="height: 10px"></div>
-          <button class="btn" onclick="addMed()">➕ 添加到药箱</button>
+          <button class="btn" type="button" onclick="addMed()">
+            ➕ 添加到药箱
+          </button>
 
           <div style="height: 14px"></div>
           <div id="medList" class="list"></div>
@@ -1287,17 +1201,37 @@
         <div class="modal" onclick="event.stopPropagation()">
           <div class="modalHead">
             <h3 id="dayModalTitle">—</h3>
-            <button class="btn ghost" onclick="closeModal('dayModalMask')">
+            <button
+              class="btn ghost"
+              type="button"
+              onclick="closeModal('dayModalMask')"
+            >
               ✕
             </button>
           </div>
           <div class="modalBody">
-            <div class="dayDetailHead">
-              <div class="left">
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 10px;
+                margin-bottom: 10px;
+                flex-wrap: wrap;
+              "
+            >
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 10px;
+                  flex-wrap: wrap;
+                "
+              >
                 <span class="pill" id="dayModalBadge">—</span>
                 <span class="pill" id="dayModalSummary">—</span>
               </div>
-              <div class="right">
+              <div>
                 <input
                   class="input"
                   type="date"
@@ -1310,14 +1244,18 @@
             <div id="dayDoseList" class="list"></div>
           </div>
           <div class="modalFoot">
-            <button class="btn secondary" onclick="closeModal('dayModalMask')">
+            <button
+              class="btn secondary"
+              type="button"
+              onclick="closeModal('dayModalMask')"
+            >
               关闭
             </button>
           </div>
         </div>
       </div>
 
-      <!-- Confirm modal (smart confirm) -->
+      <!-- Confirm modal: used for "take" and "danger" actions -->
       <div
         class="modalMask"
         id="confirmMask"
@@ -1326,12 +1264,16 @@
         <div class="modal" onclick="event.stopPropagation()">
           <div class="modalHead">
             <h3 id="confirmTitle">确认</h3>
-            <button class="btn ghost" onclick="closeModal('confirmMask')">
+            <button
+              class="btn ghost"
+              type="button"
+              onclick="closeModal('confirmMask')"
+            >
               ✕
             </button>
           </div>
           <div class="modalBody">
-            <div class="row">
+            <div id="confirmMain" class="row">
               <div>
                 <div
                   style="font-weight: 900; margin-bottom: 6px"
@@ -1340,21 +1282,21 @@
                   —
                 </div>
                 <div
-                  style="color: var(--muted); font-size: 12px"
+                  style="color: var(--muted); font-size: 12px; line-height: 1.5"
                   id="confirmLine2"
                 >
                   —
                 </div>
               </div>
-              <div>
+              <div id="confirmRight">
                 <label
-                  style="font-size: 12px; color: var(--muted); font-weight: 800"
+                  style="font-size: 12px; color: var(--muted); font-weight: 900"
                   >记录时间</label
                 >
                 <input class="input" type="time" id="confirmTime" />
                 <div style="height: 8px"></div>
                 <label
-                  style="font-size: 12px; color: var(--muted); font-weight: 800"
+                  style="font-size: 12px; color: var(--muted); font-weight: 900"
                   >备注（可选）</label
                 >
                 <input
@@ -1364,9 +1306,12 @@
                 />
               </div>
             </div>
+
             <div style="height: 10px"></div>
+
             <div
               class="pill"
+              id="confirmQuick"
               style="
                 display: flex;
                 justify-content: space-between;
@@ -1376,11 +1321,16 @@
             >
               <span style="font-weight: 900">快速选择</span>
               <div style="display: flex; gap: 8px; flex-wrap: wrap">
-                <button class="btn small secondary" onclick="confirmSetNow()">
+                <button
+                  class="btn small secondary"
+                  type="button"
+                  onclick="confirmSetNow()"
+                >
                   现在
                 </button>
                 <button
                   class="btn small secondary"
+                  type="button"
                   id="btnSetSchedule"
                   onclick="confirmSetSchedule()"
                 >
@@ -1388,19 +1338,46 @@
                 </button>
                 <button
                   class="btn small secondary"
+                  type="button"
                   onclick="confirmClearNote()"
                 >
                   清空备注
                 </button>
               </div>
             </div>
+
+            <div
+              class="pill"
+              id="confirmDangerHint"
+              style="
+                display: none;
+                margin-top: 10px;
+                gap: 10px;
+                justify-content: space-between;
+                flex-wrap: wrap;
+              "
+            >
+              <span style="font-weight: 900">⚠️ 风险操作</span>
+              <span style="font-size: 12px; color: var(--muted)"
+                >确认后立即生效（可在提示条里撤回）</span
+              >
+            </div>
           </div>
           <div class="modalFoot">
-            <button class="btn secondary" onclick="closeModal('confirmMask')">
+            <button
+              class="btn secondary"
+              type="button"
+              onclick="closeModal('confirmMask')"
+            >
               取消
             </button>
-            <button class="btn ok" id="confirmOkBtn" onclick="confirmCommit()">
-              ✅ 确认记录
+            <button
+              class="btn ok"
+              type="button"
+              id="confirmOkBtn"
+              onclick="confirmCommit()"
+            >
+              ✅ 确认
             </button>
           </div>
         </div>
@@ -1415,7 +1392,11 @@
         <div class="modal" onclick="event.stopPropagation()">
           <div class="modalHead">
             <h3>编辑药物</h3>
-            <button class="btn ghost" onclick="closeModal('editMask')">
+            <button
+              class="btn ghost"
+              type="button"
+              onclick="closeModal('editMask')"
+            >
               ✕
             </button>
           </div>
@@ -1452,13 +1433,19 @@
             ></textarea>
           </div>
           <div class="modalFoot">
-            <button class="btn danger" onclick="deleteMedFromEdit()">
+            <button class="btn danger" type="button" onclick="askDeleteMed()">
               🗑 删除
             </button>
-            <button class="btn secondary" onclick="closeModal('editMask')">
+            <button
+              class="btn secondary"
+              type="button"
+              onclick="closeModal('editMask')"
+            >
               取消
             </button>
-            <button class="btn ok" onclick="saveEdit()">保存</button>
+            <button class="btn ok" type="button" onclick="saveEdit()">
+              保存
+            </button>
           </div>
         </div>
       </div>
@@ -1472,7 +1459,11 @@
         <div class="modal" onclick="event.stopPropagation()">
           <div class="modalHead">
             <h3>隐私与空间</h3>
-            <button class="btn ghost" onclick="closeModal('privacyMask')">
+            <button
+              class="btn ghost"
+              type="button"
+              onclick="closeModal('privacyMask')"
+            >
               ✕
             </button>
           </div>
@@ -1503,10 +1494,18 @@
                   align-items: center;
                 "
               >
-                <button class="btn secondary small" onclick="copySelfLink()">
+                <button
+                  class="btn secondary small"
+                  type="button"
+                  onclick="copySelfLink()"
+                >
                   复制我的私人链接
                 </button>
-                <button class="btn secondary small" onclick="copyPublicLink()">
+                <button
+                  class="btn secondary small"
+                  type="button"
+                  onclick="copyPublicLink()"
+                >
                   复制公共空白链接
                 </button>
               </div>
@@ -1527,16 +1526,20 @@
                   id="inKey"
                   placeholder="输入 k（例：k_ab12cd34）"
                 />
-                <button class="btn ok" onclick="goWithKey()">
+                <button class="btn ok" type="button" onclick="goWithKey()">
                   进入私人空间
                 </button>
               </div>
               <div style="height: 10px"></div>
               <div style="display: flex; gap: 10px; flex-wrap: wrap">
-                <button class="btn" onclick="createPrivateKey()">
+                <button class="btn" type="button" onclick="createPrivateKey()">
                   生成新的私人空间
                 </button>
-                <button class="btn secondary" onclick="switchToPublic()">
+                <button
+                  class="btn secondary"
+                  type="button"
+                  onclick="switchToPublic()"
+                >
                   回到公共空白
                 </button>
               </div>
@@ -1557,7 +1560,11 @@
             </div>
           </div>
           <div class="modalFoot">
-            <button class="btn secondary" onclick="closeModal('privacyMask')">
+            <button
+              class="btn secondary"
+              type="button"
+              onclick="closeModal('privacyMask')"
+            >
               关闭
             </button>
           </div>
@@ -1573,20 +1580,30 @@
         <div class="modal" onclick="event.stopPropagation()">
           <div class="modalHead">
             <h3>数据工具</h3>
-            <button class="btn ghost" onclick="closeModal('dataMask')">
+            <button
+              class="btn ghost"
+              type="button"
+              onclick="closeModal('dataMask')"
+            >
               ✕
             </button>
           </div>
           <div class="modalBody">
             <div class="row">
-              <button class="btn secondary" onclick="exportJSON()">
+              <button
+                class="btn secondary"
+                type="button"
+                onclick="exportJSON()"
+              >
                 导出 JSON
               </button>
-              <button class="btn secondary" onclick="exportCSV()">
+              <button class="btn secondary" type="button" onclick="exportCSV()">
                 导出 CSV（打卡明细）
               </button>
             </div>
+
             <div style="height: 10px"></div>
+
             <div
               class="panel"
               style="box-shadow: none; background: rgba(255, 255, 255, 0.18)"
@@ -1600,7 +1617,9 @@
                 placeholder="粘贴 JSON"
               ></textarea>
               <div style="height: 10px"></div>
-              <button class="btn ok" onclick="importJSON()">导入并覆盖</button>
+              <button class="btn ok" type="button" onclick="importJSON()">
+                导入并覆盖
+              </button>
               <div
                 style="
                   margin-top: 10px;
@@ -1609,7 +1628,7 @@
                   line-height: 1.5;
                 "
               >
-                提示：导入会覆盖当前空间全部内容（药箱 + 打卡记录）。
+                导入会覆盖当前空间全部内容（药箱 + 打卡记录）。
               </div>
             </div>
 
@@ -1622,13 +1641,17 @@
               <div style="font-weight: 900; margin-bottom: 8px">
                 清空当前空间
               </div>
-              <button class="btn danger" onclick="wipeSpace()">
+              <button class="btn danger" type="button" onclick="askWipeSpace()">
                 ⚠️ 清空药箱与记录
               </button>
             </div>
           </div>
           <div class="modalFoot">
-            <button class="btn secondary" onclick="closeModal('dataMask')">
+            <button
+              class="btn secondary"
+              type="button"
+              onclick="closeModal('dataMask')"
+            >
               关闭
             </button>
           </div>
@@ -1643,12 +1666,10 @@
       /* =========================
    Storage / Space
    ========================= */
-
       const VERSION = "v1";
       const KEY_PARAM = "k";
       const PUBLIC_SPACE = "public";
       const LS_PREFIX = `katyMedTracker:${VERSION}:`;
-      const THEME_KEY = `katyMedTracker:${VERSION}:theme`;
       const UI_KEY = `katyMedTracker:${VERSION}:ui`;
 
       function qs() {
@@ -1657,8 +1678,7 @@
       function getKeyFromUrl() {
         const k = qs().get(KEY_PARAM) || "";
         if (!k) return "";
-        // allow only safe chars
-        if (!/^k_[a-zA-Z0-9_-]{6,64}$/.test(k)) return ""; // invalid -> treat as public
+        if (!/^k_[a-zA-Z0-9_-]{6,64}$/.test(k)) return "";
         return k;
       }
       function spaceId() {
@@ -1698,63 +1718,21 @@
           Math.random().toString(36).slice(2, 6)
         );
       }
+      function clone(x) {
+        return JSON.parse(JSON.stringify(x));
+      } // avoid structuredClone compatibility issues
 
       /* =========================
-   State Model
-   =========================
-   state = {
-     meds: [
-       {id, name, dose, unit, timesPerDay, schedule:["08:00","20:00"], note, createdAt}
-     ],
-     records: {
-       "YYYY-MM-DD": {
-         doses: {
-           "medId@HH:MM": { taken:true/false, takenTime:"HH:MM", note:"", updatedAt }
-         }
-       }
-     },
-     ui: { decor, motion }
-   }
-*/
-
-      const defaultState = {
-        meds: [],
-        records: {},
-      };
-
+   State
+   ========================= */
+      const defaultState = { meds: [], records: {} };
       let state = loadState();
-      let calCursor = new Date(); // month cursor
+      let calCursor = new Date();
       let selectedDay = nowISODate();
 
-      function loadState() {
-        try {
-          const raw = localStorage.getItem(storageKey());
-          if (!raw) return structuredClone(defaultState);
-          const parsed = JSON.parse(raw);
-          return normalizeState(parsed);
-        } catch (e) {
-          return structuredClone(defaultState);
-        }
-      }
-      function normalizeState(s) {
-        const out = structuredClone(defaultState);
-        if (s && typeof s === "object") {
-          if (Array.isArray(s.meds))
-            out.meds = s.meds.map(normalizeMed).filter(Boolean);
-          if (s.records && typeof s.records === "object")
-            out.records = s.records;
-        }
-        // ensure unique ids
-        const seen = new Set();
-        out.meds = out.meds.map((m) => {
-          if (!m.id || seen.has(m.id)) {
-            m.id = uid();
-          }
-          seen.add(m.id);
-          return m;
-        });
-        return out;
-      }
+      /* =========================
+   Load/Save
+   ========================= */
       function normalizeMed(m) {
         if (!m || typeof m !== "object") return null;
         const name = String(m.name || "").trim();
@@ -1770,11 +1748,11 @@
           .map((x) => x.trim())
           .filter((x) => /^\d{2}:\d{2}$/.test(x))
           .slice(0, 6);
-        // if schedule empty, generate defaults
         const defaults = ["08:00", "12:00", "20:00", "22:00", "06:00", "16:00"];
         const finalSchedule = (
           sched.length ? sched : defaults.slice(0, timesPerDay)
         ).slice(0, timesPerDay);
+
         return {
           id: String(m.id || uid()),
           name,
@@ -1786,12 +1764,37 @@
           createdAt: m.createdAt || Date.now(),
         };
       }
+      function normalizeState(s) {
+        const out = clone(defaultState);
+        if (s && typeof s === "object") {
+          if (Array.isArray(s.meds))
+            out.meds = s.meds.map(normalizeMed).filter(Boolean);
+          if (s.records && typeof s.records === "object")
+            out.records = s.records;
+        }
+        const seen = new Set();
+        out.meds = out.meds.map((m) => {
+          if (!m.id || seen.has(m.id)) m.id = uid();
+          seen.add(m.id);
+          return m;
+        });
+        return out;
+      }
+      function loadState() {
+        try {
+          const raw = localStorage.getItem(storageKey());
+          if (!raw) return clone(defaultState);
+          return normalizeState(JSON.parse(raw));
+        } catch (e) {
+          return clone(defaultState);
+        }
+      }
       function saveState() {
         localStorage.setItem(storageKey(), JSON.stringify(state));
       }
 
       /* =========================
-   UI Persistence (theme/toggles)
+   UI settings
    ========================= */
       function loadUI() {
         let ui = { theme: "katy-pink", decor: "on", motion: "on" };
@@ -1824,6 +1827,22 @@
         if (decorBtn) decorBtn.classList.toggle("on", ui.decor === "on");
         if (motionBtn) motionBtn.classList.toggle("on", ui.motion === "on");
       }
+      function uiToggleDecor() {
+        ui.decor = ui.decor === "on" ? "off" : "on";
+        saveUI(ui);
+        applyUI();
+      }
+      function uiToggleMotion() {
+        ui.motion = ui.motion === "on" ? "off" : "on";
+        saveUI(ui);
+        applyUI();
+      }
+      function setTheme(theme) {
+        ui.theme = theme;
+        saveUI(ui);
+        applyUI();
+        toast("皮肤已切换 ✨");
+      }
 
       /* =========================
    Toast
@@ -1843,6 +1862,7 @@
         actions.forEach((a) => {
           const b = document.createElement("button");
           b.className = "miniBtn";
+          b.type = "button";
           b.textContent = a.label;
           b.onclick = () => {
             try {
@@ -1853,7 +1873,6 @@
           };
           right.appendChild(b);
         });
-
         t.appendChild(right);
         wrap.appendChild(t);
 
@@ -1889,6 +1908,15 @@
       function publicLink() {
         return baseUrl();
       }
+
+      async function copyText(text) {
+        try {
+          await navigator.clipboard.writeText(text);
+          toast("已复制到剪贴板 ✅");
+        } catch {
+          prompt("复制下面链接：", text);
+        }
+      }
       function createPrivateKey() {
         const k =
           "k_" +
@@ -1911,15 +1939,6 @@
       function switchToPublic() {
         location.href = baseUrl();
       }
-      async function copyText(text) {
-        try {
-          await navigator.clipboard.writeText(text);
-          toast("已复制到剪贴板");
-        } catch {
-          // fallback prompt
-          prompt("复制下面链接：", text);
-        }
-      }
       function copySelfLink() {
         const link = selfLink();
         if (!link) {
@@ -1933,11 +1952,9 @@
       }
       function openPrivacy() {
         const desc = document.getElementById("spaceDesc");
-        if (isPrivate()) {
-          desc.textContent = `私人空间（${spaceId()}）`;
-        } else {
-          desc.textContent = `公共空白模式（分享给别人默认是空白）`;
-        }
+        desc.textContent = isPrivate()
+          ? `私人空间（${spaceId()}）`
+          : `公共空白模式（分享给别人默认是空白）`;
         openModal("privacyMask");
       }
 
@@ -1947,30 +1964,34 @@
       function openDataTools() {
         openModal("dataMask");
       }
+      function downloadFile(filename, content, mime) {
+        const blob = new Blob([content], { type: mime });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+      }
       function exportJSON() {
-        const payload = {
-          exportedAt: Date.now(),
-          space: spaceId(),
-          state,
-        };
-        const text = JSON.stringify(payload, null, 2);
+        const payload = { exportedAt: Date.now(), space: spaceId(), state };
         downloadFile(
           `katy-med-${spaceId()}-${nowISODate()}.json`,
-          text,
+          JSON.stringify(payload, null, 2),
           "application/json"
         );
-        toast("已导出 JSON");
+        toast("已导出 JSON 📦");
       }
       function exportCSV() {
-        // Flatten: date, medName, scheduleTime, taken, takenTime, note
         const rows = [
           ["date", "medName", "scheduleTime", "taken", "takenTime", "note"],
         ];
         const medMap = new Map(state.meds.map((m) => [m.id, m]));
         const dates = Object.keys(state.records).sort();
         for (const d of dates) {
-          const rec = state.records[d];
-          const doses = rec?.doses || {};
+          const doses = state.records[d]?.doses || {};
           for (const key of Object.keys(doses)) {
             const entry = doses[key];
             const [medId, sch] = key.split("@");
@@ -2000,7 +2021,7 @@
           csv,
           "text/csv"
         );
-        toast("已导出 CSV");
+        toast("已导出 CSV 📄");
       }
       function importJSON() {
         const text = document.getElementById("importText").value.trim();
@@ -2011,57 +2032,605 @@
         try {
           const p = JSON.parse(text);
           const incoming = p.state ? p.state : p;
-          const normalized = normalizeState(incoming);
-          state = normalized;
+          state = normalizeState(incoming);
           saveState();
           renderAll();
-          toast("导入完成（已覆盖当前空间）");
-        } catch (e) {
+          toast("导入完成（已覆盖）✅");
+        } catch {
           toast("JSON 解析失败");
         }
       }
-      function wipeSpace() {
-        const ok = confirm("确认清空当前空间？此操作不可撤销。");
-        if (!ok) return;
-        state = structuredClone(defaultState);
+
+      /* 不再用 confirm()，改用站内确认 */
+      function askWipeSpace() {
+        openConfirmDanger({
+          title: "确认清空当前空间",
+          line1: `清空空间：${spaceId()}`,
+          line2: "将删除：药箱 + 所有打卡记录。确认后立即生效。",
+          okText: "⚠️ 立即清空",
+          onOk: () => {
+            state = clone(defaultState);
+            saveState();
+            renderAll();
+            toast("已清空当前空间", []);
+          },
+        });
+      }
+
+      /* =========================
+   Plan / Records
+   ========================= */
+      function plannedKeysForDate(ymd) {
+        const out = [];
+        for (const m of state.meds) {
+          const sched = (m.schedule || []).slice(0, m.timesPerDay || 1);
+          for (const t of sched) {
+            out.push({ med: m, time: t, key: `${m.id}@${t}` });
+          }
+        }
+        out.sort((a, b) =>
+          a.time !== b.time
+            ? a.time.localeCompare(b.time)
+            : a.med.name.localeCompare(b.med.name)
+        );
+        return out;
+      }
+      function getDayRecord(ymd) {
+        if (!state.records[ymd]) state.records[ymd] = { doses: {} };
+        if (!state.records[ymd].doses) state.records[ymd].doses = {};
+        return state.records[ymd];
+      }
+      function getDoseEntry(ymd, doseKey) {
+        const rec = getDayRecord(ymd);
+        if (!rec.doses[doseKey])
+          rec.doses[doseKey] = {
+            taken: false,
+            takenTime: "",
+            note: "",
+            updatedAt: Date.now(),
+          };
+        return rec.doses[doseKey];
+      }
+
+      /* =========================
+   Smart Confirm (Take) + Danger Confirm
+   ========================= */
+      let pendingConfirm = null; // {type:"take"|"danger", ...}
+
+      function openConfirmTake({ ymd, doseKey, medName, scheduleTime }) {
+        pendingConfirm = { type: "take", ymd, doseKey, medName, scheduleTime };
+
+        document.getElementById("confirmTitle").textContent = "确认记录已服用";
+        document.getElementById("confirmLine1").textContent = medName;
+        document.getElementById("confirmLine2").textContent = `${fmtCN(
+          ymd
+        )} · 计划时间 ${scheduleTime}`;
+        document.getElementById("confirmTime").value =
+          scheduleTime || nowTimeHHMM();
+        document.getElementById("confirmNote").value = "";
+
+        document.getElementById("confirmRight").style.display = "";
+        document.getElementById("confirmQuick").style.display = "flex";
+        document.getElementById("confirmDangerHint").style.display = "none";
+
+        const btn = document.getElementById("btnSetSchedule");
+        btn.textContent = "按计划";
+        btn.disabled = !scheduleTime;
+
+        const okBtn = document.getElementById("confirmOkBtn");
+        okBtn.className = "btn ok";
+        okBtn.textContent = "✅ 确认记录";
+
+        openModal("confirmMask");
+      }
+
+      /* 风险动作确认（删除/清空等） */
+      function openConfirmDanger({ title, line1, line2, okText, onOk }) {
+        pendingConfirm = { type: "danger", onOk };
+
+        document.getElementById("confirmTitle").textContent = title;
+        document.getElementById("confirmLine1").textContent = line1;
+        document.getElementById("confirmLine2").textContent = line2;
+
+        document.getElementById("confirmRight").style.display = "none";
+        document.getElementById("confirmQuick").style.display = "none";
+        document.getElementById("confirmDangerHint").style.display = "flex";
+
+        const okBtn = document.getElementById("confirmOkBtn");
+        okBtn.className = "btn danger";
+        okBtn.textContent = okText || "确认";
+
+        openModal("confirmMask");
+      }
+
+      function confirmSetNow() {
+        document.getElementById("confirmTime").value = nowTimeHHMM();
+      }
+      function confirmSetSchedule() {
+        if (pendingConfirm?.type !== "take") return;
+        if (!pendingConfirm.scheduleTime) return;
+        document.getElementById("confirmTime").value =
+          pendingConfirm.scheduleTime;
+      }
+      function confirmClearNote() {
+        document.getElementById("confirmNote").value = "";
+      }
+
+      function confirmCommit() {
+        if (!pendingConfirm) return;
+
+        if (pendingConfirm.type === "take") {
+          const { ymd, doseKey, scheduleTime } = pendingConfirm;
+          const rec = getDayRecord(ymd);
+          const t =
+            document.getElementById("confirmTime").value.trim() ||
+            scheduleTime ||
+            nowTimeHHMM();
+          const note = document.getElementById("confirmNote").value.trim();
+          rec.doses[doseKey] = {
+            taken: true,
+            takenTime: t,
+            note,
+            updatedAt: Date.now(),
+          };
+          saveState();
+          closeModal("confirmMask");
+          renderAll();
+          toast("已确认记录 ✅", [
+            {
+              label: "撤销",
+              onClick: () => undoDose(ymd, doseKey),
+            },
+          ]);
+        } else {
+          // danger
+          const onOk = pendingConfirm.onOk;
+          closeModal("confirmMask");
+          pendingConfirm = null;
+          onOk?.();
+        }
+        pendingConfirm = null;
+      }
+
+      /* =========================
+   One-click undo (fix your issue)
+   ========================= */
+      function undoDose(ymd, doseKey) {
+        const rec = getDayRecord(ymd);
+        const prev = rec.doses[doseKey] ? clone(rec.doses[doseKey]) : null;
+
+        rec.doses[doseKey] = {
+          taken: false,
+          takenTime: "",
+          note: "",
+          updatedAt: Date.now(),
+        };
         saveState();
         renderAll();
-        toast("已清空当前空间");
-      }
-      function downloadFile(filename, content, mime) {
-        const blob = new Blob([content], { type: mime });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = filename;
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        URL.revokeObjectURL(url);
+
+        toast("已撤销 ✅", [
+          {
+            label: "恢复",
+            onClick: () => {
+              if (prev) {
+                rec.doses[doseKey] = prev;
+              } else {
+                delete rec.doses[doseKey];
+              }
+              saveState();
+              renderAll();
+              toast("已恢复");
+            },
+          },
+        ]);
       }
 
       /* =========================
-   UI toggles
+   Calendar status
    ========================= */
-      function uiToggleDecor() {
-        ui.decor = ui.decor === "on" ? "off" : "on";
-        saveUI(ui);
-        applyUI();
+      function dayStatus(ymd) {
+        const plan = plannedKeysForDate(ymd);
+        if (plan.length === 0) return { kind: "bad", label: "无药", chips: [] };
+
+        const rec = state.records[ymd]?.doses || {};
+        let taken = 0,
+          hasAny = false;
+        const chips = [];
+
+        for (const p of plan) {
+          const e = rec[p.key];
+          if (e) {
+            hasAny = true;
+            if (e.taken) taken++;
+          }
+        }
+
+        const today = nowISODate();
+        const isPast = ymd < today;
+        const isFuture = ymd > today;
+
+        if (taken === plan.length && plan.length > 0) {
+          chips.push(`全部已服用 ${taken}/${plan.length}`);
+          return { kind: "ok", label: "✅", chips };
+        }
+        if (!hasAny && isFuture) {
+          chips.push(`计划 ${plan.length} 次`);
+          return { kind: "bad", label: "•", chips };
+        }
+        if (isPast) {
+          chips.push(`已记录 ${taken}/${plan.length}`);
+          if (taken === 0) return { kind: "bad", label: "⛔", chips };
+          return { kind: "warn", label: "⚠️", chips };
+        }
+        chips.push(`进度 ${taken}/${plan.length}`);
+        return { kind: "warn", label: "⏳", chips };
       }
-      function uiToggleMotion() {
-        ui.motion = ui.motion === "on" ? "off" : "on";
-        saveUI(ui);
-        applyUI();
-      }
-      function setTheme(theme) {
-        ui.theme = theme;
-        saveUI(ui);
-        applyUI();
-        toast("皮肤已切换");
+
+      function monthStats(startDate, endDate) {
+        let ok = 0,
+          warn = 0,
+          none = 0;
+        for (
+          let d = new Date(startDate);
+          d <= endDate;
+          d.setDate(d.getDate() + 1)
+        ) {
+          const ymd = nowISODate(d);
+          const st = dayStatus(ymd);
+          if (st.label === "✅") ok++;
+          else if (st.label === "⚠️" || st.label === "⏳") warn++;
+          else none++;
+        }
+        return { ok, warn, none };
       }
 
       /* =========================
-   Medication CRUD
+   Calendar render
+   ========================= */
+      function monthLabel(d) {
+        return `${d.getFullYear()}年${d.getMonth() + 1}月`;
+      }
+      function calPrev() {
+        calCursor = new Date(
+          calCursor.getFullYear(),
+          calCursor.getMonth() - 1,
+          1
+        );
+        renderCalendar();
+      }
+      function calNext() {
+        calCursor = new Date(
+          calCursor.getFullYear(),
+          calCursor.getMonth() + 1,
+          1
+        );
+        renderCalendar();
+      }
+      function goToday() {
+        selectedDay = nowISODate();
+        calCursor = new Date();
+        renderAll();
+        openDay(selectedDay);
+      }
+
+      function makeDayCell(date, muted, todayYmd) {
+        const ymd = nowISODate(date);
+        const cell = document.createElement("div");
+        cell.className =
+          "dayCell" +
+          (muted ? " muted" : "") +
+          (ymd === todayYmd ? " today" : "");
+        cell.onclick = () => openDay(ymd);
+
+        const top = document.createElement("div");
+        top.className = "dayNum";
+        const left = document.createElement("span");
+        left.textContent = String(date.getDate());
+        const badge = document.createElement("span");
+        badge.className = "badge";
+
+        const st = dayStatus(ymd);
+        badge.textContent = st.label;
+        badge.classList.toggle("ok", st.kind === "ok");
+        badge.classList.toggle("warn", st.kind === "warn");
+        badge.classList.toggle("bad", st.kind === "bad");
+        top.appendChild(left);
+        top.appendChild(badge);
+        cell.appendChild(top);
+
+        const mini = document.createElement("div");
+        mini.className = "miniInfo";
+        const chips = st.chips.slice(0, 3);
+        if (chips.length === 0) {
+          const chip = document.createElement("span");
+          chip.className = "miniChip";
+          chip.textContent = "—";
+          mini.appendChild(chip);
+        } else {
+          for (const c of chips) {
+            const chip = document.createElement("span");
+            chip.className = "miniChip";
+            chip.textContent = c;
+            mini.appendChild(chip);
+          }
+        }
+        cell.appendChild(mini);
+        return cell;
+      }
+
+      function renderCalendar() {
+        const grid = document.getElementById("calGrid");
+        grid.innerHTML = "";
+
+        const dows = ["日", "一", "二", "三", "四", "五", "六"];
+        for (const w of dows) {
+          const el = document.createElement("div");
+          el.className = "dow";
+          el.textContent = w;
+          grid.appendChild(el);
+        }
+
+        const y = calCursor.getFullYear();
+        const m = calCursor.getMonth();
+        document.getElementById("calMonthText").textContent =
+          monthLabel(calCursor);
+
+        const first = new Date(y, m, 1);
+        const startDow = first.getDay();
+        const daysInMonth = new Date(y, m + 1, 0).getDate();
+
+        const prevDays = startDow;
+        const prevLast = new Date(y, m, 0).getDate();
+        const today = nowISODate();
+
+        const stats = monthStats(new Date(y, m, 1), new Date(y, m + 1, 0));
+        document.getElementById(
+          "calStatsTag"
+        ).textContent = `✅${stats.ok} ⚠️${stats.warn} •${stats.none}`;
+
+        for (let i = prevDays; i > 0; i--) {
+          const dayNum = prevLast - i + 1;
+          grid.appendChild(
+            makeDayCell(new Date(y, m - 1, dayNum), true, today)
+          );
+        }
+        for (let day = 1; day <= daysInMonth; day++) {
+          grid.appendChild(makeDayCell(new Date(y, m, day), false, today));
+        }
+        const totalCells = prevDays + daysInMonth;
+        const extra = (7 - (totalCells % 7)) % 7;
+        for (let i = 1; i <= extra; i++) {
+          grid.appendChild(makeDayCell(new Date(y, m + 1, i), true, today));
+        }
+      }
+
+      /* =========================
+   Day modal
+   ========================= */
+      function openDay(ymd) {
+        selectedDay = ymd;
+        document.getElementById("jumpDate").value = ymd;
+
+        const plan = plannedKeysForDate(ymd);
+        const rec = getDayRecord(ymd).doses;
+
+        document.getElementById("dayModalTitle").textContent = `📌 ${fmtCN(
+          ymd
+        )} 用药明细`;
+        const st = dayStatus(ymd);
+        document.getElementById(
+          "dayModalBadge"
+        ).textContent = `状态：${st.label}`;
+        const taken = plan.filter((p) => rec[p.key]?.taken).length;
+        document.getElementById(
+          "dayModalSummary"
+        ).textContent = `进度：${taken}/${plan.length}`;
+
+        const list = document.getElementById("dayDoseList");
+        list.innerHTML = "";
+
+        if (plan.length === 0) {
+          const empty = document.createElement("div");
+          empty.className = "item";
+          empty.innerHTML = `<div style="font-weight:900">当前药箱为空</div><div style="margin-top:6px;color:var(--muted);font-size:12px">先在右侧添加药物，再回来打卡。</div>`;
+          list.appendChild(empty);
+        } else {
+          for (const p of plan) {
+            const entry = rec[p.key] || {
+              taken: false,
+              takenTime: "",
+              note: "",
+            };
+
+            const row = document.createElement("div");
+            row.className = "doseRow";
+
+            const left = document.createElement("div");
+            left.className = "doseLeft";
+
+            const l1 = document.createElement("div");
+            l1.className = "line1";
+            const name = document.createElement("span");
+            name.className = "mname";
+            name.textContent = p.med.name;
+            const tag = document.createElement("span");
+            tag.className = "tagLite";
+            tag.textContent = `计划 ${p.time}`;
+            l1.appendChild(name);
+            l1.appendChild(tag);
+
+            const l2 = document.createElement("div");
+            l2.className = "line2";
+            const doseTxt = [p.med.unit, p.med.dose]
+              .filter(Boolean)
+              .join(" · ");
+            l2.innerHTML = `<span>剂量：<b>${
+              doseTxt || "未注明"
+            }</b></span><span>备注：<b>${p.med.note || "—"}</b></span>`;
+
+            left.appendChild(l1);
+            left.appendChild(l2);
+
+            const right = document.createElement("div");
+            right.className = "doseRight";
+
+            const stp = document.createElement("span");
+            stp.className =
+              "statusPill " +
+              (entry.taken ? "ok" : ymd < nowISODate() ? "bad" : "warn");
+            stp.textContent = entry.taken
+              ? `✅ 已服用 ${entry.takenTime || ""}`
+              : ymd < nowISODate()
+              ? "⛔ 未记录"
+              : "⏳ 待服用";
+
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = "btn small " + (entry.taken ? "secondary" : "ok");
+            btn.textContent = entry.taken ? "一键撤销" : "标记已服用";
+            btn.onclick = () => {
+              if (entry.taken) {
+                undoDose(ymd, p.key);
+              } else {
+                openConfirmTake({
+                  ymd,
+                  doseKey: p.key,
+                  medName: p.med.name,
+                  scheduleTime: p.time,
+                });
+              }
+            };
+
+            right.appendChild(stp);
+            right.appendChild(btn);
+
+            row.appendChild(left);
+            row.appendChild(right);
+            list.appendChild(row);
+          }
+        }
+
+        openModal("dayModalMask");
+      }
+      function jumpToDate(value) {
+        if (!value) return;
+        openDay(value);
+        const d = ymdToDate(value);
+        calCursor = new Date(d.getFullYear(), d.getMonth(), 1);
+        renderCalendar();
+      }
+
+      /* =========================
+   Today render (撤销一键)
+   ========================= */
+      function renderToday() {
+        const ymd = nowISODate();
+        const plan = plannedKeysForDate(ymd);
+        const list = document.getElementById("todayList");
+        list.innerHTML = "";
+
+        document.getElementById("todayHint").textContent = plan.length
+          ? `今天计划 ${plan.length} 次`
+          : "药箱为空";
+
+        const modeLabel = document.getElementById("modeLabel");
+        modeLabel.textContent = isPrivate()
+          ? `私人空间（${spaceId()}）`
+          : `公共空白模式`;
+
+        if (plan.length === 0) {
+          const empty = document.createElement("div");
+          empty.className = "item";
+          empty.innerHTML = `<div style="font-weight:900">今天没有计划</div><div style="margin-top:6px;color:var(--muted);font-size:12px">添加药物后，这里会自动生成计划。</div>`;
+          list.appendChild(empty);
+          return;
+        }
+
+        const rec = getDayRecord(ymd).doses;
+        let done = 0;
+
+        for (const p of plan) {
+          const entry = rec[p.key] || { taken: false, takenTime: "", note: "" };
+          if (entry.taken) done++;
+
+          const it = document.createElement("div");
+          it.className = "item";
+
+          const top = document.createElement("div");
+          top.className = "itemTop";
+
+          const left = document.createElement("div");
+          left.style.minWidth = "0";
+
+          const name = document.createElement("div");
+          name.className = "itemName";
+          name.innerHTML = `<span>${
+            entry.taken ? "✅" : "⏳"
+          }</span><span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:360px">${
+            p.med.name
+          }</span>`;
+          const tag = document.createElement("span");
+          tag.className = "tagLite";
+          tag.textContent = `计划 ${p.time}`;
+          name.appendChild(tag);
+
+          const meta = document.createElement("div");
+          meta.className = "itemMeta";
+          const doseTxt = [p.med.unit, p.med.dose].filter(Boolean).join(" · ");
+          meta.innerHTML = `<span>剂量：<b>${
+            doseTxt || "未注明"
+          }</b></span><span>记录：<b>${
+            entry.taken ? entry.takenTime || "已确认" : "—"
+          }</b></span>`;
+
+          left.appendChild(name);
+          left.appendChild(meta);
+
+          const btns = document.createElement("div");
+          btns.className = "itemBtns";
+
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "btn small " + (entry.taken ? "secondary" : "ok");
+          btn.textContent = entry.taken ? "一键撤销" : "确认已服用";
+          btn.onclick = () => {
+            if (entry.taken) {
+              undoDose(ymd, p.key);
+            } else {
+              openConfirmTake({
+                ymd,
+                doseKey: p.key,
+                medName: p.med.name,
+                scheduleTime: p.time,
+              });
+            }
+          };
+
+          const btnDetail = document.createElement("button");
+          btnDetail.type = "button";
+          btnDetail.className = "btn small secondary";
+          btnDetail.textContent = "详情/补录";
+          btnDetail.onclick = () => openDay(ymd);
+
+          btns.appendChild(btn);
+          btns.appendChild(btnDetail);
+
+          top.appendChild(left);
+          top.appendChild(btns);
+
+          it.appendChild(top);
+          list.appendChild(it);
+        }
+
+        // show progress in subtitle
+        const sub = isPrivate()
+          ? `私人空间 · 今日 ${done}/${plan.length}`
+          : `公共空白模式 · 今日 ${done}/${plan.length}`;
+        document.getElementById("modeLabel").textContent = sub;
+      }
+
+      /* =========================
+   Med CRUD (删除改为站内确认)
    ========================= */
       function addMed() {
         const name = document.getElementById("inMedName").value.trim();
@@ -2100,7 +2669,6 @@
           schedule: schedule.length ? schedule : undefined,
           note,
         });
-
         state.meds.unshift(med);
         saveState();
 
@@ -2114,6 +2682,7 @@
         renderAll();
         toast("已添加到药箱 ✅");
       }
+
       function openEdit(medId) {
         const m = state.meds.find((x) => x.id === medId);
         if (!m) return;
@@ -2158,603 +2727,68 @@
         renderAll();
         toast("药物已更新 ✅");
       }
-      function deleteMedFromEdit() {
+
+      /* 删除：不用 confirm()，用 confirmMask */
+      function askDeleteMed() {
         const id = document.getElementById("editId").value;
         const m = state.meds.find((x) => x.id === id);
-        if (!m) return;
-        const ok = confirm(`确认删除：${m.name}？`);
-        if (!ok) return;
-
-        // delete med
-        state.meds = state.meds.filter((x) => x.id !== id);
-
-        // remove record entries referencing this med
-        for (const d of Object.keys(state.records)) {
-          const rec = state.records[d];
-          if (!rec?.doses) continue;
-          for (const k of Object.keys(rec.doses)) {
-            if (k.startsWith(id + "@")) delete rec.doses[k];
-          }
-        }
-
-        saveState();
-        closeModal("editMask");
-        renderAll();
-        toast("已删除");
-      }
-
-      /* =========================
-   Schedule expansion
-   ========================= */
-      function plannedKeysForDate(ymd) {
-        // returns array of {med, time, key}
-        const out = [];
-        for (const m of state.meds) {
-          const sched = (m.schedule || []).slice(0, m.timesPerDay || 1);
-          for (const t of sched) {
-            out.push({ med: m, time: t, key: `${m.id}@${t}` });
-          }
-        }
-        // stable order: time asc then name
-        out.sort((a, b) => {
-          if (a.time !== b.time) return a.time.localeCompare(b.time);
-          return a.med.name.localeCompare(b.med.name);
-        });
-        return out;
-      }
-
-      function getDayRecord(ymd) {
-        if (!state.records[ymd]) state.records[ymd] = { doses: {} };
-        if (!state.records[ymd].doses) state.records[ymd].doses = {};
-        return state.records[ymd];
-      }
-      function getDoseEntry(ymd, doseKey) {
-        const rec = getDayRecord(ymd);
-        if (!rec.doses[doseKey]) {
-          rec.doses[doseKey] = {
-            taken: false,
-            takenTime: "",
-            note: "",
-            updatedAt: Date.now(),
-          };
-        }
-        return rec.doses[doseKey];
-      }
-
-      /* =========================
-   Smart Confirm Flow
-   ========================= */
-      let pendingConfirm = null; // {ymd, doseKey, medName, scheduleTime, action:"take"/"undo"}
-      function openConfirmTake({ ymd, doseKey, medName, scheduleTime }) {
-        pendingConfirm = {
-          ymd,
-          doseKey,
-          medName,
-          scheduleTime,
-          action: "take",
-        };
-
-        document.getElementById("confirmTitle").textContent = "确认记录已服用";
-        document.getElementById("confirmLine1").textContent = `${medName}`;
-        document.getElementById("confirmLine2").textContent = `${fmtCN(
-          ymd
-        )} · 计划时间 ${scheduleTime}`;
-        document.getElementById("confirmTime").value =
-          scheduleTime || nowTimeHHMM();
-        document.getElementById("confirmNote").value = "";
-
-        const btn = document.getElementById("btnSetSchedule");
-        btn.textContent = scheduleTime ? "按计划" : "按计划（无）";
-        btn.disabled = !scheduleTime;
-
-        openModal("confirmMask");
-      }
-      function openConfirmUndo({ ymd, doseKey, medName, scheduleTime }) {
-        pendingConfirm = {
-          ymd,
-          doseKey,
-          medName,
-          scheduleTime,
-          action: "undo",
-        };
-
-        document.getElementById("confirmTitle").textContent = "确认撤销记录";
-        document.getElementById("confirmLine1").textContent = `${medName}`;
-        document.getElementById("confirmLine2").textContent = `${fmtCN(
-          ymd
-        )} · 计划时间 ${scheduleTime}`;
-        document.getElementById("confirmTime").value = "";
-        document.getElementById("confirmNote").value = "";
-
-        const btn = document.getElementById("btnSetSchedule");
-        btn.textContent = "按计划";
-        btn.disabled = true;
-
-        openModal("confirmMask");
-      }
-      function confirmSetNow() {
-        document.getElementById("confirmTime").value = nowTimeHHMM();
-      }
-      function confirmSetSchedule() {
-        if (!pendingConfirm?.scheduleTime) return;
-        document.getElementById("confirmTime").value =
-          pendingConfirm.scheduleTime;
-      }
-      function confirmClearNote() {
-        document.getElementById("confirmNote").value = "";
-      }
-      function confirmCommit() {
-        if (!pendingConfirm) return;
-        const { ymd, doseKey, action, medName, scheduleTime } = pendingConfirm;
-        const rec = getDayRecord(ymd);
-        if (!rec.doses[doseKey])
-          rec.doses[doseKey] = {
-            taken: false,
-            takenTime: "",
-            note: "",
-            updatedAt: Date.now(),
-          };
-
-        if (action === "take") {
-          const t =
-            document.getElementById("confirmTime").value.trim() ||
-            scheduleTime ||
-            nowTimeHHMM();
-          const note = document.getElementById("confirmNote").value.trim();
-          rec.doses[doseKey] = {
-            taken: true,
-            takenTime: t,
-            note,
-            updatedAt: Date.now(),
-          };
-          saveState();
-          closeModal("confirmMask");
-          renderAll();
-          toast("已确认记录 ✅", [
-            {
-              label: "撤销",
-              onClick: () => {
-                const e = getDoseEntry(ymd, doseKey);
-                e.taken = false;
-                e.takenTime = "";
-                e.note = "";
-                e.updatedAt = Date.now();
-                saveState();
-                renderAll();
-                toast("已撤销");
-              },
-            },
-          ]);
-        } else {
-          // undo
-          rec.doses[doseKey] = {
-            taken: false,
-            takenTime: "",
-            note: "",
-            updatedAt: Date.now(),
-          };
-          saveState();
-          closeModal("confirmMask");
-          renderAll();
-          toast("已撤销记录");
-        }
-        pendingConfirm = null;
-      }
-
-      /* =========================
-   Calendar
-   ========================= */
-      function calPrev() {
-        calCursor = new Date(
-          calCursor.getFullYear(),
-          calCursor.getMonth() - 1,
-          1
-        );
-        renderCalendar();
-      }
-      function calNext() {
-        calCursor = new Date(
-          calCursor.getFullYear(),
-          calCursor.getMonth() + 1,
-          1
-        );
-        renderCalendar();
-      }
-      function goToday() {
-        selectedDay = nowISODate();
-        calCursor = new Date();
-        renderAll();
-        openDay(selectedDay);
-      }
-
-      function monthLabel(d) {
-        return `${d.getFullYear()}年${d.getMonth() + 1}月`;
-      }
-      function renderCalendar() {
-        const grid = document.getElementById("calGrid");
-        grid.innerHTML = "";
-
-        const dows = ["日", "一", "二", "三", "四", "五", "六"];
-        for (const w of dows) {
-          const el = document.createElement("div");
-          el.className = "dow";
-          el.textContent = w;
-          grid.appendChild(el);
-        }
-
-        const y = calCursor.getFullYear();
-        const m = calCursor.getMonth();
-        document.getElementById("calMonthText").textContent =
-          monthLabel(calCursor);
-
-        const first = new Date(y, m, 1);
-        const startDow = first.getDay();
-        const daysInMonth = new Date(y, m + 1, 0).getDate();
-
-        // show prev month tail
-        const prevDays = startDow;
-        const prevLast = new Date(y, m, 0).getDate();
-        const today = nowISODate();
-
-        // month stats
-        const rangeStart = new Date(y, m, 1);
-        const rangeEnd = new Date(y, m + 1, 0);
-        const stats = monthStats(rangeStart, rangeEnd);
-        document.getElementById(
-          "calStatsTag"
-        ).textContent = `✅${stats.ok} ⚠️${stats.warn} •${stats.none}`;
-
-        for (let i = prevDays; i > 0; i--) {
-          const dayNum = prevLast - i + 1;
-          const date = new Date(y, m - 1, dayNum);
-          grid.appendChild(makeDayCell(date, true, today));
-        }
-        // current month
-        for (let day = 1; day <= daysInMonth; day++) {
-          const date = new Date(y, m, day);
-          grid.appendChild(makeDayCell(date, false, today));
-        }
-        // next month head to fill to 6 rows maybe (optional)
-        const totalCells = prevDays + daysInMonth;
-        const extra = (7 - (totalCells % 7)) % 7;
-        for (let i = 1; i <= extra; i++) {
-          const date = new Date(y, m + 1, i);
-          grid.appendChild(makeDayCell(date, true, today));
-        }
-      }
-      function makeDayCell(date, muted, todayYmd) {
-        const ymd = nowISODate(date);
-        const cell = document.createElement("div");
-        cell.className =
-          "dayCell" +
-          (muted ? " muted" : "") +
-          (ymd === todayYmd ? " today" : "");
-        cell.onclick = () => openDay(ymd);
-
-        const top = document.createElement("div");
-        top.className = "dayNum";
-        const left = document.createElement("span");
-        left.textContent = String(date.getDate());
-        const badge = document.createElement("span");
-        badge.className = "badge";
-
-        const st = dayStatus(ymd);
-        badge.textContent = st.label;
-        badge.classList.toggle("ok", st.kind === "ok");
-        badge.classList.toggle("warn", st.kind === "warn");
-        badge.classList.toggle("bad", st.kind === "bad");
-        top.appendChild(left);
-        top.appendChild(badge);
-        cell.appendChild(top);
-
-        const mini = document.createElement("div");
-        mini.className = "miniInfo";
-        const chips = st.chips.slice(0, 3);
-        for (const c of chips) {
-          const chip = document.createElement("span");
-          chip.className = "miniChip";
-          chip.textContent = c;
-          mini.appendChild(chip);
-        }
-        if (chips.length === 0) {
-          const chip = document.createElement("span");
-          chip.className = "miniChip";
-          chip.textContent = "—";
-          mini.appendChild(chip);
-        }
-        cell.appendChild(mini);
-
-        return cell;
-      }
-      function dayStatus(ymd) {
-        const plan = plannedKeysForDate(ymd);
-        if (plan.length === 0) {
-          return { kind: "bad", label: "无药", chips: [] };
-        }
-        const rec = state.records[ymd]?.doses || {};
-        let taken = 0;
-        let hasAny = false;
-
-        const chips = [];
-        for (const p of plan) {
-          const e = rec[p.key];
-          if (e) {
-            hasAny = true;
-            if (e.taken) taken++;
-          }
-        }
-
-        const today = nowISODate();
-        const isPast = ymd < today;
-        const isFuture = ymd > today;
-
-        if (taken === plan.length && plan.length > 0) {
-          chips.push(`全部已服用 ${taken}/${plan.length}`);
-          return { kind: "ok", label: "✅", chips };
-        }
-
-        if (!hasAny && isFuture) {
-          chips.push(`计划 ${plan.length} 次`);
-          return { kind: "bad", label: "•", chips };
-        }
-
-        if (isPast) {
-          chips.push(`已记录 ${taken}/${plan.length}`);
-          if (taken === 0) return { kind: "bad", label: "⛔", chips };
-          return { kind: "warn", label: "⚠️", chips };
-        } else {
-          chips.push(`进度 ${taken}/${plan.length}`);
-          return { kind: "warn", label: "⏳", chips };
-        }
-      }
-      function monthStats(startDate, endDate) {
-        const ok = 0,
-          warn = 0,
-          none = 0;
-        let a = 0,
-          b = 0,
-          c = 0;
-        for (
-          let d = new Date(startDate);
-          d <= endDate;
-          d.setDate(d.getDate() + 1)
-        ) {
-          const ymd = nowISODate(d);
-          const st = dayStatus(ymd);
-          if (st.label === "✅") a++;
-          else if (st.label === "⚠️" || st.label === "⏳") b++;
-          else c++;
-        }
-        return { ok: a, warn: b, none: c };
-      }
-
-      /* =========================
-   Day modal rendering
-   ========================= */
-      function openDay(ymd) {
-        selectedDay = ymd;
-        document.getElementById("jumpDate").value = ymd;
-
-        const plan = plannedKeysForDate(ymd);
-        const rec = getDayRecord(ymd).doses;
-
-        // Title
-        document.getElementById("dayModalTitle").textContent = `📌 ${fmtCN(
-          ymd
-        )} 用药明细`;
-        const st = dayStatus(ymd);
-        document.getElementById(
-          "dayModalBadge"
-        ).textContent = `状态：${st.label}`;
-        const taken = plan.filter((p) => rec[p.key]?.taken).length;
-        document.getElementById(
-          "dayModalSummary"
-        ).textContent = `进度：${taken}/${plan.length}`;
-
-        const list = document.getElementById("dayDoseList");
-        list.innerHTML = "";
-
-        if (plan.length === 0) {
-          const empty = document.createElement("div");
-          empty.className = "item";
-          empty.innerHTML = `<div style="font-weight:900">当前药箱为空</div><div style="margin-top:6px;color:var(--muted);font-size:12px">先在右侧添加药物，再回来打卡。</div>`;
-          list.appendChild(empty);
-        } else {
-          for (const p of plan) {
-            const entry = rec[p.key] || {
-              taken: false,
-              takenTime: "",
-              note: "",
-            };
-            const row = document.createElement("div");
-            row.className = "doseRow";
-
-            const left = document.createElement("div");
-            left.className = "doseLeft";
-
-            const l1 = document.createElement("div");
-            l1.className = "line1";
-            const name = document.createElement("span");
-            name.className = "mname";
-            name.textContent = p.med.name;
-            const tag = document.createElement("span");
-            tag.className = "tagLite";
-            tag.textContent = `计划 ${p.time}`;
-            l1.appendChild(name);
-            l1.appendChild(tag);
-
-            const l2 = document.createElement("div");
-            l2.className = "line2";
-            const doseTxt = [p.med.unit, p.med.dose]
-              .filter(Boolean)
-              .join(" · ");
-            l2.innerHTML =
-              `<span>剂量：<b>${doseTxt || "未注明"}</b></span>` +
-              `<span>备注：<b>${p.med.note || "—"}</b></span>`;
-            left.appendChild(l1);
-            left.appendChild(l2);
-
-            const right = document.createElement("div");
-            right.className = "doseRight";
-
-            const stp = document.createElement("span");
-            stp.className =
-              "statusPill " +
-              (entry.taken ? "ok" : ymd < nowISODate() ? "bad" : "warn");
-            stp.textContent = entry.taken
-              ? `✅ 已服用 ${entry.takenTime || ""}`
-              : ymd < nowISODate()
-              ? "⛔ 未记录"
-              : "⏳ 待服用";
-
-            const btn = document.createElement("button");
-            btn.className = "btn small " + (entry.taken ? "secondary" : "ok");
-            btn.textContent = entry.taken ? "撤销" : "标记已服用";
-            btn.onclick = () => {
-              if (entry.taken) {
-                openConfirmUndo({
-                  ymd,
-                  doseKey: p.key,
-                  medName: p.med.name,
-                  scheduleTime: p.time,
-                });
-              } else {
-                openConfirmTake({
-                  ymd,
-                  doseKey: p.key,
-                  medName: p.med.name,
-                  scheduleTime: p.time,
-                });
-              }
-            };
-
-            right.appendChild(stp);
-            right.appendChild(btn);
-
-            row.appendChild(left);
-            row.appendChild(right);
-            list.appendChild(row);
-          }
-        }
-
-        openModal("dayModalMask");
-      }
-      function jumpToDate(value) {
-        if (!value) return;
-        openDay(value);
-        // if month changes, move cursor
-        const d = ymdToDate(value);
-        calCursor = new Date(d.getFullYear(), d.getMonth(), 1);
-        renderCalendar();
-      }
-
-      /* =========================
-   Today card
-   ========================= */
-      function renderToday() {
-        const ymd = nowISODate();
-        const plan = plannedKeysForDate(ymd);
-        const list = document.getElementById("todayList");
-        list.innerHTML = "";
-
-        document.getElementById("todayHint").textContent = plan.length
-          ? `今天计划 ${plan.length} 次`
-          : "药箱为空";
-
-        if (plan.length === 0) {
-          const empty = document.createElement("div");
-          empty.className = "item";
-          empty.innerHTML = `<div style="font-weight:900">今天没有计划</div>
-                       <div style="margin-top:6px;color:var(--muted);font-size:12px">添加药物后，这里会自动生成计划。</div>`;
-          list.appendChild(empty);
+        if (!m) {
+          toast("找不到该药物");
           return;
         }
 
-        const rec = getDayRecord(ymd).doses;
-        let done = 0;
-
-        for (const p of plan) {
-          const entry = rec[p.key] || { taken: false, takenTime: "", note: "" };
-          if (entry.taken) done++;
-
-          const it = document.createElement("div");
-          it.className = "item";
-
-          const top = document.createElement("div");
-          top.className = "itemTop";
-
-          const left = document.createElement("div");
-          left.style.minWidth = "0";
-
-          const name = document.createElement("div");
-          name.className = "itemName";
-          name.innerHTML = `<span>${
-            entry.taken ? "✅" : "⏳"
-          }</span><span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:360px">${
-            p.med.name
-          }</span>`;
-          const tag = document.createElement("span");
-          tag.className = "tagLite";
-          tag.textContent = `计划 ${p.time}`;
-          name.appendChild(tag);
-
-          const meta = document.createElement("div");
-          meta.className = "itemMeta";
-          const doseTxt = [p.med.unit, p.med.dose].filter(Boolean).join(" · ");
-          meta.innerHTML =
-            `<span>剂量：<b>${doseTxt || "未注明"}</b></span>` +
-            `<span>记录：<b>${
-              entry.taken ? entry.takenTime || "已确认" : "—"
-            }</b></span>`;
-
-          left.appendChild(name);
-          left.appendChild(meta);
-
-          const btns = document.createElement("div");
-          btns.className = "itemBtns";
-
-          const btn = document.createElement("button");
-          btn.className = "btn small " + (entry.taken ? "secondary" : "ok");
-          btn.textContent = entry.taken ? "撤销" : "确认已服用";
-          btn.onclick = () => {
-            if (entry.taken) {
-              openConfirmUndo({
-                ymd,
-                doseKey: p.key,
-                medName: p.med.name,
-                scheduleTime: p.time,
+        openConfirmDanger({
+          title: "确认删除药物",
+          line1: `删除：${m.name}`,
+          line2: "将同时移除所有历史记录里与该药相关的条目。",
+          okText: "🗑 立即删除",
+          onOk: () => {
+            deleteMedHard(id);
+          },
+        });
+      }
+      function deleteMedHard(id) {
+        const m = state.meds.find((x) => x.id === id);
+        // backup for undo
+        const backup = m ? clone(m) : null;
+        const removedRecordKeys = []; // [{date, key, value}]
+        for (const d of Object.keys(state.records)) {
+          const doses = state.records[d]?.doses;
+          if (!doses) continue;
+          for (const k of Object.keys(doses)) {
+            if (k.startsWith(id + "@")) {
+              removedRecordKeys.push({
+                date: d,
+                key: k,
+                value: clone(doses[k]),
               });
-            } else {
-              openConfirmTake({
-                ymd,
-                doseKey: p.key,
-                medName: p.med.name,
-                scheduleTime: p.time,
-              });
+              delete doses[k];
             }
-          };
-
-          const btnDetail = document.createElement("button");
-          btnDetail.className = "btn small secondary";
-          btnDetail.textContent = "详情/补录";
-          btnDetail.onclick = () => openDay(ymd);
-
-          btns.appendChild(btn);
-          btns.appendChild(btnDetail);
-
-          top.appendChild(left);
-          top.appendChild(btns);
-
-          it.appendChild(top);
-          list.appendChild(it);
+          }
         }
+        state.meds = state.meds.filter((x) => x.id !== id);
+        saveState();
+        closeModal("editMask");
+        renderAll();
 
-        // progress
-        const modeLabel = document.getElementById("modeLabel");
-        const modeTxt = isPrivate()
-          ? `私人空间 · 今日 ${done}/${plan.length}`
-          : `公共空白模式 · 今日 ${done}/${plan.length}`;
-        modeLabel.textContent = modeTxt;
+        toast("已删除 ✅", [
+          {
+            label: "撤回",
+            onClick: () => {
+              if (backup) state.meds.unshift(backup);
+              for (const it of removedRecordKeys) {
+                if (!state.records[it.date])
+                  state.records[it.date] = { doses: {} };
+                if (!state.records[it.date].doses)
+                  state.records[it.date].doses = {};
+                state.records[it.date].doses[it.key] = it.value;
+              }
+              saveState();
+              renderAll();
+              toast("已撤回删除");
+            },
+          },
+        ]);
       }
 
       /* =========================
@@ -2767,8 +2801,7 @@
         if (state.meds.length === 0) {
           const empty = document.createElement("div");
           empty.className = "item";
-          empty.innerHTML = `<div style="font-weight:900">药箱还是空的</div>
-                       <div style="margin-top:6px;color:var(--muted);font-size:12px">添加药物后，月历与今日计划会自动生成。</div>`;
+          empty.innerHTML = `<div style="font-weight:900">药箱还是空的</div><div style="margin-top:6px;color:var(--muted);font-size:12px">添加药物后，月历与今日计划会自动生成。</div>`;
           list.appendChild(empty);
           return;
         }
@@ -2805,11 +2838,13 @@
           btns.className = "itemBtns";
 
           const b1 = document.createElement("button");
+          b1.type = "button";
           b1.className = "btn small secondary";
           b1.textContent = "编辑";
           b1.onclick = () => openEdit(m.id);
 
           const b2 = document.createElement("button");
+          b2.type = "button";
           b2.className = "btn small secondary";
           b2.textContent = "去今天打卡";
           b2.onclick = () => openDay(nowISODate());
@@ -2819,22 +2854,15 @@
 
           top.appendChild(left);
           top.appendChild(btns);
-
           it.appendChild(top);
           list.appendChild(it);
         }
       }
 
       /* =========================
-   Render All
+   Render all
    ========================= */
       function renderAll() {
-        // label
-        const modeLabel = document.getElementById("modeLabel");
-        modeLabel.textContent = isPrivate()
-          ? `私人空间（${spaceId()}）`
-          : `公共空白模式`;
-
         renderCalendar();
         renderToday();
         renderMedList();
@@ -2844,42 +2872,20 @@
    Init
    ========================= */
       function init() {
-        // apply UI first
         applyUI();
-
-        // fix toggle classes
-        document
-          .getElementById("toggleDecor")
-          .classList.toggle("on", ui.decor === "on");
-        document
-          .getElementById("toggleMotion")
-          .classList.toggle("on", ui.motion === "on");
-
-        // set theme select
         document.getElementById("themeSelect").value = ui.theme;
 
-        // if public, keep it public (no auto key)
-        // if private, show desc
-        renderAll();
-
-        // set calendar cursor to selected month (today)
         const t = ymdToDate(nowISODate());
         calCursor = new Date(t.getFullYear(), t.getMonth(), 1);
-        renderCalendar();
 
-        // ensure today hint is correct
-        renderToday();
-
-        // first run hint
-        if (!isPrivate()) {
-          toast("你现在在公共空白模式：分享给别人默认是空白 ✅");
-        } else {
-          toast("你正在使用私人空间 ✅");
-        }
+        renderAll();
+        toast(
+          isPrivate()
+            ? "已进入私人空间 ✅"
+            : "公共空白模式：分享给别人默认空白 ✅"
+        );
       }
-
       init();
     </script>
   </body>
 </html>
-
