@@ -3,211 +3,238 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Medication Tracker</title>
+<title>Hello Kitty Medication Tracker</title>
 
 <style>
-/* ===== 基础变量 ===== */
+/* =========================
+   基础 / 主题变量
+   ========================= */
 :root{
   --bg:#fff5fb;
+  --bg2:#ffe9f5;
   --card:#ffffff;
-  --text:#333;
-  --muted:#888;
-  --primary:#ff69b4;
-  --accent:#ffd6e8;
-}
-[data-theme="blue"]{
-  --bg:#eef6ff;--card:#fff;--text:#223;--muted:#667;--primary:#4da3ff;--accent:#d7ebff;
-}
-[data-theme="mint"]{
-  --bg:#effaf6;--card:#fff;--text:#143;--muted:#587;--primary:#3ec7a1;--accent:#d9f3ea;
-}
-[data-theme="night"]{
-  --bg:#121212;--card:#1f1f1f;--text:#eaeaea;--muted:#aaa;--primary:#8ab4f8;--accent:#2a2a2a;
-}
-[data-theme="minimal"]{
-  --bg:#fff;--card:#fff;--text:#111;--muted:#777;--primary:#111;--accent:#f2f2f2;
+  --text:#2a2a2a;
+  --muted:#7b7b7b;
+  --border:rgba(0,0,0,.08);
+  --shadow:0 10px 30px rgba(0,0,0,.08);
+  --primary:#ff5fa8;
+  --primary2:#ff87c0;
+  --accent:#ffe1ef;
+  --good:#17b26a;
+  --warn:#f59e0b;
+  --bad:#ef4444;
+  --chip:#f4f4f6;
+  --focus:rgba(255,95,168,.28);
+  --radius:18px;
+  --radius2:14px;
+  --font: ui-rounded, "SF Pro Rounded","PingFang SC","Microsoft YaHei",system-ui,-apple-system,Segoe UI,Arial;
 }
 
-/* ===== 通用 ===== */
+/* Blue */
+html[data-theme="blue"]{
+  --bg:#eef6ff; --bg2:#dbeeff; --card:#ffffff; --text:#1f2937; --muted:#64748b;
+  --primary:#3b82f6; --primary2:#60a5fa; --accent:#dbeafe; --chip:#eef2ff;
+  --focus:rgba(59,130,246,.25);
+}
+/* Mint */
+html[data-theme="mint"]{
+  --bg:#effaf6; --bg2:#d7f6ea; --card:#ffffff; --text:#0f2d24; --muted:#5a7c71;
+  --primary:#16a34a; --primary2:#34d399; --accent:#d1fae5; --chip:#ecfdf5;
+  --focus:rgba(22,163,74,.18);
+}
+/* Night Owl */
+html[data-theme="night"]{
+  --bg:#0b0f19; --bg2:#0f172a; --card:#111827; --text:#e5e7eb; --muted:#94a3b8;
+  --border:rgba(255,255,255,.10);
+  --shadow:0 18px 45px rgba(0,0,0,.55);
+  --primary:#8ab4ff; --primary2:#a5c7ff; --accent:#1f2a44; --chip:#0f172a;
+  --focus:rgba(138,180,255,.22);
+}
+/* Minimal */
+html[data-theme="minimal"]{
+  --bg:#ffffff; --bg2:#f6f6f6; --card:#ffffff; --text:#111111; --muted:#6b7280;
+  --primary:#111111; --primary2:#333333; --accent:#f2f2f2; --chip:#f5f5f5;
+  --shadow:0 10px 26px rgba(0,0,0,.05);
+  --focus:rgba(0,0,0,.12);
+}
+
+*{box-sizing:border-box}
 body{
   margin:0;
-  font-family: ui-rounded,"SF Pro Rounded","PingFang SC","Microsoft YaHei",system-ui;
-  background:var(--bg);
+  font-family:var(--font);
+  background:
+    radial-gradient(1200px 700px at 10% 0%, var(--bg2), transparent 58%),
+    radial-gradient(1000px 600px at 100% 0%, rgba(255,255,255,.55), transparent 55%),
+    linear-gradient(180deg, var(--bg), var(--bg));
   color:var(--text);
 }
-.app{
-  max-width:420px;
-  margin:0 auto;
-  padding:16px;
+
+/* 让用户设备打开“干净链接”也不“漏”：先隐藏再由JS决定是否展示 */
+body[data-boot="0"]{opacity:0}
+body[data-boot="1"]{opacity:1; transition:opacity .18s ease}
+
+/* =========================
+   Layout
+   ========================= */
+.shell{
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 18px 16px 64px;
 }
-h1{font-size:20px;margin:4px 0 12px;}
+.topbar{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:14px;
+}
+.brand{
+  display:flex; align-items:center; gap:10px;
+}
+.logo{
+  width:44px; height:44px; border-radius:16px;
+  background: linear-gradient(135deg, var(--primary), var(--primary2));
+  box-shadow: var(--shadow);
+  display:grid; place-items:center;
+  color:#fff; font-size:22px;
+}
+.titleblock{
+  display:flex; flex-direction:column; gap:2px;
+}
+.h1{
+  font-size:18px; font-weight:800; letter-spacing:.2px;
+}
+.sub{
+  font-size:12px; color:var(--muted);
+}
+.actions{
+  margin-left:auto;
+  display:flex; flex-wrap:wrap;
+  gap:8px;
+  justify-content:flex-end;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns: 1.2fr .8fr;
+  gap:12px;
+}
+@media (max-width: 880px){
+  .grid{grid-template-columns: 1fr; }
+}
+
 .card{
-  background:var(--card);
-  border-radius:16px;
-  padding:14px;
-  margin-bottom:12px;
-  box-shadow:0 6px 20px rgba(0,0,0,.06);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 14px;
 }
-.row{display:flex;align-items:center;gap:8px;}
-.space{flex:1}
-button{
-  border:none;
-  border-radius:12px;
-  padding:8px 12px;
-  background:var(--primary);
-  color:#fff;
+.card h2{
+  margin:0 0 10px;
   font-size:14px;
+  letter-spacing:.2px;
 }
-button.secondary{
-  background:var(--accent);
-  color:var(--text);
-}
-input{
-  width:100%;
-  padding:8px 10px;
-  border-radius:10px;
-  border:1px solid #ddd;
-}
+.row{display:flex; align-items:center; gap:10px;}
+.col{display:flex; flex-direction:column; gap:8px;}
+.space{flex:1}
+.muted{color:var(--muted)}
+.small{font-size:12px}
 
-/* ===== 装饰 & 动效 ===== */
-.decor-off .decor{display:none!important;}
-.motion-off *{animation:none!important;transition:none!important;}
-
-.decor{
-  position:fixed;right:12px;top:12px;
-  font-size:22px;opacity:.6;
-}
-
-/* ===== 夜间字体可读修复 ===== */
-[data-theme="night"] input{
-  background:#2a2a2a;
+/* =========================
+   Inputs / Buttons
+   ========================= */
+button, .btn{
+  border:none;
+  border-radius: 14px;
+  padding: 10px 12px;
+  background: linear-gradient(135deg, var(--primary), var(--primary2));
   color:#fff;
-  border:1px solid #444;
+  cursor:pointer;
+  font-weight:700;
+  letter-spacing:.2px;
+  box-shadow: 0 10px 22px rgba(0,0,0,.10);
+  transition: transform .12s ease, filter .12s ease;
+  user-select:none;
+}
+button:hover{filter:brightness(1.03)}
+button:active{transform: translateY(1px)}
+button.secondary{
+  background: var(--accent);
+  color: var(--text);
+  box-shadow:none;
+  border:1px solid var(--border);
+}
+button.ghost{
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+  box-shadow:none;
+}
+button.danger{
+  background: linear-gradient(135deg, #ef4444, #fb7185);
+}
+button:focus{outline:none; box-shadow:0 0 0 4px var(--focus)}
+
+select, input, textarea{
+  width:100%;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  padding: 10px 10px;
+  border-radius: 12px;
+  font-family: var(--font);
+  outline:none;
+}
+textarea{min-height: 86px; resize:vertical}
+select:focus, input:focus, textarea:focus{ box-shadow:0 0 0 4px var(--focus); }
+
+.toggle{
+  display:flex; align-items:center; gap:10px;
+  padding:10px 12px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,.30);
+}
+.toggle input{width:auto}
+
+/* 夜猫：保证可读 */
+html[data-theme="night"] input,
+html[data-theme="night"] textarea,
+html[data-theme="night"] select{
+  background: rgba(255,255,255,.04);
 }
 
-/* ===== 作者 ===== */
-.author-fixed{
-  position:fixed;
-  right:10px;
-  bottom:8px;
+/* =========================
+   Chips / Pills
+   ========================= */
+.chips{display:flex; flex-wrap:wrap; gap:8px;}
+.chip{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding: 8px 10px;
+  border-radius: 999px;
+  background: var(--chip);
+  border: 1px solid var(--border);
   font-size:12px;
-  color:var(--muted);
-  opacity:.8;
-  pointer-events:none;
 }
-</style>
-</head>
-
-<body>
-<div class="decor">🎀</div>
-
-<div class="app" id="app">
-  <h1>💊 用药记录</h1>
-
-  <div class="card">
-    <div class="row">
-      <strong id="today"></strong>
-      <div class="space"></div>
-      <select id="themeSel">
-        <option value="kitty">Kitty</option>
-        <option value="blue">Blue</option>
-        <option value="mint">Mint</option>
-        <option value="night">Night</option>
-        <option value="minimal">Minimal</option>
-      </select>
-    </div>
-    <div class="row" style="margin-top:8px">
-      <label><input type="checkbox" id="decorToggle"> 装饰</label>
-      <label><input type="checkbox" id="motionToggle"> 动效</label>
-    </div>
-  </div>
-
-  <div class="card">
-    <strong>今日药物</strong>
-    <div id="medList"></div>
-    <button class="secondary" onclick="addMed()">➕ 添加药物</button>
-  </div>
-
-  <div class="card">
-    <strong>补录</strong>
-    <input type="date" id="backDate"/>
-    <button onclick="backfill()">确认补录</button>
-  </div>
-</div>
-
-<div class="author-fixed">by FLAAAAKING</div>
-
-<script>
-/* ===== 工作区 wid（核心） ===== */
-function makeWid(){
-  return Math.random().toString(36).slice(2,10);
+.dot{
+  width:8px; height:8px; border-radius:99px; background: var(--primary);
 }
-const url = new URL(location.href);
-let WID = url.searchParams.get("wid");
-if(!WID){
-  WID = makeWid();
-  url.searchParams.set("wid",WID);
-  history.replaceState(null,"",url.toString());
+.badge{
+  display:inline-flex; align-items:center; gap:6px;
+  font-size:12px; padding:7px 10px; border-radius:999px;
+  border:1px solid var(--border);
+  background: rgba(255,255,255,.22);
 }
-const STORE_KEY = "kitty-med-final__"+WID;
+.badge.good{color:var(--good)}
+.badge.warn{color:var(--warn)}
+.badge.bad{color:var(--bad)}
 
-/* ===== 状态 ===== */
-const state = JSON.parse(localStorage.getItem(STORE_KEY)) || {
-  theme:"kitty",
-  decor:true,
-  motion:true,
-  meds:[]
-};
-
-function save(){
-  localStorage.setItem(STORE_KEY,JSON.stringify(state));
-}
-
-/* ===== UI ===== */
-function render(){
-  document.documentElement.dataset.theme = state.theme;
-  document.documentElement.classList.toggle("decor-off",!state.decor);
-  document.documentElement.classList.toggle("motion-off",!state.motion);
-
-  themeSel.value = state.theme;
-  decorToggle.checked = state.decor;
-  motionToggle.checked = state.motion;
-
-  medList.innerHTML = "";
-  state.meds.forEach((m,i)=>{
-    const div=document.createElement("div");
-    div.className="row";
-    div.innerHTML=`<input type="checkbox" ${m.done?"checked":""}
-      onchange="toggleMed(${i})">
-      <span>${m.name} (${m.dose})</span>`;
-    medList.appendChild(div);
-  });
-}
-function toggleMed(i){
-  state.meds[i].done=!state.meds[i].done;
-  save();render();
-}
-function addMed(){
-  const name=prompt("药物名");
-  if(!name)return;
-  const dose=prompt("剂量","");
-  state.meds.push({name,dose,done:false});
-  save();render();
-}
-function backfill(){
-  if(confirm("确认补录该日期？")){
-    alert("已记录（示意）");
-  }
-}
-
-/* ===== 事件 ===== */
-themeSel.onchange=e=>{state.theme=e.target.value;save();render();}
-decorToggle.onchange=e=>{state.decor=e.target.checked;save();render();}
-motionToggle.onchange=e=>{state.motion=e.target.checked;save();render();}
-
-today.textContent=new Date().toLocaleDateString();
-render();
-</script>
-</body>
-</html>
-
+/* =========================
+   Welcome (空态也体面)
+   ========================= */
+.welcome{
+  padding:16px;
+  background:
+    radial-gradient(800px 420px at 10%
