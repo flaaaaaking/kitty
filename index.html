@@ -1,335 +1,214 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-theme="katy-pink" data-decor="on" data-motion="on">
+<html lang="zh-CN" data-theme="katy-pink">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,viewport-fit=cover"
+    />
     <title>用药记录器</title>
     <style>
       :root {
+        --rounded: ui-rounded, "SF Pro Rounded", "PingFang SC",
+          "Microsoft YaHei", "Noto Sans SC", system-ui, -apple-system, Segoe UI,
+          Arial, sans-serif;
+        --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+          "Liberation Mono", "Courier New", monospace;
+
         --bg: #fff5fb;
-        --bg2: #ffe8f4;
-        --panel: #fff;
-        --panel2: #ffffffcc;
-        --text: #1f2937;
-        --muted: #6b7280;
-        --border: rgba(0, 0, 0, 0.1);
-        --shadow: 0 18px 44px rgba(0, 0, 0, 0.1);
-        --shadow2: 0 10px 24px rgba(0, 0, 0, 0.08);
-
-        --accent: #ff4fa3;
-        --accent2: #ff8cc7;
-        --accent3: #ffd1e6;
-
-        --ok: #16a34a;
-        --warn: #f59e0b;
-        --bad: #ef4444;
+        --surface: #ffffff;
+        --surface2: #fff0f7;
+        --text: #1f1f23;
+        --muted: #6b6b74;
+        --border: rgba(20, 20, 30, 0.12);
+        --accent: #ff5ea8;
+        --accent2: #ffd1e5;
+        --danger: #ff4d4d;
+        --ok: #22c7a2;
+        --warn: #ff9f2f;
+        --info: #2f6bff;
 
         --radius: 18px;
-        --radius2: 14px;
-        --font: ui-rounded, "SF Pro Rounded", "PingFang SC", "Microsoft YaHei",
-          system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
-        --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-          "Liberation Mono", monospace;
+        --stroke: 1px;
+        --shadow: 0 18px 46px rgba(15, 16, 26, 0.14);
+        --shadow2: 0 10px 26px rgba(15, 16, 26, 0.1);
 
-        --gridGap: 10px;
+        --blur: 10px;
 
-        --animFast: 180ms;
-        --anim: 260ms;
-        --animSlow: 520ms;
-      }
+        --chip-bg: rgba(255, 255, 255, 0.65);
+        --chip-br: rgba(20, 20, 30, 0.12);
 
-      /* 12 themes */
-      html[data-theme="katy-pink"] {
-        --bg: #fff5fb;
-        --bg2: #ffe8f4;
-        --panel: #fff;
-        --text: #1f2937;
-        --muted: #6b7280;
-        --accent: #ff4fa3;
-        --accent2: #ff8cc7;
-        --accent3: #ffd1e6;
-        --border: rgba(0, 0, 0, 0.1);
-      }
-      html[data-theme="milk-tea"] {
-        --bg: #fff7ee;
-        --bg2: #fbe9d6;
-        --panel: #fff;
-        --text: #2b2b2b;
-        --muted: #7c6f64;
-        --accent: #c97a3d;
-        --accent2: #f3b27f;
-        --accent3: #ffe1c8;
-        --border: rgba(43, 43, 43, 0.12);
-      }
-      html[data-theme="peach"] {
-        --bg: #fff1ef;
-        --bg2: #ffe0dc;
-        --panel: #fff;
-        --text: #1f2937;
-        --muted: #7a6f7b;
-        --accent: #ff5b4d;
-        --accent2: #ffb199;
-        --accent3: #ffd6cb;
-        --border: rgba(0, 0, 0, 0.1);
-      }
-      html[data-theme="mint"] {
-        --bg: #eefcf6;
-        --bg2: #daf6e7;
-        --panel: #fff;
-        --text: #0f172a;
-        --muted: #57706a;
-        --accent: #10b981;
-        --accent2: #86efac;
-        --accent3: #c8f8dc;
-        --border: rgba(15, 23, 42, 0.12);
-      }
-      html[data-theme="blue-calm"] {
-        --bg: #eff7ff;
-        --bg2: #dbeeff;
-        --panel: #fff;
-        --text: #0f172a;
-        --muted: #556277;
-        --accent: #3b82f6;
-        --accent2: #93c5fd;
-        --accent3: #dbeafe;
-        --border: rgba(15, 23, 42, 0.12);
-      }
-      html[data-theme="sky-glass"] {
-        --bg: #f2fbff;
-        --bg2: #dff2ff;
-        --panel: #ffffffd9;
-        --panel2: #ffffffb3;
-        --text: #0f172a;
-        --muted: #4f6476;
-        --accent: #06b6d4;
-        --accent2: #67e8f9;
-        --accent3: #cffafe;
-        --border: rgba(15, 23, 42, 0.12);
-      }
-      html[data-theme="moonlight"] {
-        --bg: #f6f2ff;
-        --bg2: #e8ddff;
-        --panel: #fff;
-        --text: #0f172a;
-        --muted: #5f5b78;
-        --accent: #8b5cf6;
-        --accent2: #c4b5fd;
-        --accent3: #ede9fe;
-        --border: rgba(15, 23, 42, 0.12);
-      }
-      html[data-theme="night-cat"] {
-        --bg: #0b1020;
-        --bg2: #0a1636;
-        --panel: #0f172a;
-        --panel2: #0f172ad9;
-        --text: #e5e7eb;
-        --muted: #9aa7bd;
-        --accent: #a78bfa;
-        --accent2: #60a5fa;
-        --accent3: #22d3ee;
-        --border: rgba(229, 231, 235, 0.14);
-        --shadow: 0 18px 44px rgba(0, 0, 0, 0.45);
-        --shadow2: 0 10px 24px rgba(0, 0, 0, 0.35);
-      }
-      html[data-theme="ink-black"] {
-        --bg: #0b0b0d;
-        --bg2: #111114;
-        --panel: #15151a;
-        --panel2: #15151ad9;
-        --text: #f3f4f6;
-        --muted: #9ca3af;
-        --accent: #f472b6;
-        --accent2: #fda4af;
-        --accent3: #a78bfa;
-        --border: rgba(243, 244, 246, 0.12);
-        --shadow: 0 18px 44px rgba(0, 0, 0, 0.55);
-        --shadow2: 0 10px 24px rgba(0, 0, 0, 0.4);
-      }
-      html[data-theme="minimal-paper"] {
-        --bg: #fbfbfb;
-        --bg2: #f2f2f2;
-        --panel: #fff;
-        --text: #111827;
-        --muted: #6b7280;
-        --accent: #111827;
-        --accent2: #6b7280;
-        --accent3: #d1d5db;
-        --border: rgba(17, 24, 39, 0.12);
-        --shadow: 0 18px 44px rgba(17, 24, 39, 0.08);
-        --shadow2: 0 10px 24px rgba(17, 24, 39, 0.06);
-      }
-      html[data-theme="mono-grey"] {
-        --bg: #f3f4f6;
-        --bg2: #e5e7eb;
-        --panel: #fff;
-        --text: #111827;
-        --muted: #6b7280;
-        --accent: #374151;
-        --accent2: #9ca3af;
-        --accent3: #e5e7eb;
-        --border: rgba(17, 24, 39, 0.12);
-      }
-      html[data-theme="clinic-white"] {
-        --bg: #f7fbff;
-        --bg2: #e8f3ff;
-        --panel: #fff;
-        --text: #0f172a;
-        --muted: #4b5563;
-        --accent: #2563eb;
-        --accent2: #60a5fa;
-        --accent3: #dbeafe;
-        --border: rgba(15, 23, 42, 0.1);
-      }
+        --motion-fast: 140ms cubic-bezier(0.2, 0.9, 0.2, 1);
+        --motion-slow: 380ms cubic-bezier(0.2, 0.9, 0.2, 1);
 
-      html[data-motion="off"] * {
-        transition: none !important;
-        animation: none !important;
-        scroll-behavior: auto !important;
+        --decor-on: 1; /* 1=开装饰 0=关装饰 */
       }
 
       * {
         box-sizing: border-box;
       }
+      html,
+      body {
+        height: 100%;
+      }
       body {
         margin: 0;
-        font-family: var(--font);
+        font-family: var(--font, var(--rounded));
         color: var(--text);
-        min-height: 100vh;
+        background: var(--bg);
+        overflow-x: hidden;
+      }
+
+      /* 背景“壁纸层” */
+      .wallpaper {
+        position: fixed;
+        inset: 0;
+        z-index: -3;
         background: radial-gradient(
-            1200px 800px at 20% 20%,
-            var(--bg2),
-            transparent 55%
+            1200px 800px at 18% 12%,
+            color-mix(in oklab, var(--accent) 18%, transparent),
+            transparent 70%
           ),
           radial-gradient(
-            1200px 800px at 80% 70%,
-            rgba(255, 255, 255, 0.35),
-            transparent 55%
+            900px 700px at 84% 16%,
+            color-mix(in oklab, var(--accent2) 34%, transparent),
+            transparent 70%
           ),
-          linear-gradient(180deg, var(--bg), var(--bg));
+          radial-gradient(
+            900px 700px at 30% 86%,
+            rgba(0, 0, 0, 0.04),
+            transparent 70%
+          ),
+          linear-gradient(
+            180deg,
+            color-mix(in oklab, var(--bg) 92%, white),
+            var(--bg)
+          );
+        filter: saturate(1.05);
       }
-
-      .app {
-        max-width: 1100px;
-        margin: 32px auto 86px;
-        padding: 0 18px;
-        position: relative;
-      }
-
-      .decorLayer {
+      .wallpaper::after {
+        content: "";
         position: absolute;
-        inset: -40px -10px 0 -10px;
+        inset: 0;
+        opacity: calc(0.55 * var(--decor-on));
+        background: radial-gradient(
+            1.2px 1.2px at 12% 22%,
+            rgba(255, 255, 255, 0.45),
+            transparent 60%
+          ),
+          radial-gradient(
+            1.2px 1.2px at 24% 30%,
+            rgba(255, 255, 255, 0.32),
+            transparent 60%
+          ),
+          radial-gradient(
+            1.2px 1.2px at 82% 20%,
+            rgba(255, 255, 255, 0.35),
+            transparent 60%
+          ),
+          radial-gradient(
+            1.2px 1.2px at 74% 74%,
+            rgba(255, 255, 255, 0.26),
+            transparent 60%
+          ),
+          radial-gradient(
+            1.2px 1.2px at 18% 78%,
+            rgba(255, 255, 255, 0.3),
+            transparent 60%
+          );
+        mix-blend-mode: overlay;
         pointer-events: none;
-        opacity: 0.85;
-      }
-      html[data-decor="off"] .decorLayer {
-        display: none;
       }
 
-      .floatSticker {
-        position: absolute;
-        filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.14));
-        opacity: 0.95;
-        transform: translateZ(0);
-        animation: floaty var(--animSlow) ease-in-out infinite alternate;
-      }
-      .floatSticker.s1 {
-        left: 14px;
-        top: 14px;
-        animation-duration: 1800ms;
-      }
-      .floatSticker.s2 {
-        right: 24px;
-        top: 56px;
-        animation-duration: 2200ms;
-      }
-      .floatSticker.s3 {
-        left: 34px;
-        bottom: 120px;
-        animation-duration: 2400ms;
-      }
-      .floatSticker.s4 {
-        right: 18px;
-        bottom: 80px;
-        animation-duration: 2000ms;
-      }
-      @keyframes floaty {
-        from {
-          transform: translateY(0) rotate(-1deg);
-        }
-        to {
-          transform: translateY(-10px) rotate(1deg);
-        }
-      }
-      .svgToken {
-        width: 80px;
-        height: 80px;
-      }
-      .svgToken.small {
-        width: 64px;
-        height: 64px;
-      }
-      .svgToken.tiny {
-        width: 48px;
-        height: 48px;
+      /* 全局容器 */
+      .app {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 22px 16px 88px;
       }
 
-      .topBar {
+      /* 顶部栏 */
+      .topbar {
         display: flex;
+        gap: 14px;
         align-items: center;
         justify-content: space-between;
-        gap: 14px;
-        margin-bottom: 14px;
+        padding: 14px 14px;
+        border-radius: 22px;
+        background: color-mix(in oklab, var(--surface) 70%, transparent);
+        border: var(--stroke) solid
+          color-mix(in oklab, var(--border) 70%, white);
+        box-shadow: var(--shadow2);
+        backdrop-filter: blur(var(--blur));
+        position: sticky;
+        top: 10px;
+        z-index: 10;
       }
       .brand {
         display: flex;
         align-items: center;
         gap: 12px;
+        min-width: 260px;
       }
       .logo {
-        width: 44px;
-        height: 44px;
-        border-radius: 14px;
-        background: linear-gradient(135deg, var(--accent), var(--accent2));
-        box-shadow: var(--shadow2);
+        width: 46px;
+        height: 46px;
         display: grid;
         place-items: center;
+        border-radius: var(--logo-radius, 16px);
+        background: var(
+          --logo-bg,
+          linear-gradient(
+            135deg,
+            color-mix(in oklab, var(--accent) 86%, white),
+            color-mix(in oklab, var(--accent2) 76%, white)
+          )
+        );
+        border: var(--stroke) solid
+          color-mix(in oklab, var(--border) 55%, white);
+        box-shadow: var(--logo-shadow, var(--shadow2));
         position: relative;
         overflow: hidden;
       }
-      .logo:before {
+      .logo::before {
         content: "";
         position: absolute;
-        inset: -2px;
+        inset: -30%;
+        opacity: calc(0.65 * var(--decor-on));
         background: radial-gradient(
-            circle at 30% 30%,
-            rgba(255, 255, 255, 0.6),
-            transparent 50%
+            14px 14px at 20% 22%,
+            rgba(255, 255, 255, 0.55),
+            transparent 62%
           ),
           radial-gradient(
-            circle at 70% 80%,
+            24px 24px at 72% 66%,
             rgba(255, 255, 255, 0.3),
-            transparent 60%
+            transparent 66%
+          ),
+          conic-gradient(
+            from 180deg at 50% 50%,
+            rgba(255, 255, 255, 0.16),
+            transparent 40%,
+            rgba(255, 255, 255, 0.12)
           );
-        opacity: 0.8;
+        transform: rotate(12deg);
+        pointer-events: none;
       }
-      .logo span {
-        position: relative;
-        font-size: 20px;
-        filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.18));
-      }
-      .titleBlock .title {
-        font-size: 18px;
-        font-weight: 900;
-        letter-spacing: 0.3px;
+      .brand h1 {
         margin: 0;
+        font-size: 15px;
+        letter-spacing: 0.2px;
+        line-height: 1.1;
+        font-weight: 920;
       }
-      .titleBlock .sub {
-        margin: 2px 0 0;
-        color: var(--muted);
+      .brand .sub {
+        margin-top: 4px;
         font-size: 12px;
+        color: var(--muted);
+        font-weight: 650;
       }
 
-      .actions {
+      .top-actions {
         display: flex;
         align-items: center;
         gap: 10px;
@@ -337,2555 +216,2911 @@
         justify-content: flex-end;
       }
 
-      .panel {
-        background: var(--panel);
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
-        box-shadow: var(--shadow);
-        padding: 16px;
-        backdrop-filter: blur(10px);
+      /* 卡片/按钮（主题材质层支持） */
+      .card {
+        position: relative;
+        overflow: hidden;
+        background: var(
+          --card-surface,
+          color-mix(in oklab, var(--surface) 94%, transparent)
+        );
+        border: var(--stroke) solid var(--card-border, var(--border));
+        border-radius: var(--card-radius, var(--radius));
+        box-shadow: var(--card-shadow, var(--shadow2));
+        backdrop-filter: blur(var(--blur));
       }
-      html[data-theme="night-cat"] .panel,
-      html[data-theme="ink-black"] .panel {
-        backdrop-filter: none;
+      .card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: var(--card-overlay, none);
+        opacity: calc(var(--card-overlay-opacity, 0) * var(--decor-on));
+        mix-blend-mode: var(--card-overlay-blend, normal);
       }
-
-      .grid2 {
-        display: grid;
-        grid-template-columns: 1.2fr 0.8fr;
-        gap: 10px;
-      }
-      @media (max-width: 980px) {
-        .grid2 {
-          grid-template-columns: 1fr;
-        }
-      }
-      .sectionTitle {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 10px;
-        margin-bottom: 10px;
-      }
-      .sectionTitle h2 {
-        margin: 0;
-        font-size: 14px;
-        letter-spacing: 0.2px;
-      }
-      .sectionTitle .hint {
-        font-size: 12px;
-        color: var(--muted);
+      .card::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        border-radius: inherit;
+        box-shadow: var(--card-glow, none);
+        outline: var(--card-outline, none);
+        opacity: var(--card-outline-opacity, 1);
       }
 
       .btn {
-        border: 1px solid transparent;
-        border-radius: 14px;
-        padding: 10px 12px;
+        appearance: none;
+        border: none;
         cursor: pointer;
-        font-weight: 800;
+        border-radius: var(--btn-radius, 14px);
+        padding: 10px 12px;
+        font-weight: 840;
+        background: var(
+          --btn-bg,
+          linear-gradient(
+            135deg,
+            color-mix(in oklab, var(--accent) 92%, white) 0%,
+            color-mix(in oklab, var(--accent2) 72%, white) 100%
+          )
+        );
+        color: var(--btn-text, color-mix(in oklab, var(--text) 14%, black));
+        box-shadow: var(--btn-shadow, var(--shadow2));
+        border: var(--btn-border, none);
+        transition: transform var(--motion-fast), box-shadow var(--motion-fast),
+          filter var(--motion-fast);
         user-select: none;
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        transition: transform var(--animFast), filter var(--animFast),
-          background var(--animFast), border var(--animFast);
-        box-shadow: 0 10px 22px rgba(0, 0, 0, 0.08);
-        background: linear-gradient(135deg, var(--accent), var(--accent2));
-        color: #fff;
+        line-height: 1;
+        white-space: nowrap;
       }
       .btn:hover {
-        filter: brightness(1.03);
         transform: translateY(-1px);
+        box-shadow: var(--btn-shadow-hover, var(--shadow));
+        filter: saturate(1.06);
       }
       .btn:active {
-        transform: translateY(0) scale(0.99);
+        transform: translateY(0px) scale(0.99);
       }
+      .btn:disabled {
+        opacity: 0.55;
+        cursor: not-allowed;
+        transform: none;
+      }
+
       .btn.secondary {
-        background: transparent;
-        color: var(--text);
-        border-color: var(--border);
-        box-shadow: none;
+        background: var(
+          --btn-secondary-bg,
+          color-mix(in oklab, var(--surface2) 84%, transparent)
+        );
+        border: var(--btn-secondary-border, var(--stroke) solid var(--border));
+        color: var(--btn-secondary-text, var(--text));
+        box-shadow: var(
+          --btn-secondary-shadow,
+          0 6px 14px rgba(20, 20, 30, 0.06)
+        );
       }
       .btn.ghost {
         background: transparent;
-        color: var(--text);
-        border-color: transparent;
+        border: var(--btn-ghost-border, var(--stroke) solid var(--border));
+        color: var(--btn-ghost-text, var(--text));
         box-shadow: none;
-        padding: 8px 10px;
       }
       .btn.danger {
-        background: linear-gradient(135deg, #ef4444, #fb7185);
-      }
-      .btn.ok {
-        background: linear-gradient(135deg, #16a34a, #4ade80);
+        background: var(
+          --btn-danger-bg,
+          linear-gradient(
+            135deg,
+            color-mix(in oklab, var(--danger) 92%, white),
+            color-mix(in oklab, var(--danger) 70%, white)
+          )
+        );
+        color: var(--btn-danger-text, white);
+        box-shadow: 0 12px 24px rgba(255, 77, 77, 0.18);
       }
       .btn.small {
         padding: 8px 10px;
-        border-radius: 12px;
-        font-weight: 800;
-        box-shadow: none;
-      }
-
-      .toggle {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 8px 10px;
-        border-radius: 999px;
-        border: 1px solid var(--border);
-        background: rgba(255, 255, 255, 0.32);
-        cursor: pointer;
-        user-select: none;
-        transition: transform var(--animFast), background var(--animFast);
-      }
-      .toggle:hover {
-        transform: translateY(-1px);
-      }
-      .toggle .dot {
-        width: 16px;
-        height: 16px;
-        border-radius: 999px;
-        background: rgba(107, 114, 128, 0.3);
-        transition: background var(--animFast);
-      }
-      .toggle.on .dot {
-        background: linear-gradient(135deg, var(--accent), var(--accent2));
-      }
-      .toggle span {
+        font-weight: 820;
         font-size: 12px;
-        color: var(--muted);
-        font-weight: 800;
+        border-radius: 12px;
       }
 
-      .select,
-      .input,
-      .textarea {
-        width: 100%;
-        border: 1px solid var(--border);
-        border-radius: 14px;
-        padding: 10px 12px;
-        background: rgba(255, 255, 255, 0.7);
-        color: var(--text);
-        outline: none;
-        transition: border var(--animFast), transform var(--animFast),
-          background var(--animFast);
-      }
-      html[data-theme="night-cat"] .select,
-      html[data-theme="night-cat"] .input,
-      html[data-theme="night-cat"] .textarea,
-      html[data-theme="ink-black"] .select,
-      html[data-theme="ink-black"] .input,
-      html[data-theme="ink-black"] .textarea {
-        background: rgba(255, 255, 255, 0.06);
-        color: var(--text);
-      }
-      .input:focus,
-      .select:focus,
-      .textarea:focus {
-        border-color: rgba(255, 79, 163, 0.45);
-        transform: translateY(-1px);
-      }
-      .textarea {
-        min-height: 84px;
-        resize: vertical;
+      .chip {
+        display: inline-flex;
+        gap: 8px;
+        align-items: center;
+        padding: 7px 10px;
+        border-radius: var(--chip-radius, 999px);
+        background: var(--chip-bg);
+        border: var(--stroke) solid var(--chip-br);
+        font-size: 12px;
+        font-weight: 780;
+        color: color-mix(in oklab, var(--text) 86%, var(--muted));
+        user-select: none;
+        backdrop-filter: blur(var(--blur));
       }
 
-      .row {
+      /* 布局 */
+      .grid {
+        margin-top: 16px;
         display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 14px;
+        align-items: start;
       }
-      .row3 {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        gap: 10px;
-      }
-      @media (max-width: 720px) {
-        .row,
-        .row3 {
+      @media (max-width: 980px) {
+        .grid {
           grid-template-columns: 1fr;
+        }
+        .brand {
+          min-width: unset;
+        }
+        .topbar {
+          position: static;
         }
       }
 
-      .calHead {
+      .section-title {
         display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 10px;
-        margin-bottom: 10px;
+        padding: 14px 14px 10px;
       }
-      .calHead .month {
-        font-weight: 900;
+      .section-title h2 {
+        margin: 0;
+        font-size: 14px;
+        font-weight: 930;
         letter-spacing: 0.2px;
         display: flex;
         align-items: center;
         gap: 10px;
       }
-      .calHead .month .tag {
-        font-size: 12px;
-        color: var(--muted);
-        padding: 6px 10px;
-        border: 1px solid var(--border);
-        border-radius: 999px;
+      .section-title .meta {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
       }
-      .calGrid {
+      .pad {
+        padding: 14px;
+      }
+
+      /* 日历 */
+      .cal-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 0 14px 12px;
+      }
+      .cal-head .month {
+        font-weight: 960;
+        letter-spacing: 0.2px;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .cal-head .month small {
+        color: var(--muted);
+        font-weight: 800;
+      }
+      .cal-grid {
         display: grid;
         grid-template-columns: repeat(7, 1fr);
         gap: 8px;
+        padding: 0 14px 14px;
       }
       .dow {
         font-size: 12px;
         color: var(--muted);
+        font-weight: 850;
         text-align: center;
         padding: 6px 0;
-        font-weight: 900;
+        user-select: none;
       }
-      .dayCell {
-        border: 1px solid var(--border);
-        border-radius: 14px;
-        padding: 10px 10px 8px;
-        min-height: 76px;
-        background: rgba(255, 255, 255, 0.55);
+      .day {
         position: relative;
+        border-radius: 14px;
+        border: var(--stroke) solid
+          color-mix(in oklab, var(--border) 70%, white);
+        background: color-mix(in oklab, var(--surface) 80%, transparent);
+        padding: 10px 10px 8px;
         cursor: pointer;
+        min-height: 64px;
+        transition: transform var(--motion-fast), box-shadow var(--motion-fast),
+          border-color var(--motion-fast);
+        box-shadow: 0 10px 18px rgba(15, 16, 26, 0.06);
         overflow: hidden;
-        transition: transform var(--animFast), background var(--animFast),
-          border var(--animFast);
       }
-      html[data-theme="night-cat"] .dayCell,
-      html[data-theme="ink-black"] .dayCell {
-        background: rgba(255, 255, 255, 0.05);
+      .day:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 14px 24px rgba(15, 16, 26, 0.1);
       }
-      .dayCell:hover {
-        transform: translateY(-2px);
+      .day.muted {
+        opacity: 0.45;
       }
-      .dayCell.muted {
-        opacity: 0.48;
+      .day.selected {
+        border-color: color-mix(in oklab, var(--accent) 55%, var(--border));
+        box-shadow: 0 16px 30px rgba(15, 16, 26, 0.12);
+        outline: 2px solid color-mix(in oklab, var(--accent) 26%, transparent);
+        outline-offset: 2px;
       }
-      .dayCell.today {
-        border-color: rgba(255, 79, 163, 0.45);
-        box-shadow: 0 12px 26px rgba(255, 79, 163, 0.14);
-        background: radial-gradient(
-            circle at 30% 20%,
-            rgba(255, 255, 255, 0.6),
-            transparent 55%
-          ),
-          rgba(255, 255, 255, 0.55);
-      }
-      html[data-theme="night-cat"] .dayCell.today,
-      html[data-theme="ink-black"] .dayCell.today {
-        background: radial-gradient(
-            circle at 30% 20%,
-            rgba(255, 255, 255, 0.18),
-            transparent 55%
-          ),
-          rgba(255, 255, 255, 0.06);
-      }
-      .dayNum {
-        font-weight: 900;
-        font-size: 14px;
+      .day .n {
+        font-weight: 960;
+        font-size: 13px;
         display: flex;
-        align-items: center;
         justify-content: space-between;
+        align-items: center;
+        gap: 8px;
       }
       .badge {
-        font-size: 12px;
-        font-weight: 900;
+        display: inline-flex;
+        gap: 6px;
+        align-items: center;
+        font-size: 11px;
         padding: 4px 8px;
         border-radius: 999px;
-        border: 1px solid var(--border);
-        color: var(--muted);
-        background: rgba(255, 255, 255, 0.45);
-      }
-      html[data-theme="night-cat"] .badge,
-      html[data-theme="ink-black"] .badge {
-        background: rgba(255, 255, 255, 0.06);
+        border: var(--stroke) solid rgba(255, 255, 255, 0.55);
+        background: rgba(255, 255, 255, 0.25);
+        backdrop-filter: blur(var(--blur));
       }
       .badge.ok {
-        color: #0b7a34;
-        border-color: rgba(22, 163, 74, 0.35);
+        background: color-mix(in oklab, var(--ok) 18%, transparent);
+        border-color: color-mix(in oklab, var(--ok) 28%, transparent);
       }
       .badge.warn {
-        color: #a16207;
-        border-color: rgba(245, 158, 11, 0.35);
+        background: color-mix(in oklab, var(--warn) 18%, transparent);
+        border-color: color-mix(in oklab, var(--warn) 28%, transparent);
       }
-      .badge.bad {
-        color: #991b1b;
-        border-color: rgba(239, 68, 68, 0.35);
-      }
-      html[data-theme="night-cat"] .badge.ok,
-      html[data-theme="ink-black"] .badge.ok {
-        color: #86efac;
-      }
-      html[data-theme="night-cat"] .badge.warn,
-      html[data-theme="ink-black"] .badge.warn {
-        color: #fde68a;
-      }
-      html[data-theme="night-cat"] .badge.bad,
-      html[data-theme="ink-black"] .badge.bad {
-        color: #fecaca;
+      .badge.miss {
+        background: color-mix(in oklab, var(--danger) 16%, transparent);
+        border-color: color-mix(in oklab, var(--danger) 26%, transparent);
       }
 
-      .miniInfo {
-        margin-top: 10px;
-        font-size: 12px;
-        color: var(--muted);
-        display: flex;
-        flex-wrap: wrap;
-        gap: 6px;
-      }
-      .miniChip {
-        padding: 4px 8px;
-        border-radius: 999px;
-        border: 1px solid var(--border);
-        background: rgba(255, 255, 255, 0.35);
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        max-width: 100%;
-      }
-      html[data-theme="night-cat"] .miniChip,
-      html[data-theme="ink-black"] .miniChip {
-        background: rgba(255, 255, 255, 0.06);
+      .day .spark {
+        position: absolute;
+        inset: -30%;
+        opacity: calc(0.45 * var(--decor-on));
+        background: radial-gradient(
+            14px 14px at 22% 22%,
+            rgba(255, 255, 255, 0.55),
+            transparent 60%
+          ),
+          radial-gradient(
+            18px 18px at 78% 32%,
+            rgba(255, 255, 255, 0.28),
+            transparent 62%
+          ),
+          radial-gradient(
+            22px 22px at 36% 78%,
+            rgba(255, 255, 255, 0.22),
+            transparent 62%
+          ),
+          radial-gradient(
+            220px 220px at 30% 20%,
+            color-mix(in oklab, var(--accent) 16%, transparent),
+            transparent 62%
+          );
+        transform: rotate(12deg);
+        pointer-events: none;
       }
 
-      .list {
+      /* 今日/补录 */
+      .date-line {
         display: flex;
-        flex-direction: column;
-        gap: 10px;
-      }
-      .item {
-        border: 1px solid var(--border);
-        border-radius: 16px;
-        padding: 12px;
-        background: rgba(255, 255, 255, 0.58);
-        transition: transform var(--animFast), background var(--animFast);
-      }
-      html[data-theme="night-cat"] .item,
-      html[data-theme="ink-black"] .item {
-        background: rgba(255, 255, 255, 0.05);
-      }
-      .item:hover {
-        transform: translateY(-1px);
-      }
-      .itemTop {
-        display: flex;
-        align-items: flex-start;
+        align-items: center;
         justify-content: space-between;
         gap: 10px;
+        flex-wrap: wrap;
+        margin-bottom: 10px;
       }
-      .itemName {
-        font-weight: 900;
+      .date-line .left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .date-pill {
+        font-weight: 950;
         letter-spacing: 0.2px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-      .tagLite {
-        font-size: 12px;
-        padding: 4px 8px;
-        border-radius: 999px;
-        border: 1px solid var(--border);
-        color: var(--muted);
-        background: rgba(255, 255, 255, 0.3);
-      }
-      html[data-theme="night-cat"] .tagLite,
-      html[data-theme="ink-black"] .tagLite {
-        background: rgba(255, 255, 255, 0.06);
-      }
-      .itemMeta {
-        margin-top: 8px;
-        color: var(--muted);
-        font-size: 12px;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-      }
-      .itemMeta b {
-        color: var(--text);
-      }
-      .itemBtns {
-        display: flex;
-        gap: 8px;
-        flex-wrap: wrap;
-        justify-content: flex-end;
-      }
-
-      .doseRow {
-        border: 1px solid var(--border);
-        border-radius: 16px;
-        padding: 12px;
-        background: rgba(255, 255, 255, 0.58);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 10px;
-      }
-      html[data-theme="night-cat"] .doseRow,
-      html[data-theme="ink-black"] .doseRow {
-        background: rgba(255, 255, 255, 0.05);
-      }
-      .doseLeft {
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-        min-width: 0;
-      }
-      .doseLeft .line1 {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-weight: 900;
-        min-width: 0;
-      }
-      .doseLeft .line1 .mname {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        max-width: 360px;
-      }
-      @media (max-width: 720px) {
-        .doseLeft .line1 .mname {
-          max-width: 200px;
-        }
-      }
-      .doseLeft .line2 {
-        font-size: 12px;
-        color: var(--muted);
-        display: flex;
-        gap: 10px;
-        flex-wrap: wrap;
-      }
-      .doseRight {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        flex-wrap: wrap;
-        justify-content: flex-end;
-      }
-      .statusPill {
-        padding: 6px 10px;
-        border-radius: 999px;
-        font-size: 12px;
-        font-weight: 900;
-        border: 1px solid var(--border);
-        background: rgba(255, 255, 255, 0.4);
-        color: var(--muted);
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-      }
-      html[data-theme="night-cat"] .statusPill,
-      html[data-theme="ink-black"] .statusPill {
-        background: rgba(255, 255, 255, 0.06);
-      }
-      .statusPill.ok {
-        color: #0b7a34;
-        border-color: rgba(22, 163, 74, 0.35);
-      }
-      .statusPill.warn {
-        color: #a16207;
-        border-color: rgba(245, 158, 11, 0.35);
-      }
-      .statusPill.bad {
-        color: #991b1b;
-        border-color: rgba(239, 68, 68, 0.35);
-      }
-      html[data-theme="night-cat"] .statusPill.ok,
-      html[data-theme="ink-black"] .statusPill.ok {
-        color: #86efac;
-      }
-      html[data-theme="night-cat"] .statusPill.warn,
-      html[data-theme="ink-black"] .statusPill.warn {
-        color: #fde68a;
-      }
-      html[data-theme="night-cat"] .statusPill.bad,
-      html[data-theme="ink-black"] .statusPill.bad {
-        color: #fecaca;
-      }
-
-      .pill {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
         padding: 8px 10px;
         border-radius: 999px;
-        border: 1px solid var(--border);
-        color: var(--muted);
-        background: rgba(255, 255, 255, 0.35);
-        backdrop-filter: blur(10px);
+        background: color-mix(in oklab, var(--surface2) 84%, transparent);
+        border: var(--stroke) solid
+          color-mix(in oklab, var(--border) 70%, white);
+        box-shadow: 0 8px 16px rgba(15, 16, 26, 0.06);
       }
-      html[data-theme="night-cat"] .pill,
-      html[data-theme="ink-black"] .pill {
-        background: rgba(255, 255, 255, 0.06);
-        backdrop-filter: none;
+      .hint {
+        font-size: 12px;
+        color: var(--muted);
+        font-weight: 750;
       }
 
-      .modalMask {
+      .dose-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 10px;
+      }
+      .dose {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 10px;
+        padding: 12px 12px;
+        border-radius: 16px;
+        border: var(--stroke) solid
+          color-mix(in oklab, var(--border) 70%, white);
+        background: color-mix(in oklab, var(--surface) 80%, transparent);
+        box-shadow: 0 10px 18px rgba(15, 16, 26, 0.06);
+        position: relative;
+        overflow: hidden;
+      }
+      .dose::before {
+        content: "";
+        position: absolute;
+        inset: -40%;
+        opacity: calc(0.4 * var(--decor-on));
+        background: radial-gradient(
+            18px 18px at 22% 22%,
+            rgba(255, 255, 255, 0.55),
+            transparent 62%
+          ),
+          radial-gradient(
+            260px 260px at 20% 10%,
+            color-mix(in oklab, var(--accent) 12%, transparent),
+            transparent 60%
+          );
+        transform: rotate(10deg);
+        pointer-events: none;
+      }
+      .dose .left {
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+        position: relative;
+        z-index: 1;
+      }
+      .icon {
+        width: 40px;
+        height: 40px;
+        display: grid;
+        place-items: center;
+        border-radius: 14px;
+        background: color-mix(in oklab, var(--accent2) 52%, white);
+        border: var(--stroke) solid
+          color-mix(in oklab, var(--border) 60%, white);
+        box-shadow: 0 8px 14px rgba(15, 16, 26, 0.08);
+        font-size: 18px;
+        flex: none;
+        position: relative;
+        overflow: hidden;
+      }
+      .icon::after {
+        content: "";
+        position: absolute;
+        inset: -40%;
+        opacity: calc(0.55 * var(--decor-on));
+        background: conic-gradient(
+          from 180deg at 50% 50%,
+          rgba(255, 255, 255, 0.22),
+          transparent 35%,
+          rgba(255, 255, 255, 0.12)
+        );
+        transform: rotate(8deg);
+        pointer-events: none;
+      }
+      .dose .name {
+        font-weight: 950;
+        font-size: 13px;
+        line-height: 1.2;
+        margin-top: 2px;
+      }
+      .dose .desc {
+        margin-top: 6px;
+        font-size: 12px;
+        color: var(--muted);
+        font-weight: 780;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 10px;
+        align-items: center;
+      }
+      .dose .right {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        align-items: flex-end;
+        justify-content: center;
+        position: relative;
+        z-index: 2;
+      }
+      .state {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 7px 10px;
+        border-radius: 999px;
+        border: var(--stroke) solid
+          color-mix(in oklab, var(--border) 70%, white);
+        background: rgba(255, 255, 255, 0.18);
+        font-size: 12px;
+        font-weight: 860;
+        backdrop-filter: blur(var(--blur));
+        user-select: none;
+      }
+      .state.taken {
+        border-color: color-mix(in oklab, var(--ok) 35%, var(--border));
+        background: color-mix(in oklab, var(--ok) 16%, transparent);
+      }
+      .state.missed {
+        border-color: color-mix(in oklab, var(--danger) 35%, var(--border));
+        background: color-mix(in oklab, var(--danger) 16%, transparent);
+      }
+      .minirow {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
+      /* 药箱 */
+      .med-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .med {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 10px;
+        padding: 12px 12px;
+        border-radius: 16px;
+        border: var(--stroke) solid
+          color-mix(in oklab, var(--border) 70%, white);
+        background: color-mix(in oklab, var(--surface) 80%, transparent);
+        box-shadow: 0 10px 18px rgba(15, 16, 26, 0.06);
+        position: relative;
+        overflow: hidden;
+      }
+      .med::before {
+        content: "";
+        position: absolute;
+        inset: -40%;
+        opacity: calc(0.35 * var(--decor-on));
+        background: radial-gradient(
+            20px 20px at 22% 22%,
+            rgba(255, 255, 255, 0.55),
+            transparent 62%
+          ),
+          radial-gradient(
+            240px 240px at 80% 30%,
+            color-mix(in oklab, var(--accent2) 24%, transparent),
+            transparent 62%
+          );
+        transform: rotate(12deg);
+        pointer-events: none;
+      }
+      .med .left {
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+        position: relative;
+        z-index: 1;
+      }
+      .med .name {
+        font-weight: 950;
+        font-size: 13px;
+        line-height: 1.2;
+        margin-top: 2px;
+      }
+      .med .desc {
+        margin-top: 6px;
+        font-size: 12px;
+        color: var(--muted);
+        font-weight: 780;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 10px;
+      }
+      .med .right {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        justify-content: flex-end;
+        position: relative;
+        z-index: 2;
+      }
+
+      .low {
+        color: color-mix(in oklab, var(--danger) 80%, var(--text));
+        font-weight: 900;
+      }
+
+      /* 统计 */
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+      }
+      @media (max-width: 520px) {
+        .stats {
+          grid-template-columns: 1fr;
+        }
+      }
+      .stat {
+        padding: 12px 12px;
+        border-radius: 16px;
+        border: var(--stroke) solid
+          color-mix(in oklab, var(--border) 70%, white);
+        background: color-mix(in oklab, var(--surface) 78%, transparent);
+        box-shadow: 0 10px 18px rgba(15, 16, 26, 0.06);
+        position: relative;
+        overflow: hidden;
+      }
+      .stat::before {
+        content: "";
+        position: absolute;
+        inset: -40%;
+        opacity: calc(0.3 * var(--decor-on));
+        background: radial-gradient(
+            220px 220px at 20% 10%,
+            color-mix(in oklab, var(--accent) 12%, transparent),
+            transparent 60%
+          ),
+          radial-gradient(
+            260px 260px at 88% 70%,
+            color-mix(in oklab, var(--accent2) 22%, transparent),
+            transparent 62%
+          );
+        transform: rotate(10deg);
+        pointer-events: none;
+      }
+      .stat .k {
+        font-size: 12px;
+        color: var(--muted);
+        font-weight: 820;
+        position: relative;
+        z-index: 1;
+      }
+      .stat .v {
+        margin-top: 6px;
+        font-size: 20px;
+        font-weight: 980;
+        letter-spacing: 0.2px;
+        position: relative;
+        z-index: 1;
+      }
+
+      /* 弹窗 */
+      .overlay {
         position: fixed;
         inset: 0;
-        background: rgba(0, 0, 0, 0.32);
+        background: rgba(0, 0, 0, 0.34);
         display: none;
+        z-index: 40;
         align-items: center;
         justify-content: center;
         padding: 18px;
-        z-index: 999;
       }
-      .modalMask.show {
+      .overlay.show {
         display: flex;
       }
       .modal {
-        width: min(920px, 100%);
-        background: var(--panel);
-        border: 1px solid var(--border);
+        width: min(680px, 96vw);
         border-radius: 22px;
-        box-shadow: var(--shadow);
+        background: color-mix(in oklab, var(--surface) 75%, transparent);
+        border: var(--stroke) solid
+          color-mix(in oklab, var(--border) 70%, white);
+        box-shadow: 0 26px 70px rgba(0, 0, 0, 0.35);
+        backdrop-filter: blur(18px);
         overflow: hidden;
+        position: relative;
       }
-      .modalHead {
-        padding: 14px 16px;
+      .modal::before {
+        content: "";
+        position: absolute;
+        inset: -30%;
+        opacity: calc(0.55 * var(--decor-on));
+        background: radial-gradient(
+            280px 280px at 20% 12%,
+            color-mix(in oklab, var(--accent) 16%, transparent),
+            transparent 62%
+          ),
+          radial-gradient(
+            320px 320px at 86% 26%,
+            color-mix(in oklab, var(--accent2) 26%, transparent),
+            transparent 62%
+          ),
+          radial-gradient(
+            18px 18px at 22% 22%,
+            rgba(255, 255, 255, 0.55),
+            transparent 62%
+          ),
+          radial-gradient(
+            22px 22px at 78% 30%,
+            rgba(255, 255, 255, 0.28),
+            transparent 62%
+          );
+        transform: rotate(10deg);
+        pointer-events: none;
+      }
+      .modal header {
+        padding: 14px 14px 10px;
         display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 10px;
-        border-bottom: 1px solid var(--border);
-        background: radial-gradient(
-            circle at 20% 10%,
-            rgba(255, 255, 255, 0.6),
-            transparent 60%
-          ),
-          rgba(255, 255, 255, 0.35);
+        position: relative;
+        z-index: 1;
       }
-      html[data-theme="night-cat"] .modalHead,
-      html[data-theme="ink-black"] .modalHead {
-        background: radial-gradient(
-            circle at 20% 10%,
-            rgba(255, 255, 255, 0.12),
-            transparent 60%
-          ),
-          rgba(255, 255, 255, 0.06);
-      }
-      .modalHead h3 {
+      .modal header h3 {
         margin: 0;
         font-size: 14px;
-        font-weight: 900;
-        letter-spacing: 0.2px;
+        font-weight: 960;
+        display: flex;
+        align-items: center;
+        gap: 10px;
       }
-      .modalBody {
-        padding: 16px;
+      .modal .body {
+        padding: 0 14px 14px;
+        position: relative;
+        z-index: 1;
       }
-      .modalFoot {
-        padding: 14px 16px;
-        border-top: 1px solid var(--border);
+      .form {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-top: 10px;
+      }
+      @media (max-width: 720px) {
+        .form {
+          grid-template-columns: 1fr;
+        }
+      }
+      label {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        font-size: 12px;
+        font-weight: 850;
+        color: color-mix(in oklab, var(--text) 86%, var(--muted));
+      }
+      input,
+      textarea,
+      select {
+        width: 100%;
+        padding: 10px 10px;
+        border-radius: 14px;
+        border: var(--stroke) solid
+          color-mix(in oklab, var(--border) 70%, white);
+        background: rgba(255, 255, 255, 0.45);
+        color: var(--text);
+        outline: none;
+        font-size: 13px;
+        font-weight: 780;
+        box-shadow: 0 10px 18px rgba(15, 16, 26, 0.06);
+      }
+      textarea {
+        min-height: 80px;
+        resize: vertical;
+      }
+      input:focus,
+      textarea:focus,
+      select:focus {
+        border-color: color-mix(in oklab, var(--accent) 55%, var(--border));
+        box-shadow: 0 0 0 4px
+            color-mix(in oklab, var(--accent) 18%, transparent),
+          0 12px 22px rgba(15, 16, 26, 0.08);
+        background: rgba(255, 255, 255, 0.65);
+      }
+      .modal footer {
+        padding: 12px 14px 14px;
         display: flex;
         justify-content: flex-end;
         gap: 10px;
         flex-wrap: wrap;
-        background: rgba(255, 255, 255, 0.3);
-      }
-      html[data-theme="night-cat"] .modalFoot,
-      html[data-theme="ink-black"] .modalFoot {
-        background: rgba(255, 255, 255, 0.06);
+        position: relative;
+        z-index: 1;
       }
 
-      .toastWrap {
+      /* Toast */
+      .toast {
         position: fixed;
         left: 50%;
-        bottom: 18px;
         transform: translateX(-50%);
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        z-index: 1000;
-        pointer-events: none;
-      }
-      .toast {
-        pointer-events: auto;
-        border: 1px solid var(--border);
-        border-radius: 999px;
-        padding: 10px 14px;
-        background: rgba(255, 255, 255, 0.78);
-        box-shadow: var(--shadow2);
-        display: flex;
+        bottom: 16px;
+        z-index: 60;
+        display: none;
+        width: min(820px, 92vw);
+        padding: 12px 12px;
+        border-radius: 18px;
+        background: color-mix(in oklab, var(--surface) 70%, transparent);
+        border: var(--stroke) solid
+          color-mix(in oklab, var(--border) 70%, white);
+        box-shadow: 0 22px 60px rgba(0, 0, 0, 0.28);
+        backdrop-filter: blur(18px);
         align-items: center;
         justify-content: space-between;
-        gap: 12px;
-        min-width: min(540px, 92vw);
-        animation: toastIn var(--anim) ease both;
+        gap: 10px;
       }
-      html[data-theme="night-cat"] .toast,
-      html[data-theme="ink-black"] .toast {
-        background: rgba(15, 23, 42, 0.85);
-        border-color: rgba(229, 231, 235, 0.14);
-      }
-      @keyframes toastIn {
-        from {
-          opacity: 0;
-          transform: translateY(8px) scale(0.98);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0) scale(1);
-        }
+      .toast.show {
+        display: flex;
       }
       .toast .msg {
         font-size: 13px;
-        font-weight: 900;
+        font-weight: 860;
         color: var(--text);
       }
-      .toast .miniBtn {
-        border: 1px solid var(--border);
-        background: transparent;
-        color: var(--text);
-        border-radius: 999px;
-        padding: 7px 10px;
-        font-weight: 900;
-        cursor: pointer;
-      }
-      html[data-theme="night-cat"] .toast .miniBtn,
-      html[data-theme="ink-black"] .toast .miniBtn {
-        border-color: rgba(229, 231, 235, 0.14);
-        color: var(--text);
+      .toast .act {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
       }
 
+      /* 页脚作者 */
       .author {
         position: fixed;
-        right: 14px;
+        right: 12px;
         bottom: 10px;
-        font-size: 12px;
-        color: var(--muted);
+        z-index: 5;
+        font-size: 11px;
+        font-weight: 850;
+        color: color-mix(in oklab, var(--muted) 82%, var(--text));
+        padding: 6px 10px;
+        border-radius: 999px;
+        border: var(--stroke) solid
+          color-mix(in oklab, var(--border) 70%, white);
+        background: color-mix(in oklab, var(--surface) 60%, transparent);
+        backdrop-filter: blur(16px);
+        box-shadow: 0 12px 22px rgba(0, 0, 0, 0.12);
         user-select: none;
-        z-index: 2;
       }
-      .author code {
-        font-family: var(--mono);
-        font-weight: 900;
+
+      /* 关动效 */
+      body.motion-off * {
+        transition: none !important;
+        animation: none !important;
+        scroll-behavior: auto !important;
+      }
+      /* 关装饰 */
+      body.decor-off {
+        --decor-on: 0;
+      }
+
+      /* =========================================================
+      12 套主题（每套不仅换色，还换材质/边/光晕/芯片形态/字体策略）
+    ========================================================= */
+
+      /* 1) Katy Pink · Sticker Kawaii */
+      html[data-theme="katy-pink"] {
+        --bg: #fff5fb;
+        --surface: #ffffff;
+        --surface2: #fff0f7;
+        --text: #1f1f23;
+        --muted: #6b6b74;
+        --border: rgba(20, 20, 30, 0.12);
+        --accent: #ff5ea8;
+        --accent2: #ffd1e5;
+        --font: var(--rounded);
+
+        --card-radius: 22px;
+        --card-surface: color-mix(
+          in oklab,
+          #ffffff 92%,
+          rgba(255, 255, 255, 0.2)
+        );
+        --card-border: rgba(20, 20, 30, 0.1);
+        --card-shadow: 0 10px 28px rgba(20, 20, 30, 0.1);
+        --card-overlay-opacity: 0.55;
+        --card-overlay: radial-gradient(
+            14px 14px at 10% 18%,
+            rgba(255, 94, 168, 0.18),
+            transparent 60%
+          ),
+          radial-gradient(
+            12px 12px at 22% 32%,
+            rgba(255, 94, 168, 0.14),
+            transparent 60%
+          ),
+          radial-gradient(
+            10px 10px at 85% 24%,
+            rgba(255, 209, 229, 0.22),
+            transparent 60%
+          ),
+          radial-gradient(
+            18px 18px at 72% 78%,
+            rgba(255, 94, 168, 0.1),
+            transparent 60%
+          ),
+          repeating-radial-gradient(
+            circle at 20% 20%,
+            rgba(255, 94, 168, 0.1) 0 1px,
+            transparent 1px 18px
+          );
+        --card-outline: 2px solid rgba(255, 94, 168, 0.2);
+        --card-glow: 0 0 0 8px rgba(255, 94, 168, 0.06) inset;
+
+        --btn-radius: 16px;
+        --btn-bg: linear-gradient(135deg, #ff5ea8 0%, #ffd1e5 100%);
+        --btn-text: #2b0017;
+        --btn-shadow: 0 10px 20px rgba(255, 94, 168, 0.18);
+        --btn-shadow-hover: 0 14px 28px rgba(255, 94, 168, 0.22);
+
+        --chip-radius: 999px;
+        --logo-radius: 16px;
+      }
+
+      /* 2) Milk Tea · Paper Warm */
+      html[data-theme="milk-tea"] {
+        --bg: #fbf6ef;
+        --surface: #ffffff;
+        --surface2: #f4ede3;
+        --text: #1f1f23;
+        --muted: #6b675f;
+        --border: rgba(25, 20, 15, 0.14);
+        --accent: #d48b6a;
+        --accent2: #f2d3b9;
+        --font: var(--rounded);
+
+        --card-radius: 18px;
+        --card-surface: #fffdf9;
+        --card-border: rgba(25, 20, 15, 0.16);
+        --card-shadow: 0 12px 26px rgba(25, 20, 15, 0.1);
+        --card-overlay-opacity: 0.4;
+        --card-overlay: radial-gradient(
+            90px 90px at 22% 38%,
+            rgba(212, 139, 106, 0.12),
+            transparent 60%
+          ),
+          radial-gradient(
+            140px 140px at 70% 36%,
+            rgba(212, 139, 106, 0.1),
+            transparent 62%
+          ),
+          radial-gradient(
+            120px 120px at 28% 72%,
+            rgba(0, 0, 0, 0.03),
+            transparent 60%
+          ),
+          repeating-linear-gradient(
+            0deg,
+            rgba(0, 0, 0, 0.025) 0 1px,
+            transparent 1px 28px
+          );
+        --card-overlay-blend: multiply;
+        --card-outline: 1px solid rgba(212, 139, 106, 0.18);
+
+        --btn-radius: 14px;
+        --btn-bg: linear-gradient(135deg, #d48b6a 0%, #f2d3b9 100%);
+        --btn-text: #24170f;
+        --btn-shadow: 0 10px 18px rgba(212, 139, 106, 0.16);
+
+        --chip-radius: 14px;
+        --chip-bg: rgba(255, 255, 255, 0.7);
+        --chip-br: rgba(25, 20, 15, 0.1);
+      }
+
+      /* 3) Peach Bloom · Petals */
+      html[data-theme="peach-bloom"] {
+        --bg: #fff3ee;
+        --surface: #ffffff;
+        --surface2: #ffe7dc;
+        --text: #1f1f23;
+        --muted: #6d645f;
+        --border: rgba(25, 20, 15, 0.12);
+        --accent: #ff7a4a;
+        --accent2: #ffd2bf;
+        --font: var(--rounded);
+
+        --card-radius: 22px;
+        --card-surface: color-mix(
+          in oklab,
+          #ffffff 88%,
+          rgba(255, 255, 255, 0.25)
+        );
+        --card-shadow: 0 14px 30px rgba(25, 20, 15, 0.1);
+        --card-overlay-opacity: 0.55;
+        --card-overlay: conic-gradient(
+            from 210deg at 24% 34%,
+            rgba(255, 122, 74, 0.16),
+            transparent 40%
+          ),
+          conic-gradient(
+            from 120deg at 78% 28%,
+            rgba(255, 210, 191, 0.22),
+            transparent 48%
+          ),
+          radial-gradient(
+            220px 220px at 30% 70%,
+            rgba(255, 122, 74, 0.1),
+            transparent 60%
+          ),
+          radial-gradient(
+            260px 260px at 86% 70%,
+            rgba(255, 210, 191, 0.14),
+            transparent 62%
+          );
+        --card-glow: 0 0 0 10px rgba(255, 122, 74, 0.05) inset;
+
+        --btn-radius: 16px;
+        --btn-bg: linear-gradient(135deg, #ff7a4a 0%, #ffd2bf 100%);
+        --btn-text: #2a0b00;
+        --btn-shadow: 0 12px 22px rgba(255, 122, 74, 0.18);
+
+        --chip-radius: 999px;
+      }
+
+      /* 4) Clinic White · Form */
+      html[data-theme="clinic-white"] {
+        --bg: #f6f8fb;
+        --surface: #ffffff;
+        --surface2: #eef3fb;
+        --text: #101218;
+        --muted: #596274;
+        --border: rgba(16, 18, 24, 0.16);
+        --accent: #4a86ff;
+        --accent2: #cfe0ff;
+        --font: var(--mono);
+
+        --card-radius: 12px;
+        --card-surface: #ffffff;
+        --card-border: rgba(16, 18, 24, 0.18);
+        --card-shadow: 0 12px 22px rgba(16, 18, 24, 0.1);
+        --card-overlay-opacity: 0.65;
+        --card-overlay: repeating-linear-gradient(
+            0deg,
+            rgba(16, 18, 24, 0.05) 0 1px,
+            transparent 1px 24px
+          ),
+          repeating-linear-gradient(
+            90deg,
+            rgba(16, 18, 24, 0.035) 0 1px,
+            transparent 1px 30px
+          );
+        --card-outline: 1px solid rgba(74, 134, 255, 0.18);
+
+        --btn-radius: 12px;
+        --btn-bg: linear-gradient(135deg, #4a86ff 0%, #cfe0ff 100%);
+        --btn-text: #0b1224;
+        --btn-border: 1px solid rgba(16, 18, 24, 0.1);
+        --btn-shadow: 0 10px 18px rgba(74, 134, 255, 0.16);
+
+        --chip-radius: 10px;
+        --chip-bg: rgba(255, 255, 255, 0.85);
+        --chip-br: rgba(16, 18, 24, 0.12);
+      }
+
+      /* 5) Blue Calm · Glass */
+      html[data-theme="blue-calm"] {
+        --bg: #f3f7ff;
+        --surface: #ffffff;
+        --surface2: #e9f0ff;
+        --text: #0f1320;
+        --muted: #55607a;
+        --border: rgba(15, 19, 32, 0.16);
+        --accent: #2f6bff;
+        --accent2: #c7d7ff;
+        --font: var(--mono);
+
+        --card-radius: 18px;
+        --card-surface: color-mix(
+          in oklab,
+          #ffffff 68%,
+          rgba(255, 255, 255, 0.35)
+        );
+        --card-border: rgba(47, 107, 255, 0.22);
+        --card-shadow: 0 14px 30px rgba(15, 19, 32, 0.14);
+        --card-overlay-opacity: 0.55;
+        --card-overlay: linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.35),
+            rgba(255, 255, 255, 0.1)
+          ),
+          radial-gradient(
+            240px 240px at 20% 18%,
+            rgba(47, 107, 255, 0.12),
+            transparent 60%
+          ),
+          radial-gradient(
+            280px 280px at 86% 30%,
+            rgba(199, 215, 255, 0.2),
+            transparent 62%
+          );
+        --card-outline: 1px solid rgba(255, 255, 255, 0.45);
+        --card-glow: 0 0 0 10px rgba(47, 107, 255, 0.05) inset;
+
+        --btn-radius: 16px;
+        --btn-bg: linear-gradient(
+          135deg,
+          rgba(47, 107, 255, 0.92),
+          rgba(199, 215, 255, 0.92)
+        );
+        --btn-text: #07102a;
+        --btn-shadow: 0 14px 26px rgba(47, 107, 255, 0.18);
+
+        --chip-radius: 999px;
+      }
+
+      /* 6) Mint Fresh · Breath */
+      html[data-theme="mint-fresh"] {
+        --bg: #f2fffb;
+        --surface: #ffffff;
+        --surface2: #e6fff6;
+        --text: #0f1717;
+        --muted: #4c6a64;
+        --border: rgba(15, 23, 23, 0.14);
+        --accent: #22c7a2;
+        --accent2: #bff4e7;
+        --font: var(--rounded);
+
+        --card-radius: 22px;
+        --card-surface: color-mix(
+          in oklab,
+          #ffffff 78%,
+          rgba(255, 255, 255, 0.28)
+        );
+        --card-border: rgba(34, 199, 162, 0.2);
+        --card-shadow: 0 14px 30px rgba(15, 23, 23, 0.1);
+        --card-overlay-opacity: 0.55;
+        --card-overlay: radial-gradient(
+            18px 18px at 18% 22%,
+            rgba(34, 199, 162, 0.18),
+            transparent 65%
+          ),
+          radial-gradient(
+            22px 22px at 32% 44%,
+            rgba(34, 199, 162, 0.14),
+            transparent 65%
+          ),
+          radial-gradient(
+            26px 26px at 80% 28%,
+            rgba(34, 199, 162, 0.14),
+            transparent 65%
+          ),
+          radial-gradient(
+            30px 30px at 72% 72%,
+            rgba(34, 199, 162, 0.12),
+            transparent 65%
+          ),
+          radial-gradient(
+            320px 320px at 20% 20%,
+            rgba(191, 244, 231, 0.3),
+            transparent 62%
+          );
+        --card-outline: 1px solid rgba(255, 255, 255, 0.55);
+
+        --btn-radius: 18px;
+        --btn-bg: linear-gradient(135deg, #22c7a2 0%, #bff4e7 100%);
+        --btn-text: #041a13;
+        --btn-shadow: 0 12px 22px rgba(34, 199, 162, 0.16);
+
+        --chip-radius: 999px;
+      }
+
+      /* 7) Night Cat · Neon（已修正：字体/对比度可读） */
+      html[data-theme="night-cat"] {
+        --bg: #0f1420;
+        --surface: #151c2b;
+        --surface2: #0f1726;
+        --text: #eef1f8;
+        --muted: #a7b0c6;
+        --border: rgba(255, 255, 255, 0.12);
+        --accent: #7aa2ff;
+        --accent2: #2a3c68;
+        --font: var(--rounded);
+
+        --chip-bg: rgba(255, 255, 255, 0.08);
+        --chip-br: rgba(255, 255, 255, 0.14);
+
+        --card-radius: 18px;
+        --card-surface: rgba(21, 28, 43, 0.86);
+        --card-border: rgba(122, 162, 255, 0.22);
+        --card-shadow: 0 18px 44px rgba(0, 0, 0, 0.45);
+        --card-overlay-opacity: 0.55;
+        --card-overlay: radial-gradient(
+            1.4px 1.4px at 12% 22%,
+            rgba(255, 255, 255, 0.38),
+            transparent 60%
+          ),
+          radial-gradient(
+            1.2px 1.2px at 24% 30%,
+            rgba(255, 255, 255, 0.26),
+            transparent 60%
+          ),
+          radial-gradient(
+            1.3px 1.3px at 82% 20%,
+            rgba(255, 255, 255, 0.3),
+            transparent 60%
+          ),
+          radial-gradient(
+            280px 280px at 20% 18%,
+            rgba(122, 162, 255, 0.18),
+            transparent 60%
+          ),
+          radial-gradient(
+            320px 320px at 86% 30%,
+            rgba(179, 140, 255, 0.1),
+            transparent 62%
+          );
+        --card-glow: 0 0 0 1px rgba(122, 162, 255, 0.18) inset,
+          0 0 40px rgba(122, 162, 255, 0.1);
+
+        --btn-radius: 16px;
+        --btn-bg: linear-gradient(
+          135deg,
+          rgba(122, 162, 255, 0.95),
+          rgba(42, 60, 104, 0.95)
+        );
+        --btn-text: #eef1ff;
+        --btn-border: 1px solid rgba(255, 255, 255, 0.12);
+        --btn-shadow: 0 16px 28px rgba(0, 0, 0, 0.32);
+
+        --btn-secondary-bg: rgba(255, 255, 255, 0.06);
+        --btn-secondary-border: 1px solid rgba(255, 255, 255, 0.14);
+        --btn-secondary-text: #eef1f8;
+      }
+
+      /* 8) Moonlight · Soft Night */
+      html[data-theme="moonlight"] {
+        --bg: #11152a;
+        --surface: #171c36;
+        --surface2: #111c35;
+        --text: #eff1ff;
+        --muted: #b2b8d6;
+        --border: rgba(255, 255, 255, 0.12);
+        --accent: #b38cff;
+        --accent2: #2d2a66;
+        --font: var(--rounded);
+
+        --chip-bg: rgba(255, 255, 255, 0.08);
+        --chip-br: rgba(255, 255, 255, 0.14);
+
+        --card-radius: 22px;
+        --card-surface: rgba(23, 28, 54, 0.86);
+        --card-border: rgba(179, 140, 255, 0.22);
+        --card-shadow: 0 18px 46px rgba(0, 0, 0, 0.45);
+        --card-overlay-opacity: 0.55;
+        --card-overlay: radial-gradient(
+            420px 420px at 72% 18%,
+            rgba(255, 255, 255, 0.14),
+            transparent 60%
+          ),
+          radial-gradient(
+            520px 520px at 72% 18%,
+            rgba(179, 140, 255, 0.14),
+            transparent 62%
+          ),
+          radial-gradient(
+            320px 320px at 18% 66%,
+            rgba(122, 162, 255, 0.12),
+            transparent 62%
+          ),
+          repeating-linear-gradient(
+            0deg,
+            rgba(255, 255, 255, 0.03) 0 1px,
+            transparent 1px 26px
+          );
+        --card-glow: 0 0 0 1px rgba(179, 140, 255, 0.18) inset;
+
+        --btn-radius: 18px;
+        --btn-bg: linear-gradient(
+          135deg,
+          rgba(179, 140, 255, 0.92),
+          rgba(45, 42, 102, 0.96)
+        );
+        --btn-text: #f4f2ff;
+        --btn-border: 1px solid rgba(255, 255, 255, 0.12);
+      }
+
+      /* 9) Ink Black · Terminal */
+      html[data-theme="ink-black"] {
+        --bg: #090a0f;
+        --surface: #0f111a;
+        --surface2: #0a0d14;
+        --text: #f4f6ff;
+        --muted: #b1b6c8;
+        --border: rgba(255, 255, 255, 0.12);
+        --accent: #e7e9ff;
+        --accent2: #2a2f45;
+        --font: var(--mono);
+
+        --chip-bg: rgba(255, 255, 255, 0.07);
+        --chip-br: rgba(255, 255, 255, 0.12);
+
+        --card-radius: 12px;
+        --card-surface: rgba(15, 17, 26, 0.92);
+        --card-border: rgba(231, 233, 255, 0.18);
+        --card-shadow: 0 22px 60px rgba(0, 0, 0, 0.55);
+        --card-overlay-opacity: 0.55;
+        --card-overlay: repeating-linear-gradient(
+            0deg,
+            rgba(255, 255, 255, 0.05) 0 1px,
+            transparent 1px 18px
+          ),
+          radial-gradient(
+            520px 520px at 20% 20%,
+            rgba(231, 233, 255, 0.06),
+            transparent 62%
+          );
+        --card-outline: 1px solid rgba(231, 233, 255, 0.12);
+
+        --btn-radius: 10px;
+        --btn-bg: linear-gradient(
+          135deg,
+          rgba(231, 233, 255, 0.18),
+          rgba(42, 47, 69, 0.72)
+        );
+        --btn-text: #f4f6ff;
+        --btn-border: 1px solid rgba(255, 255, 255, 0.14);
+        --btn-shadow: 0 14px 26px rgba(0, 0, 0, 0.38);
+
+        --btn-secondary-bg: rgba(255, 255, 255, 0.05);
+        --btn-secondary-border: 1px solid rgba(255, 255, 255, 0.12);
+        --btn-secondary-text: #f4f6ff;
+      }
+
+      /* 10) Minimal Paper · Editorial */
+      html[data-theme="minimal-paper"] {
+        --bg: #fbfbfb;
+        --surface: #ffffff;
+        --surface2: #f3f3f3;
+        --text: #111111;
+        --muted: #5a5a5a;
+        --border: rgba(0, 0, 0, 0.14);
+        --accent: #111111;
+        --accent2: #dfdfdf;
+        --font: var(--mono);
+
+        --card-radius: 14px;
+        --card-surface: #ffffff;
+        --card-border: rgba(0, 0, 0, 0.16);
+        --card-shadow: 0 14px 28px rgba(0, 0, 0, 0.1);
+        --card-overlay-opacity: 0.35;
+        --card-overlay: repeating-linear-gradient(
+          0deg,
+          rgba(0, 0, 0, 0.035) 0 1px,
+          transparent 1px 26px
+        );
+        --card-outline: 1px dashed rgba(0, 0, 0, 0.18);
+
+        --btn-radius: 12px;
+        --btn-bg: linear-gradient(180deg, #111111, #2a2a2a);
+        --btn-text: #ffffff;
+        --btn-shadow: 0 10px 18px rgba(0, 0, 0, 0.18);
+
+        --btn-secondary-bg: rgba(0, 0, 0, 0.04);
+        --btn-secondary-border: 1px solid rgba(0, 0, 0, 0.14);
+        --btn-secondary-text: #111111;
+
+        --chip-radius: 12px;
+        --chip-bg: rgba(0, 0, 0, 0.04);
+        --chip-br: rgba(0, 0, 0, 0.1);
+
+        --logo-bg: linear-gradient(180deg, #111111, #3a3a3a);
+        --logo-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+      }
+
+      /* 11) Mono Grey · Blueprint */
+      html[data-theme="mono-grey"] {
+        --bg: #f4f5f7;
+        --surface: #ffffff;
+        --surface2: #eceef2;
+        --text: #15171b;
+        --muted: #5e6570;
+        --border: rgba(0, 0, 0, 0.12);
+        --accent: #3a3f49;
+        --accent2: #d7dbe3;
+        --font: var(--mono);
+
+        --card-radius: 14px;
+        --card-surface: #ffffff;
+        --card-border: rgba(0, 0, 0, 0.14);
+        --card-shadow: 0 14px 26px rgba(0, 0, 0, 0.1);
+        --card-overlay-opacity: 0.55;
+        --card-overlay: repeating-linear-gradient(
+            0deg,
+            rgba(58, 63, 73, 0.05) 0 1px,
+            transparent 1px 24px
+          ),
+          repeating-linear-gradient(
+            90deg,
+            rgba(58, 63, 73, 0.035) 0 1px,
+            transparent 1px 28px
+          ),
+          radial-gradient(
+            420px 420px at 82% 18%,
+            rgba(0, 0, 0, 0.04),
+            transparent 62%
+          );
+        --card-outline: 1px solid rgba(58, 63, 73, 0.12);
+
+        --btn-radius: 12px;
+        --btn-bg: linear-gradient(135deg, #3a3f49 0%, #d7dbe3 100%);
+        --btn-text: #101318;
+        --btn-shadow: 0 10px 18px rgba(0, 0, 0, 0.12);
+
+        --chip-radius: 10px;
+      }
+
+      /* 12) Archive · Label System */
+      html[data-theme="archive"] {
+        --bg: #faf9f5;
+        --surface: #ffffff;
+        --surface2: #f1efe7;
+        --text: #15130f;
+        --muted: #6c665b;
+        --border: rgba(21, 19, 15, 0.13);
+        --accent: #ff8c00;
+        --accent2: #ffe2bf;
+        --font: var(--mono);
+
+        --card-radius: 14px;
+        --card-surface: #fffef9;
+        --card-border: rgba(21, 19, 15, 0.16);
+        --card-shadow: 0 14px 28px rgba(21, 19, 15, 0.1);
+        --card-overlay-opacity: 0.55;
+        --card-overlay: linear-gradient(
+            90deg,
+            rgba(255, 140, 0, 0.16) 0 10px,
+            transparent 10px 100%
+          ),
+          linear-gradient(
+            90deg,
+            rgba(80, 140, 255, 0.12) 0 6px,
+            transparent 6px 100%
+          ),
+          repeating-linear-gradient(
+            0deg,
+            rgba(0, 0, 0, 0.04) 0 1px,
+            transparent 1px 26px
+          );
+        --card-outline: 1px solid rgba(255, 140, 0, 0.16);
+
+        --btn-radius: 12px;
+        --btn-bg: linear-gradient(135deg, #ff8c00 0%, #ffe2bf 100%);
+        --btn-text: #2a1500;
+        --btn-shadow: 0 12px 22px rgba(255, 140, 0, 0.16);
+
+        --chip-radius: 10px;
+        --chip-bg: rgba(255, 255, 255, 0.78);
+        --chip-br: rgba(21, 19, 15, 0.12);
       }
     </style>
   </head>
 
   <body>
-    <div class="app">
-      <div class="decorLayer" aria-hidden="true">
-        <div class="floatSticker s1">
-          <svg class="svgToken small" viewBox="0 0 120 120">
-            <defs>
-              <linearGradient id="gBow1" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stop-color="var(--accent)" />
-                <stop offset="1" stop-color="var(--accent2)" />
-              </linearGradient>
-            </defs>
-            <circle
-              cx="60"
-              cy="60"
-              r="54"
-              fill="rgba(255,255,255,.24)"
-              stroke="rgba(255,255,255,.35)"
-              stroke-width="2"
-            />
-            <path
-              d="M60 30c-6 0-10 4-10 10 0 3 1 6 3 8-9-6-25-10-33-4-11 9 3 29 26 30 6 0 11-1 14-3 3 2 8 3 14 3 23-1 37-21 26-30-8-6-24-2-33 4 2-2 3-5 3-8 0-6-4-10-10-10z"
-              fill="url(#gBow1)"
-              opacity=".95"
-            />
-            <circle cx="60" cy="60" r="10" fill="rgba(255,255,255,.85)" />
-            <circle cx="60" cy="60" r="7" fill="rgba(0,0,0,.08)" />
-          </svg>
-        </div>
-        <div class="floatSticker s2">
-          <svg class="svgToken" viewBox="0 0 120 120">
-            <defs>
-              <linearGradient id="gPill" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stop-color="var(--accent2)" />
-                <stop offset="1" stop-color="var(--accent3)" />
-              </linearGradient>
-            </defs>
-            <circle
-              cx="60"
-              cy="60"
-              r="54"
-              fill="rgba(255,255,255,.18)"
-              stroke="rgba(255,255,255,.30)"
-              stroke-width="2"
-            />
-            <g transform="translate(18 28) rotate(-18 42 32)">
-              <rect
-                x="10"
-                y="18"
-                width="74"
-                height="36"
-                rx="18"
-                fill="rgba(255,255,255,.90)"
-              />
-              <path d="M47 18h19a18 18 0 0 1 0 36H47z" fill="url(#gPill)" />
-              <path d="M47 18v36" stroke="rgba(0,0,0,.08)" stroke-width="2" />
-              <circle cx="33" cy="36" r="4" fill="rgba(0,0,0,.06)" />
-              <circle cx="25" cy="36" r="3" fill="rgba(0,0,0,.05)" />
-            </g>
-          </svg>
-        </div>
-        <div class="floatSticker s3">
-          <svg class="svgToken tiny" viewBox="0 0 120 120">
-            <defs>
-              <linearGradient id="gHeart" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stop-color="var(--accent)" />
-                <stop offset="1" stop-color="var(--accent2)" />
-              </linearGradient>
-            </defs>
-            <path
-              d="M60 98s-34-20-44-42c-7-16 3-34 21-34 10 0 18 5 23 12 5-7 13-12 23-12 18 0 28 18 21 34-10 22-44 42-44 42z"
-              fill="url(#gHeart)"
-              opacity=".92"
-            />
-          </svg>
-        </div>
-        <div class="floatSticker s4">
-          <svg class="svgToken tiny" viewBox="0 0 120 120">
-            <defs>
-              <linearGradient id="gStar" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stop-color="var(--accent2)" />
-                <stop offset="1" stop-color="var(--accent3)" />
-              </linearGradient>
-            </defs>
-            <path
-              d="M60 18l10 26 28 2-22 17 7 27-23-14-23 14 7-27-22-17 28-2z"
-              fill="url(#gStar)"
-              opacity=".9"
-            />
-          </svg>
-        </div>
-      </div>
+    <div class="wallpaper" aria-hidden="true"></div>
 
-      <div class="topBar">
+    <div class="app" id="app">
+      <div class="topbar">
         <div class="brand">
-          <div class="logo" title="Katy"><span>🎀</span></div>
-          <div class="titleBlock">
-            <p class="title">用药记录器</p>
-            <p class="sub" id="modeLabel">公共空白模式</p>
+          <div class="logo" aria-hidden="true">🎀</div>
+          <div>
+            <h1>用药记录器</h1>
+            <div class="sub">日历 · 药箱 </div>
           </div>
         </div>
 
-        <div class="actions">
-          <div class="toggle" id="toggleDecor" onclick="uiToggleDecor()">
-            <div class="dot"></div>
-            <span>装饰</span>
-          </div>
-          <div class="toggle" id="toggleMotion" onclick="uiToggleMotion()">
-            <div class="dot"></div>
-            <span>动效</span>
-          </div>
+        <div class="top-actions">
+          <span class="chip" id="chipStorage">💾 本地保存</span>
+          <button class="btn secondary small" id="btnDecor">✨ 装饰：开</button>
+          <button class="btn secondary small" id="btnMotion">
+            🎞️ 动效：开
+          </button>
 
           <select
-            class="select"
             id="themeSelect"
-            style="max-width: 240px"
-            onchange="setTheme(this.value)"
+            class="btn secondary small"
+            style="padding: 9px 10px; cursor: pointer"
           >
             <option value="katy-pink">🎀 Katy Pink</option>
-            <option value="milk-tea">🧋 奶茶 Milk Tea</option>
-            <option value="peach">🍑 蜜桃 Peach</option>
-            <option value="mint">🍃 薄荷 Mint</option>
-            <option value="blue-calm">💠 静蓝 Blue</option>
-            <option value="sky-glass">🫧 天空玻璃 Sky</option>
-            <option value="moonlight">🌙 月光 Moonlight</option>
-            <option value="night-cat">🐾 夜猫 Night Cat</option>
-            <option value="ink-black">🖤 墨黑 Ink</option>
-            <option value="minimal-paper">📄 极简 Paper</option>
-            <option value="mono-grey">🩶 单色 Grey</option>
-            <option value="clinic-white">🩺 医疗白 Clinic</option>
+            <option value="milk-tea">🧋 Milk Tea</option>
+            <option value="peach-bloom">🍑 Peach Bloom</option>
+            <option value="clinic-white">🧾 Clinic White</option>
+            <option value="blue-calm">🫧 Blue Calm</option>
+            <option value="mint-fresh">🌿 Mint Fresh</option>
+            <option value="night-cat">🌙 Night Cat</option>
+            <option value="moonlight">💜 Moonlight</option>
+            <option value="ink-black">⌨️ Ink Black</option>
+            <option value="minimal-paper">📄 Minimal Paper</option>
+            <option value="mono-grey">📐 Mono Grey</option>
+            <option value="archive">🏷️ Archive</option>
           </select>
 
-          <button class="btn secondary" type="button" onclick="openPrivacy()">
-            🔑 隐私
-          </button>
-          <button class="btn secondary" type="button" onclick="openDataTools()">
-            📦 数据
-          </button>
+          <button class="btn small" id="btnAddMed">➕ 添加药物</button>
+          <button class="btn secondary small" id="btnTools">🧰 工具</button>
         </div>
       </div>
 
-      <div class="grid2">
-        <div class="panel">
-          <div class="sectionTitle">
-            <h2>📅 月历</h2>
-            <div class="hint">点击任意日期：查看/补录</div>
-          </div>
-          <div class="calHead">
-            <div class="month">
-              <button class="btn ghost" type="button" onclick="calPrev()">
-                ◀
-              </button>
-              <span id="calMonthText">—</span>
-              <button class="btn ghost" type="button" onclick="calNext()">
-                ▶
-              </button>
-              <span class="tag" id="calStatsTag">—</span>
+      <div class="grid">
+        <!-- 左：日历 + 选中日期用药 -->
+        <div class="card">
+          <div class="section-title">
+            <h2>🗓️ 服药日历</h2>
+            <div class="meta">
+              <span class="chip" id="monthRate">📈 本月：--%</span>
+              <span class="chip" id="streak">🔥 连续：--</span>
             </div>
-            <button
-              class="btn small secondary"
-              type="button"
-              onclick="goToday()"
-            >
-              回到今天
-            </button>
           </div>
-          <div class="calGrid" id="calGrid"></div>
+
+          <div class="cal-head">
+            <div class="month" id="monthLabel">--</div>
+            <div class="meta">
+              <button class="btn secondary small" id="prevMonth">◀</button>
+              <button class="btn secondary small" id="todayBtn">📍 今天</button>
+              <button class="btn secondary small" id="nextMonth">▶</button>
+            </div>
+          </div>
+
+          <div class="cal-grid" id="dowRow"></div>
+          <div class="cal-grid" id="calGrid"></div>
         </div>
 
-        <div class="panel">
-          <div class="sectionTitle">
-            <h2>🧾 今日用药</h2>
-            <div class="hint" id="todayHint">—</div>
-          </div>
-          <div id="todayList" class="list"></div>
-
-          <div style="height: 12px"></div>
-
-          <div class="sectionTitle">
-            <h2>🎒 我的药箱</h2>
-            <div class="hint">添加/编辑/删除</div>
-          </div>
-          <div class="row">
-            <input
-              class="input"
-              id="inMedName"
-              placeholder="药物名称（例：碳酸锂缓释片）"
-            />
-            <input
-              class="input"
-              id="inMedDose"
-              placeholder="剂量/备注（例：300mg，晚饭后）"
-            />
-          </div>
-          <div style="height: 10px"></div>
-          <div class="row3">
-            <input
-              class="input"
-              id="inMedTimes"
-              placeholder="每日次数（例：2）"
-              inputmode="numeric"
-            />
-            <input
-              class="input"
-              id="inMedSchedule"
-              placeholder="时间（例：08:00,20:00）"
-            />
-            <input
-              class="input"
-              id="inMedUnit"
-              placeholder="单次剂量（例：1片/1粒）"
-            />
-          </div>
-          <div style="height: 10px"></div>
-          <textarea
-            class="textarea"
-            id="inMedNote"
-            placeholder="备注（可选：饭前/饭后/忌口/反应等）"
-          ></textarea>
-          <div style="height: 10px"></div>
-          <button class="btn" type="button" onclick="addMed()">
-            ➕ 添加到药箱
-          </button>
-
-          <div style="height: 14px"></div>
-          <div id="medList" class="list"></div>
-        </div>
-      </div>
-
-      <!-- Day detail modal -->
-      <div
-        class="modalMask"
-        id="dayModalMask"
-        onclick="maskClose(event,'dayModalMask')"
-      >
-        <div class="modal" onclick="event.stopPropagation()">
-          <div class="modalHead">
-            <h3 id="dayModalTitle">—</h3>
-            <button
-              class="btn ghost"
-              type="button"
-              onclick="closeModal('dayModalMask')"
-            >
-              ✕
-            </button>
-          </div>
-          <div class="modalBody">
-            <div
-              style="
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                gap: 10px;
-                margin-bottom: 10px;
-                flex-wrap: wrap;
-              "
-            >
-              <div
-                style="
-                  display: flex;
-                  align-items: center;
-                  gap: 10px;
-                  flex-wrap: wrap;
-                "
-              >
-                <span class="pill" id="dayModalBadge">—</span>
-                <span class="pill" id="dayModalSummary">—</span>
-              </div>
-              <div>
-                <input
-                  class="input"
-                  type="date"
-                  id="jumpDate"
-                  style="max-width: 210px"
-                  onchange="jumpToDate(this.value)"
-                />
+        <!-- 右：今日/补录 + 药箱 + 统计 -->
+        <div style="display: flex; flex-direction: column; gap: 14px">
+          <div class="card">
+            <div class="section-title">
+              <h2>💊 当天用药 / 补录</h2>
+              <div class="meta">
+                <span class="chip" id="selSummary">✅ -- / --</span>
+                <button class="btn secondary small" id="markAllBtn">
+                  一键全已服
+                </button>
               </div>
             </div>
-            <div id="dayDoseList" class="list"></div>
-          </div>
-          <div class="modalFoot">
-            <button
-              class="btn secondary"
-              type="button"
-              onclick="closeModal('dayModalMask')"
-            >
-              关闭
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Confirm modal: used for "take" and "danger" actions -->
-      <div
-        class="modalMask"
-        id="confirmMask"
-        onclick="maskClose(event,'confirmMask')"
-      >
-        <div class="modal" onclick="event.stopPropagation()">
-          <div class="modalHead">
-            <h3 id="confirmTitle">确认</h3>
-            <button
-              class="btn ghost"
-              type="button"
-              onclick="closeModal('confirmMask')"
-            >
-              ✕
-            </button>
-          </div>
-          <div class="modalBody">
-            <div id="confirmMain" class="row">
-              <div>
-                <div
-                  style="font-weight: 900; margin-bottom: 6px"
-                  id="confirmLine1"
-                >
-                  —
+            <div class="pad">
+              <div class="date-line">
+                <div class="left">
+                  <span class="date-pill" id="selectedDatePill">--</span>
+                  <span class="hint" id="selectedHint"
+                    >点击日历某天即可补录 / 修改</span
+                  >
                 </div>
-                <div
-                  style="color: var(--muted); font-size: 12px; line-height: 1.5"
-                  id="confirmLine2"
-                >
-                  —
+                <div class="minirow">
+                  <button class="btn secondary small" id="btnQuickMissed">
+                    ⚠️ 标记漏服
+                  </button>
+                  <button class="btn secondary small" id="btnClearDay">
+                    🧼 清空当天记录
+                  </button>
                 </div>
               </div>
-              <div id="confirmRight">
-                <label
-                  style="font-size: 12px; color: var(--muted); font-weight: 900"
-                  >记录时间</label
-                >
-                <input class="input" type="time" id="confirmTime" />
-                <div style="height: 8px"></div>
-                <label
-                  style="font-size: 12px; color: var(--muted); font-weight: 900"
-                  >备注（可选）</label
-                >
-                <input
-                  class="input"
-                  id="confirmNote"
-                  placeholder="例：饭后/有点反酸/忘记带水…"
-                />
-              </div>
-            </div>
 
-            <div style="height: 10px"></div>
-
-            <div
-              class="pill"
-              id="confirmQuick"
-              style="
-                display: flex;
-                justify-content: space-between;
-                gap: 10px;
-                flex-wrap: wrap;
-              "
-            >
-              <span style="font-weight: 900">快速选择</span>
-              <div style="display: flex; gap: 8px; flex-wrap: wrap">
-                <button
-                  class="btn small secondary"
-                  type="button"
-                  onclick="confirmSetNow()"
-                >
-                  现在
-                </button>
-                <button
-                  class="btn small secondary"
-                  type="button"
-                  id="btnSetSchedule"
-                  onclick="confirmSetSchedule()"
-                >
-                  按计划
-                </button>
-                <button
-                  class="btn small secondary"
-                  type="button"
-                  onclick="confirmClearNote()"
-                >
-                  清空备注
-                </button>
-              </div>
-            </div>
-
-            <div
-              class="pill"
-              id="confirmDangerHint"
-              style="
-                display: none;
-                margin-top: 10px;
-                gap: 10px;
-                justify-content: space-between;
-                flex-wrap: wrap;
-              "
-            >
-              <span style="font-weight: 900">⚠️ 风险操作</span>
-              <span style="font-size: 12px; color: var(--muted)"
-                >确认后立即生效（可在提示条里撤回）</span
+              <div class="dose-list" id="doseList"></div>
+              <div
+                class="hint"
+                id="emptyDoseHint"
+                style="margin-top: 10px; display: none"
               >
+                目前药箱为空。先点“添加药物”，再回到这里打卡。
+              </div>
             </div>
           </div>
-          <div class="modalFoot">
-            <button
-              class="btn secondary"
-              type="button"
-              onclick="closeModal('confirmMask')"
-            >
-              取消
-            </button>
-            <button
-              class="btn ok"
-              type="button"
-              id="confirmOkBtn"
-              onclick="confirmCommit()"
-            >
-              ✅ 确认
-            </button>
-          </div>
-        </div>
-      </div>
 
-      <!-- Edit med modal -->
-      <div
-        class="modalMask"
-        id="editMask"
-        onclick="maskClose(event,'editMask')"
-      >
-        <div class="modal" onclick="event.stopPropagation()">
-          <div class="modalHead">
-            <h3>编辑药物</h3>
-            <button
-              class="btn ghost"
-              type="button"
-              onclick="closeModal('editMask')"
-            >
-              ✕
-            </button>
-          </div>
-          <div class="modalBody">
-            <input type="hidden" id="editId" />
-            <div class="row">
-              <input class="input" id="editName" placeholder="药物名称" />
-              <input class="input" id="editDose" placeholder="剂量/备注" />
+          <div class="card">
+            <div class="section-title">
+              <h2>🎒 我的药箱</h2>
+              <div class="meta">
+                <span class="chip" id="medCount">📦 --</span>
+                <button class="btn secondary small" id="btnReset">
+                  🧪 新建空白药箱
+                </button>
+              </div>
             </div>
-            <div style="height: 10px"></div>
-            <div class="row3">
-              <input
-                class="input"
-                id="editTimes"
-                placeholder="每日次数"
-                inputmode="numeric"
-              />
-              <input
-                class="input"
-                id="editSchedule"
-                placeholder="时间（08:00,20:00）"
-              />
-              <input
-                class="input"
-                id="editUnit"
-                placeholder="单次剂量（1片/1粒）"
-              />
+            <div class="pad">
+              <div class="med-list" id="medList"></div>
+              <div
+                class="hint"
+                id="emptyMedHint"
+                style="margin-top: 10px; display: none"
+              >
+                还没有药物。添加后会自动生成每日计划。
+              </div>
             </div>
-            <div style="height: 10px"></div>
-            <textarea
-              class="textarea"
-              id="editNote"
-              placeholder="备注"
-            ></textarea>
           </div>
-          <div class="modalFoot">
-            <button class="btn danger" type="button" onclick="askDeleteMed()">
-              🗑 删除
-            </button>
-            <button
-              class="btn secondary"
-              type="button"
-              onclick="closeModal('editMask')"
-            >
-              取消
-            </button>
-            <button class="btn ok" type="button" onclick="saveEdit()">
-              保存
-            </button>
-          </div>
-        </div>
-      </div>
 
-      <!-- Privacy modal -->
-      <div
-        class="modalMask"
-        id="privacyMask"
-        onclick="maskClose(event,'privacyMask')"
-      >
-        <div class="modal" onclick="event.stopPropagation()">
-          <div class="modalHead">
-            <h3>隐私与空间</h3>
-            <button
-              class="btn ghost"
-              type="button"
-              onclick="closeModal('privacyMask')"
-            >
-              ✕
-            </button>
-          </div>
-          <div class="modalBody">
-            <div
-              class="pill"
-              style="
-                display: flex;
-                justify-content: space-between;
-                gap: 12px;
-                flex-wrap: wrap;
-              "
-            >
-              <div>
-                <div style="font-weight: 900">当前空间</div>
-                <div
-                  style="font-size: 12px; color: var(--muted)"
-                  id="spaceDesc"
-                >
-                  —
+          <div class="card">
+            <div class="section-title">
+              <h2>📊 统计</h2>
+              <div class="meta">
+                <span class="chip" id="totalDosesChip">🧮 本月剂量：--</span>
+              </div>
+            </div>
+            <div class="pad">
+              <div class="stats">
+                <div class="stat">
+                  <div class="k">本月按时率</div>
+                  <div class="v" id="statRate">--%</div>
+                </div>
+                <div class="stat">
+                  <div class="k">本月已服</div>
+                  <div class="v" id="statTaken">--</div>
+                </div>
+                <div class="stat">
+                  <div class="k">本月漏服</div>
+                  <div class="v" id="statMissed">--</div>
                 </div>
               </div>
-              <div
-                style="
-                  display: flex;
-                  gap: 8px;
-                  flex-wrap: wrap;
-                  align-items: center;
-                "
-              >
-                <button
-                  class="btn secondary small"
-                  type="button"
-                  onclick="copySelfLink()"
-                >
-                  复制我的私人链接
-                </button>
-                <button
-                  class="btn secondary small"
-                  type="button"
-                  onclick="copyPublicLink()"
-                >
-                  复制公共空白链接
-                </button>
-              </div>
             </div>
-
-            <div style="height: 14px"></div>
-
-            <div
-              class="panel"
-              style="box-shadow: none; background: rgba(255, 255, 255, 0.18)"
-            >
-              <div style="font-weight: 900; margin-bottom: 8px">
-                切换到私人空间（粘贴你的 k）
-              </div>
-              <div class="row">
-                <input
-                  class="input"
-                  id="inKey"
-                  placeholder="输入 k（例：k_ab12cd34）"
-                />
-                <button class="btn ok" type="button" onclick="goWithKey()">
-                  进入私人空间
-                </button>
-              </div>
-              <div style="height: 10px"></div>
-              <div style="display: flex; gap: 10px; flex-wrap: wrap">
-                <button class="btn" type="button" onclick="createPrivateKey()">
-                  生成新的私人空间
-                </button>
-                <button
-                  class="btn secondary"
-                  type="button"
-                  onclick="switchToPublic()"
-                >
-                  回到公共空白
-                </button>
-              </div>
-              <div
-                style="
-                  margin-top: 10px;
-                  color: var(--muted);
-                  font-size: 12px;
-                  line-height: 1.5;
-                "
-              >
-                规则：公共链接永远是空白起始；私人空间只在 URL 带
-                <code style="font-family: var(--mono); font-weight: 900"
-                  >?k=</code
-                >
-                时生效。
-              </div>
-            </div>
-          </div>
-          <div class="modalFoot">
-            <button
-              class="btn secondary"
-              type="button"
-              onclick="closeModal('privacyMask')"
-            >
-              关闭
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Data tools modal -->
-      <div
-        class="modalMask"
-        id="dataMask"
-        onclick="maskClose(event,'dataMask')"
-      >
-        <div class="modal" onclick="event.stopPropagation()">
-          <div class="modalHead">
-            <h3>数据工具</h3>
-            <button
-              class="btn ghost"
-              type="button"
-              onclick="closeModal('dataMask')"
-            >
-              ✕
-            </button>
-          </div>
-          <div class="modalBody">
-            <div class="row">
-              <button
-                class="btn secondary"
-                type="button"
-                onclick="exportJSON()"
-              >
-                导出 JSON
-              </button>
-              <button class="btn secondary" type="button" onclick="exportCSV()">
-                导出 CSV（打卡明细）
-              </button>
-            </div>
-
-            <div style="height: 10px"></div>
-
-            <div
-              class="panel"
-              style="box-shadow: none; background: rgba(255, 255, 255, 0.18)"
-            >
-              <div style="font-weight: 900; margin-bottom: 8px">
-                导入 JSON（覆盖当前空间）
-              </div>
-              <textarea
-                class="textarea"
-                id="importText"
-                placeholder="粘贴 JSON"
-              ></textarea>
-              <div style="height: 10px"></div>
-              <button class="btn ok" type="button" onclick="importJSON()">
-                导入并覆盖
-              </button>
-              <div
-                style="
-                  margin-top: 10px;
-                  color: var(--muted);
-                  font-size: 12px;
-                  line-height: 1.5;
-                "
-              >
-                导入会覆盖当前空间全部内容（药箱 + 打卡记录）。
-              </div>
-            </div>
-
-            <div style="height: 12px"></div>
-
-            <div
-              class="panel"
-              style="box-shadow: none; background: rgba(255, 255, 255, 0.18)"
-            >
-              <div style="font-weight: 900; margin-bottom: 8px">
-                清空当前空间
-              </div>
-              <button class="btn danger" type="button" onclick="askWipeSpace()">
-                ⚠️ 清空药箱与记录
-              </button>
-            </div>
-          </div>
-          <div class="modalFoot">
-            <button
-              class="btn secondary"
-              type="button"
-              onclick="closeModal('dataMask')"
-            >
-              关闭
-            </button>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="toastWrap" id="toastWrap"></div>
-    <div class="author">by <code>FLAAAAKING</code></div>
+    <!-- 作者 -->
+    <div class="author">FLAAAAKING</div>
+
+    <!-- 弹窗：添加/编辑药物 -->
+    <div class="overlay" id="modalOverlay">
+      <div
+        class="modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modalTitle"
+      >
+        <header>
+          <h3 id="modalTitle">➕ 添加药物</h3>
+          <button class="btn ghost small" id="modalClose">✖</button>
+        </header>
+        <div class="body">
+          <div class="hint" id="modalHint">
+            填写清楚：名称、单次剂量、每日次数/时间、库存（可选）
+          </div>
+
+          <div class="form">
+            <label
+              >药物名称
+              <input
+                id="fName"
+                placeholder="例如：碳酸锂缓释片"
+                maxlength="40"
+              />
+            </label>
+
+            <label
+              >图标（Emoji）
+              <input
+                id="fIcon"
+                placeholder="例如：💊 / 🍬 / 🧃"
+                maxlength="4"
+              />
+            </label>
+
+            <label
+              >规格/剂量（显示用）
+              <input id="fDose" placeholder="例如：300mg/片" maxlength="30" />
+            </label>
+
+            <label
+              >单次用量（显示用）
+              <input
+                id="fUnit"
+                placeholder="例如：1片 / 2粒 / 10ml"
+                maxlength="20"
+              />
+            </label>
+
+            <label
+              >每日次数
+              <select id="fTimes">
+                <option value="1">1 次</option>
+                <option value="2" selected>2 次</option>
+                <option value="3">3 次</option>
+                <option value="4">4 次</option>
+              </select>
+            </label>
+
+            <label
+              >服用时间（用逗号分隔，24小时制）
+              <input
+                id="fSchedule"
+                placeholder="例如：08:00,20:00"
+                maxlength="60"
+              />
+            </label>
+
+            <label
+              >总库存（可选）
+              <input
+                id="fStock"
+                type="number"
+                min="0"
+                step="1"
+                placeholder="例如：30"
+              />
+            </label>
+
+            <label
+              >低量提醒（可选）
+              <input
+                id="fLow"
+                type="number"
+                min="0"
+                step="1"
+                placeholder="例如：7"
+              />
+            </label>
+
+            <label style="grid-column: 1/-1"
+              >备注（可选）
+              <textarea
+                id="fNote"
+                placeholder="例如：饭后服用 / 忌酒 / 观察嗜睡情况"
+              ></textarea>
+            </label>
+          </div>
+        </div>
+        <footer>
+          <button class="btn secondary" id="modalCancel">取消</button>
+          <button class="btn danger" id="modalDelete" style="display: none">
+            删除
+          </button>
+          <button class="btn" id="modalSave">保存</button>
+        </footer>
+      </div>
+    </div>
+
+    <!-- 弹窗：工具 -->
+    <div class="overlay" id="toolsOverlay">
+      <div
+        class="modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="toolsTitle"
+      >
+        <header>
+          <h3 id="toolsTitle">🧰 工具</h3>
+          <button class="btn ghost small" id="toolsClose">✖</button>
+        </header>
+        <div class="body">
+          <div class="hint">
+            导出/导入用于备份迁移（仍然是本地文件，不会上云）。
+          </div>
+          <div
+            style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px"
+          >
+            <button class="btn secondary" id="btnExport">⬇️ 导出JSON</button>
+            <button class="btn secondary" id="btnImport">⬆️ 导入JSON</button>
+            <input
+              id="fileImport"
+              type="file"
+              accept="application/json"
+              style="display: none"
+            />
+            <button class="btn danger" id="btnWipeAll">🧨 清空全部数据</button>
+          </div>
+          <div class="hint" style="margin-top: 12px">
+            隐私说明：数据存在你的浏览器
+            localStorage。不同设备/不同浏览器互不影响。你把 GitHub Pages
+            链接发给别人，对方不会看到你本机的数据（除非在你的同一台设备/同一浏览器里打开）。
+          </div>
+        </div>
+        <footer>
+          <button class="btn" id="toolsOk">好的</button>
+        </footer>
+      </div>
+    </div>
+
+    <!-- 弹窗：确认 -->
+    <div class="overlay" id="confirmOverlay">
+      <div
+        class="modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="confirmTitle"
+        style="width: min(520px, 96vw)"
+      >
+        <header>
+          <h3 id="confirmTitle">确认操作</h3>
+          <button class="btn ghost small" id="confirmClose">✖</button>
+        </header>
+        <div class="body">
+          <div class="hint" id="confirmText">--</div>
+        </div>
+        <footer>
+          <button class="btn secondary" id="confirmCancel">取消</button>
+          <button class="btn" id="confirmOk">确认</button>
+        </footer>
+      </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">
+      <div class="msg" id="toastMsg">--</div>
+      <div class="act">
+        <button class="btn secondary small" id="toastUndo">撤销</button>
+        <button class="btn ghost small" id="toastClose">关闭</button>
+      </div>
+    </div>
 
     <script>
-      /* =========================
-   Storage / Space
-   ========================= */
-      const VERSION = "v1";
-      const KEY_PARAM = "k";
-      const PUBLIC_SPACE = "public";
-      const LS_PREFIX = `katyMedTracker:${VERSION}:`;
-      const UI_KEY = `katyMedTracker:${VERSION}:ui`;
+      (() => {
+        /* =========================
+     存储与数据结构
+  ========================= */
+        const STORAGE_KEY = "katy-med-tracker:v1";
+        const SETTINGS_KEY = "katy-med-tracker:settings:v1";
 
-      function qs() {
-        return new URLSearchParams(location.search);
-      }
-      function getKeyFromUrl() {
-        const k = qs().get(KEY_PARAM) || "";
-        if (!k) return "";
-        if (!/^k_[a-zA-Z0-9_-]{6,64}$/.test(k)) return "";
-        return k;
-      }
-      function spaceId() {
-        return getKeyFromUrl() || PUBLIC_SPACE;
-      }
-      function storageKey() {
-        return LS_PREFIX + spaceId();
-      }
-      function isPrivate() {
-        return spaceId() !== PUBLIC_SPACE;
-      }
-
-      function nowISODate(d = new Date()) {
-        const z = new Date(d.getTime() - d.getTimezoneOffset() * 60000);
-        return z.toISOString().slice(0, 10);
-      }
-      function nowTimeHHMM(d = new Date()) {
-        const hh = String(d.getHours()).padStart(2, "0");
-        const mm = String(d.getMinutes()).padStart(2, "0");
-        return `${hh}:${mm}`;
-      }
-      function ymdToDate(ymd) {
-        const [y, m, dd] = ymd.split("-").map(Number);
-        return new Date(y, m - 1, dd);
-      }
-      function fmtCN(ymd) {
-        const d = ymdToDate(ymd);
-        return `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日`;
-      }
-      function clamp(n, a, b) {
-        return Math.max(a, Math.min(b, n));
-      }
-      function uid() {
-        return (
-          "m_" +
-          Math.random().toString(36).slice(2, 10) +
-          Math.random().toString(36).slice(2, 6)
-        );
-      }
-      function clone(x) {
-        return JSON.parse(JSON.stringify(x));
-      } // avoid structuredClone compatibility issues
-
-      /* =========================
-   State
-   ========================= */
-      const defaultState = { meds: [], records: {} };
-      let state = loadState();
-      let calCursor = new Date();
-      let selectedDay = nowISODate();
-
-      /* =========================
-   Load/Save
-   ========================= */
-      function normalizeMed(m) {
-        if (!m || typeof m !== "object") return null;
-        const name = String(m.name || "").trim();
-        if (!name) return null;
-        const timesPerDay = clamp(parseInt(m.timesPerDay ?? 1, 10) || 1, 1, 6);
-        const schedule = Array.isArray(m.schedule)
-          ? m.schedule
-          : String(m.schedule || "")
-              .split(",")
-              .map((s) => s.trim())
-              .filter(Boolean);
-        const sched = schedule
-          .map((x) => x.trim())
-          .filter((x) => /^\d{2}:\d{2}$/.test(x))
-          .slice(0, 6);
-        const defaults = ["08:00", "12:00", "20:00", "22:00", "06:00", "16:00"];
-        const finalSchedule = (
-          sched.length ? sched : defaults.slice(0, timesPerDay)
-        ).slice(0, timesPerDay);
-
-        return {
-          id: String(m.id || uid()),
-          name,
-          dose: String(m.dose || "").trim(),
-          unit: String(m.unit || "").trim(),
-          timesPerDay,
-          schedule: finalSchedule,
-          note: String(m.note || "").trim(),
-          createdAt: m.createdAt || Date.now(),
+        const pad2 = (n) => String(n).padStart(2, "0");
+        const toISODate = (d) =>
+          `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`;
+        const fromISODate = (s) => {
+          const [y, m, dd] = s.split("-").map(Number);
+          return new Date(y, m - 1, dd);
         };
-      }
-      function normalizeState(s) {
-        const out = clone(defaultState);
-        if (s && typeof s === "object") {
-          if (Array.isArray(s.meds))
-            out.meds = s.meds.map(normalizeMed).filter(Boolean);
-          if (s.records && typeof s.records === "object")
-            out.records = s.records;
-        }
-        const seen = new Set();
-        out.meds = out.meds.map((m) => {
-          if (!m.id || seen.has(m.id)) m.id = uid();
-          seen.add(m.id);
-          return m;
-        });
-        return out;
-      }
-      function loadState() {
-        try {
-          const raw = localStorage.getItem(storageKey());
-          if (!raw) return clone(defaultState);
-          return normalizeState(JSON.parse(raw));
-        } catch (e) {
-          return clone(defaultState);
-        }
-      }
-      function saveState() {
-        localStorage.setItem(storageKey(), JSON.stringify(state));
-      }
+        const nowHHMM = () => {
+          const d = new Date();
+          return `${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
+        };
+        const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
 
-      /* =========================
-   UI settings
-   ========================= */
-      function loadUI() {
-        let ui = { theme: "katy-pink", decor: "on", motion: "on" };
-        try {
-          const raw = localStorage.getItem(UI_KEY);
-          if (raw) {
-            const p = JSON.parse(raw);
-            ui.theme = p.theme || ui.theme;
-            ui.decor = p.decor || ui.decor;
-            ui.motion = p.motion || ui.motion;
+        const uid = () => {
+          try {
+            return crypto.randomUUID();
+          } catch {
+            return (
+              "id_" + Math.random().toString(16).slice(2) + "_" + Date.now()
+            );
           }
-        } catch {}
-        return ui;
-      }
-      function saveUI(ui) {
-        localStorage.setItem(UI_KEY, JSON.stringify(ui));
-      }
-      let ui = loadUI();
+        };
 
-      function applyUI() {
-        document.documentElement.setAttribute("data-theme", ui.theme);
-        document.documentElement.setAttribute("data-decor", ui.decor);
-        document.documentElement.setAttribute("data-motion", ui.motion);
+        const defaultState = () => ({
+          meds: [
+            // 默认不放任何药，避免用户误会“分享就带数据”
+          ],
+          records: {
+            // "YYYY-MM-DD": { taken: { doseId: {status,takenTime,notes}}, missed: {...} }
+          },
+        });
 
-        const themeSel = document.getElementById("themeSelect");
-        if (themeSel) themeSel.value = ui.theme;
+        const loadState = () => {
+          try {
+            const raw = localStorage.getItem(STORAGE_KEY);
+            if (!raw) return defaultState();
+            const s = JSON.parse(raw);
+            // 轻度校验
+            if (
+              !s ||
+              typeof s !== "object" ||
+              !Array.isArray(s.meds) ||
+              typeof s.records !== "object"
+            )
+              return defaultState();
+            return s;
+          } catch {
+            return defaultState();
+          }
+        };
 
-        const decorBtn = document.getElementById("toggleDecor");
-        const motionBtn = document.getElementById("toggleMotion");
-        if (decorBtn) decorBtn.classList.toggle("on", ui.decor === "on");
-        if (motionBtn) motionBtn.classList.toggle("on", ui.motion === "on");
-      }
-      function uiToggleDecor() {
-        ui.decor = ui.decor === "on" ? "off" : "on";
-        saveUI(ui);
-        applyUI();
-      }
-      function uiToggleMotion() {
-        ui.motion = ui.motion === "on" ? "off" : "on";
-        saveUI(ui);
-        applyUI();
-      }
-      function setTheme(theme) {
-        ui.theme = theme;
-        saveUI(ui);
-        applyUI();
-        toast("皮肤已切换 ✨");
-      }
+        const saveState = () => {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+          refreshStorageChip();
+        };
 
-      /* =========================
-   Toast
-   ========================= */
-      function toast(message, actions = []) {
-        const wrap = document.getElementById("toastWrap");
-        const t = document.createElement("div");
-        t.className = "toast";
-        const msg = document.createElement("div");
-        msg.className = "msg";
-        msg.textContent = message;
-        t.appendChild(msg);
+        const loadSettings = () => {
+          try {
+            const raw = localStorage.getItem(SETTINGS_KEY);
+            if (!raw) return null;
+            return JSON.parse(raw);
+          } catch {
+            return null;
+          }
+        };
+        const saveSettings = () => {
+          localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+        };
 
-        const right = document.createElement("div");
-        right.style.display = "flex";
-        right.style.gap = "8px";
-        actions.forEach((a) => {
-          const b = document.createElement("button");
-          b.className = "miniBtn";
-          b.type = "button";
-          b.textContent = a.label;
-          b.onclick = () => {
+        let state = loadState();
+        let settings = loadSettings() || {
+          theme:
+            document.documentElement.getAttribute("data-theme") || "katy-pink",
+          decorOn: true,
+          motionOn: true,
+        };
+
+        /* =========================
+     DOM
+  ========================= */
+        const $ = (sel) => document.querySelector(sel);
+
+        const themeSelect = $("#themeSelect");
+        const btnDecor = $("#btnDecor");
+        const btnMotion = $("#btnMotion");
+
+        const monthLabel = $("#monthLabel");
+        const prevMonth = $("#prevMonth");
+        const nextMonth = $("#nextMonth");
+        const todayBtn = $("#todayBtn");
+        const dowRow = $("#dowRow");
+        const calGrid = $("#calGrid");
+
+        const selectedDatePill = $("#selectedDatePill");
+        const selectedHint = $("#selectedHint");
+        const doseList = $("#doseList");
+        const emptyDoseHint = $("#emptyDoseHint");
+        const selSummary = $("#selSummary");
+        const markAllBtn = $("#markAllBtn");
+        const btnQuickMissed = $("#btnQuickMissed");
+        const btnClearDay = $("#btnClearDay");
+
+        const medList = $("#medList");
+        const emptyMedHint = $("#emptyMedHint");
+        const medCount = $("#medCount");
+
+        const statRate = $("#statRate");
+        const statTaken = $("#statTaken");
+        const statMissed = $("#statMissed");
+        const monthRate = $("#monthRate");
+        const streak = $("#streak");
+        const totalDosesChip = $("#totalDosesChip");
+        const chipStorage = $("#chipStorage");
+
+        // Modal add/edit
+        const modalOverlay = $("#modalOverlay");
+        const modalTitle = $("#modalTitle");
+        const modalClose = $("#modalClose");
+        const modalCancel = $("#modalCancel");
+        const modalSave = $("#modalSave");
+        const modalDelete = $("#modalDelete");
+
+        const fName = $("#fName");
+        const fIcon = $("#fIcon");
+        const fDose = $("#fDose");
+        const fUnit = $("#fUnit");
+        const fTimes = $("#fTimes");
+        const fSchedule = $("#fSchedule");
+        const fStock = $("#fStock");
+        const fLow = $("#fLow");
+        const fNote = $("#fNote");
+
+        // Tools
+        const btnTools = $("#btnTools");
+        const toolsOverlay = $("#toolsOverlay");
+        const toolsClose = $("#toolsClose");
+        const toolsOk = $("#toolsOk");
+        const btnExport = $("#btnExport");
+        const btnImport = $("#btnImport");
+        const fileImport = $("#fileImport");
+        const btnWipeAll = $("#btnWipeAll");
+
+        // Confirm
+        const confirmOverlay = $("#confirmOverlay");
+        const confirmTitle = $("#confirmTitle");
+        const confirmText = $("#confirmText");
+        const confirmClose = $("#confirmClose");
+        const confirmCancel = $("#confirmCancel");
+        const confirmOk = $("#confirmOk");
+
+        // Toast
+        const toast = $("#toast");
+        const toastMsg = $("#toastMsg");
+        const toastUndo = $("#toastUndo");
+        const toastClose = $("#toastClose");
+
+        const btnAddMed = $("#btnAddMed");
+        const btnReset = $("#btnReset");
+
+        /* =========================
+     全局 UI 状态
+  ========================= */
+        const DOW = ["日", "一", "二", "三", "四", "五", "六"];
+        let viewDate = new Date(); // 当前日历月
+        let selectedDate = new Date(); // 选中日期
+        let editingMedId = null;
+
+        // 撤销栈：用于“删除药物”“当天清空”“标记已服/漏服”“一键全已服”等
+        let undoStack = null; // { label, snapshot }
+
+        /* =========================
+     工具函数：主题/开关
+  ========================= */
+        function applySettings() {
+          document.documentElement.setAttribute("data-theme", settings.theme);
+          themeSelect.value = settings.theme;
+
+          document.body.classList.toggle("decor-off", !settings.decorOn);
+          btnDecor.textContent = settings.decorOn
+            ? "✨ 装饰：开"
+            : "✨ 装饰：关";
+
+          document.body.classList.toggle("motion-off", !settings.motionOn);
+          btnMotion.textContent = settings.motionOn
+            ? "🎞️ 动效：开"
+            : "🎞️ 动效：关";
+
+          saveSettings();
+        }
+
+        function refreshStorageChip() {
+          // 仅提示“本地保存”存在即可；避免引起用户“云同步错觉”
+          chipStorage.textContent = "💾 本地保存";
+        }
+
+        /* =========================
+     计划生成：把药箱 -> 当天剂量列表
+     doseId 规则：medId|HH:MM|index
+  ========================= */
+        function normalizeSchedule(times, scheduleStr) {
+          const t = clamp(parseInt(times, 10) || 1, 1, 4);
+          let arr = (scheduleStr || "")
+            .split(",")
+            .map((s) => s.trim())
+            .filter(Boolean);
+
+          // 修复：用户填了次数但没填时间 -> 给默认
+          const defaults = ["08:00", "12:00", "18:00", "22:00"];
+          if (arr.length === 0) {
+            arr = defaults.slice(0, t);
+          }
+          // 如果填少了，补齐；如果填多了，截断
+          while (arr.length < t) arr.push(defaults[arr.length] || "20:00");
+          arr = arr.slice(0, t);
+
+          // 格式修正
+          arr = arr.map((x) => {
+            const m = x.match(/^(\d{1,2}):(\d{1,2})$/);
+            if (!m) return x;
+            return `${pad2(clamp(+m[1], 0, 23))}:${pad2(clamp(+m[2], 0, 59))}`;
+          });
+
+          return arr;
+        }
+
+        function buildDayPlan(dateISO) {
+          const doses = [];
+          for (const med of state.meds) {
+            const times = clamp(parseInt(med.timesPerDay, 10) || 1, 1, 4);
+            const sch = normalizeSchedule(times, med.schedule || "");
+            sch.forEach((hhmm, idx) => {
+              doses.push({
+                doseId: `${med.id}|${hhmm}|${idx}`,
+                medId: med.id,
+                time: hhmm,
+                idx,
+                name: med.name,
+                icon: med.icon || "💊",
+                dosage: med.dosage || "",
+                unit: med.unit || "",
+                note: med.note || "",
+                stock: med.stock ?? null,
+                low: med.lowStockAlert ?? null,
+              });
+            });
+          }
+          // 排序：按时间
+          doses.sort((a, b) => a.time.localeCompare(b.time));
+          return doses;
+        }
+
+        function getDayRecord(dateISO) {
+          if (!state.records[dateISO]) state.records[dateISO] = { doses: {} };
+          if (!state.records[dateISO].doses) state.records[dateISO].doses = {};
+          return state.records[dateISO];
+        }
+
+        function getDoseStatus(dateISO, doseId) {
+          const rec = getDayRecord(dateISO);
+          return rec.doses[doseId] || { status: "none", takenTime: null };
+        }
+
+        function setDoseStatus(dateISO, doseId, status, takenTime = null) {
+          const rec = getDayRecord(dateISO);
+          if (status === "none") {
+            delete rec.doses[doseId];
+          } else {
+            rec.doses[doseId] = {
+              status,
+              takenTime: takenTime || (status === "taken" ? nowHHMM() : null),
+            };
+          }
+          saveState();
+        }
+
+        function clearDay(dateISO) {
+          const rec = getDayRecord(dateISO);
+          rec.doses = {};
+          saveState();
+        }
+
+        /* =========================
+     统计：按“有计划的剂量”为分母
+  ========================= */
+        function monthKey(d) {
+          return `${d.getFullYear()}-${pad2(d.getMonth() + 1)}`;
+        }
+        function listMonthDates(d) {
+          const y = d.getFullYear(),
+            m = d.getMonth();
+          const first = new Date(y, m, 1);
+          const last = new Date(y, m + 1, 0);
+          const arr = [];
+          for (let day = 1; day <= last.getDate(); day++) {
+            arr.push(`${y}-${pad2(m + 1)}-${pad2(day)}`);
+          }
+          return arr;
+        }
+
+        function computeMonthStats(d) {
+          const dates = listMonthDates(d);
+          let total = 0,
+            taken = 0,
+            missed = 0;
+
+          for (const iso of dates) {
+            const plan = buildDayPlan(iso);
+            total += plan.length;
+            const rec = state.records[iso]?.doses || {};
+            for (const dose of plan) {
+              const s = rec[dose.doseId]?.status || "none";
+              if (s === "taken") taken++;
+              if (s === "missed") missed++;
+            }
+          }
+
+          const rate = total ? Math.round((taken / total) * 100) : 0;
+          return { total, taken, missed, rate };
+        }
+
+        function computeStreak() {
+          // 连续“当天所有剂量均已服”的天数（倒推到今天）
+          const todayISO = toISODate(new Date());
+          let d = fromISODate(todayISO);
+          let streak = 0;
+
+          for (;;) {
+            const iso = toISODate(d);
+            const plan = buildDayPlan(iso);
+            if (plan.length === 0) break;
+            const rec = state.records[iso]?.doses || {};
+            const allTaken = plan.every(
+              (x) => (rec[x.doseId]?.status || "none") === "taken"
+            );
+            if (allTaken) {
+              streak++;
+              d.setDate(d.getDate() - 1);
+            } else {
+              break;
+            }
+          }
+          return streak;
+        }
+
+        /* =========================
+     日历渲染
+  ========================= */
+        function renderDOW() {
+          dowRow.innerHTML = "";
+          for (const w of DOW) {
+            const div = document.createElement("div");
+            div.className = "dow";
+            div.textContent = w;
+            dowRow.appendChild(div);
+          }
+        }
+
+        function daySummary(iso) {
+          const plan = buildDayPlan(iso);
+          if (plan.length === 0) return { tag: "", cls: "", text: "" };
+
+          const rec = state.records[iso]?.doses || {};
+          let taken = 0,
+            missed = 0,
+            marked = 0;
+          for (const dose of plan) {
+            const s = rec[dose.doseId]?.status || "none";
+            if (s === "taken") {
+              taken++;
+              marked++;
+            } else if (s === "missed") {
+              missed++;
+              marked++;
+            }
+          }
+
+          if (marked === 0) return { tag: "", cls: "", text: "" };
+          if (taken === plan.length)
+            return {
+              tag: "✅",
+              cls: "ok",
+              text: `全已服 ${taken}/${plan.length}`,
+            };
+          if (missed > 0 && taken === 0)
+            return {
+              tag: "⚠️",
+              cls: "miss",
+              text: `全漏服 ${missed}/${plan.length}`,
+            };
+          if (missed > 0)
+            return {
+              tag: "⚠️",
+              cls: "warn",
+              text: `部分 ${taken}/${plan.length}`,
+            };
+          return {
+            tag: "🟡",
+            cls: "warn",
+            text: `部分 ${taken}/${plan.length}`,
+          };
+        }
+
+        function renderCalendar() {
+          const y = viewDate.getFullYear();
+          const m = viewDate.getMonth();
+
+          monthLabel.innerHTML = `${y}年${m + 1}月 <small>${monthKey(
+            viewDate
+          )}</small>`;
+
+          calGrid.innerHTML = "";
+
+          const first = new Date(y, m, 1);
+          const firstDow = first.getDay();
+          const last = new Date(y, m + 1, 0);
+          const daysInMonth = last.getDate();
+
+          // 前置空格：上月尾巴
+          const prevLast = new Date(y, m, 0).getDate();
+          for (let i = 0; i < firstDow; i++) {
+            const dayNum = prevLast - firstDow + 1 + i;
+            const d = new Date(y, m - 1, dayNum);
+            calGrid.appendChild(buildDayCell(d, true));
+          }
+
+          // 本月
+          for (let day = 1; day <= daysInMonth; day++) {
+            const d = new Date(y, m, day);
+            calGrid.appendChild(buildDayCell(d, false));
+          }
+
+          // 后置补齐：保持 6 行更稳定（可选）
+          const totalCells = firstDow + daysInMonth;
+          const remaining = (7 - (totalCells % 7)) % 7;
+          for (let i = 1; i <= remaining; i++) {
+            const d = new Date(y, m + 1, i);
+            calGrid.appendChild(buildDayCell(d, true));
+          }
+        }
+
+        function buildDayCell(d, muted) {
+          const iso = toISODate(d);
+          const div = document.createElement("div");
+          div.className = "day" + (muted ? " muted" : "");
+
+          const selISO = toISODate(selectedDate);
+          if (iso === selISO) div.classList.add("selected");
+
+          const sum = daySummary(iso);
+
+          div.innerHTML = `
+      <div class="spark" aria-hidden="true"></div>
+      <div class="n">
+        <span>${d.getDate()}</span>
+        ${
+          sum.tag
+            ? `<span class="badge ${sum.cls}">${sum.tag}</span>`
+            : `<span style="opacity:.0;">.</span>`
+        }
+      </div>
+      <div style="margin-top:8px; font-size:11px; color: var(--muted); font-weight: 800;">
+        ${sum.text ? sum.text : "&nbsp;"}
+      </div>
+    `;
+
+          div.addEventListener("click", () => {
+            selectedDate = d;
+            // 如果点击了上月/下月的日期，切换视图月
+            if (
+              d.getMonth() !== viewDate.getMonth() ||
+              d.getFullYear() !== viewDate.getFullYear()
+            ) {
+              viewDate = new Date(d.getFullYear(), d.getMonth(), 1);
+            }
+            renderAll();
+          });
+
+          return div;
+        }
+
+        /* =========================
+     右侧：当天计划渲染（可撤销，可补录）
+  ========================= */
+        function renderSelectedDay() {
+          const iso = toISODate(selectedDate);
+          selectedDatePill.textContent = iso;
+
+          const plan = buildDayPlan(iso);
+
+          emptyDoseHint.style.display = plan.length ? "none" : "block";
+
+          // 汇总
+          let taken = 0,
+            missed = 0;
+          for (const dose of plan) {
+            const st = getDoseStatus(iso, dose.doseId).status;
+            if (st === "taken") taken++;
+            if (st === "missed") missed++;
+          }
+          selSummary.textContent = `✅ ${taken} / ${plan.length}`;
+
+          if (iso === toISODate(new Date())) {
+            selectedHint.textContent = "今天：打卡/撤销都可。";
+          } else {
+            selectedHint.textContent = "补录：点进某条剂量可“已服/漏服/清空”。";
+          }
+
+          // 列表
+          doseList.innerHTML = "";
+          if (plan.length === 0) return;
+
+          for (const dose of plan) {
+            const st = getDoseStatus(iso, dose.doseId);
+            const status = st.status || "none";
+            const timeText = dose.time;
+            const takenTime = st.takenTime ? `· 记录时间 ${st.takenTime}` : "";
+
+            const stateLabel =
+              status === "taken"
+                ? `✅ 已服 ${takenTime}`
+                : status === "missed"
+                ? `⚠️ 漏服`
+                : `⏳ 未记录`;
+
+            const stateCls =
+              status === "taken"
+                ? "taken"
+                : status === "missed"
+                ? "missed"
+                : "";
+
+            const el = document.createElement("div");
+            el.className = "dose";
+            el.innerHTML = `
+        <div class="left">
+          <div class="icon">${escapeHTML(dose.icon || "💊")}</div>
+          <div>
+            <div class="name">${escapeHTML(
+              dose.name || "未命名药物"
+            )} <span style="color:var(--muted); font-weight:820; font-size:12px;">· ${escapeHTML(
+              timeText
+            )}</span></div>
+            <div class="desc">
+              <span class="chip">📌 ${escapeHTML(
+                dose.dosage || "规格未填"
+              )}</span>
+              <span class="chip">🍬 ${escapeHTML(
+                dose.unit || "用量未填"
+              )}</span>
+              ${
+                dose.note
+                  ? `<span class="chip">📝 ${escapeHTML(
+                      shorten(dose.note, 18)
+                    )}</span>`
+                  : ``
+              }
+            </div>
+          </div>
+        </div>
+
+        <div class="right">
+          <div class="state ${stateCls}">${stateLabel}</div>
+          <div class="minirow">
+            <button class="btn small ${
+              status === "taken" ? "secondary" : ""
+            }" data-act="take">✅ 已服</button>
+            <button class="btn small ${
+              status === "missed" ? "secondary" : ""
+            }" data-act="miss">⚠️ 漏服</button>
+            <button class="btn small ghost" data-act="none">🧼 清空</button>
+          </div>
+        </div>
+      `;
+
+            // 绑定事件（关键：保证可点，不被伪元素挡住）
+            el.querySelectorAll("button").forEach((btn) => {
+              btn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                const act = btn.getAttribute("data-act");
+                snapshotUndo(`修改：${dose.name} ${dose.time}`);
+                if (act === "take") {
+                  // “聪明补录”：如果是过去日期，记录时间默认=计划时间；如果是今天，默认=当前时间
+                  const isToday = iso === toISODate(new Date());
+                  setDoseStatus(
+                    iso,
+                    dose.doseId,
+                    "taken",
+                    isToday ? nowHHMM() : dose.time
+                  );
+                  showToast("已标记为「已服」", true);
+                } else if (act === "miss") {
+                  setDoseStatus(iso, dose.doseId, "missed", null);
+                  showToast("已标记为「漏服」", true);
+                } else {
+                  setDoseStatus(iso, dose.doseId, "none", null);
+                  showToast("已清空该条记录", true);
+                }
+                renderAll(false);
+              });
+            });
+
+            doseList.appendChild(el);
+          }
+        }
+
+        /* =========================
+     药箱渲染（编辑/删除可用）
+  ========================= */
+        function renderMedBox() {
+          medList.innerHTML = "";
+
+          medCount.textContent = `📦 ${state.meds.length} 种`;
+          emptyMedHint.style.display = state.meds.length ? "none" : "block";
+
+          for (const med of state.meds) {
+            const sch = normalizeSchedule(med.timesPerDay, med.schedule);
+            const stock =
+              (med.stock ?? "") === "" || med.stock == null
+                ? null
+                : Number(med.stock);
+            const low =
+              (med.lowStockAlert ?? "") === "" || med.lowStockAlert == null
+                ? null
+                : Number(med.lowStockAlert);
+
+            const lowMark =
+              stock != null && low != null && stock <= low
+                ? `<span class="chip low">⛔ 低量：${stock}</span>`
+                : stock != null
+                ? `<span class="chip">📦 库存：${stock}</span>`
+                : "";
+
+            const el = document.createElement("div");
+            el.className = "med";
+            el.innerHTML = `
+        <div class="left">
+          <div class="icon">${escapeHTML(med.icon || "💊")}</div>
+          <div>
+            <div class="name">${escapeHTML(med.name || "未命名药物")}</div>
+            <div class="desc">
+              <span class="chip">📌 ${escapeHTML(
+                med.dosage || "规格未填"
+              )}</span>
+              <span class="chip">🍬 ${escapeHTML(med.unit || "用量未填")}</span>
+              <span class="chip">⏰ ${escapeHTML(sch.join(", "))}</span>
+              ${lowMark}
+            </div>
+          </div>
+        </div>
+        <div class="right">
+          <button class="btn secondary small" data-act="edit">✏️ 编辑</button>
+          <button class="btn danger small" data-act="del">🗑️ 删除</button>
+        </div>
+      `;
+
+            el.querySelector('[data-act="edit"]').addEventListener(
+              "click",
+              (e) => {
+                e.stopPropagation();
+                openMedModal(med.id);
+              }
+            );
+
+            el.querySelector('[data-act="del"]').addEventListener(
+              "click",
+              (e) => {
+                e.stopPropagation();
+                confirmAction(
+                  "确认删除药物？",
+                  "删除后：药物会从药箱移除；历史打卡记录仍保留在当日记录里（不会自动抹掉）。",
+                  () => {
+                    snapshotUndo(`删除药物：${med.name}`);
+                    state.meds = state.meds.filter((x) => x.id !== med.id);
+                    saveState();
+                    showToast("已删除药物", true);
+                    renderAll(false);
+                  }
+                );
+              }
+            );
+
+            medList.appendChild(el);
+          }
+        }
+
+        /* =========================
+     添加/编辑药物弹窗
+  ========================= */
+        function openMedModal(medId = null) {
+          editingMedId = medId;
+          modalOverlay.classList.add("show");
+
+          const isEdit = !!medId;
+          modalTitle.textContent = isEdit ? "✏️ 编辑药物" : "➕ 添加药物";
+          modalDelete.style.display = isEdit ? "inline-flex" : "none";
+
+          const med = isEdit ? state.meds.find((m) => m.id === medId) : null;
+
+          fName.value = med?.name || "";
+          fIcon.value = med?.icon || "💊";
+          fDose.value = med?.dosage || "";
+          fUnit.value = med?.unit || "";
+          fTimes.value = String(
+            clamp(parseInt(med?.timesPerDay, 10) || 2, 1, 4)
+          );
+          fSchedule.value = med?.schedule || "";
+          fStock.value = (med?.stock ?? "") === "" ? "" : String(med.stock);
+          fLow.value =
+            (med?.lowStockAlert ?? "") === "" ? "" : String(med.lowStockAlert);
+          fNote.value = med?.note || "";
+
+          // 自动给个合理默认时间
+          if (!isEdit && !fSchedule.value.trim()) {
+            const t = parseInt(fTimes.value, 10);
+            const defaults = ["08:00", "12:00", "18:00", "22:00"];
+            fSchedule.value = defaults.slice(0, t).join(",");
+          }
+        }
+
+        function closeMedModal() {
+          modalOverlay.classList.remove("show");
+          editingMedId = null;
+        }
+
+        function validateMedForm() {
+          const name = fName.value.trim();
+          if (!name) return "请填写药物名称。";
+
+          const times = clamp(parseInt(fTimes.value, 10) || 1, 1, 4);
+
+          const schedule = fSchedule.value.trim();
+          const arr = normalizeSchedule(times, schedule);
+          // 简单检查：时间格式基本正确
+          for (const t of arr) {
+            if (!/^\d{2}:\d{2}$/.test(t))
+              return "服用时间格式不正确，请用 08:00 这种格式，用逗号分隔。";
+          }
+
+          return null;
+        }
+
+        function saveMed() {
+          const err = validateMedForm();
+          if (err) {
+            showToast(err, false, true);
+            return;
+          }
+
+          const times = clamp(parseInt(fTimes.value, 10) || 1, 1, 4);
+          const scheduleArr = normalizeSchedule(times, fSchedule.value.trim());
+          const schedule = scheduleArr.join(",");
+
+          const medObj = {
+            id: editingMedId || uid(),
+            name: fName.value.trim(),
+            icon: (fIcon.value.trim() || "💊").slice(0, 4),
+            dosage: fDose.value.trim(),
+            unit: fUnit.value.trim(),
+            timesPerDay: times,
+            schedule,
+            stock: fStock.value === "" ? null : Number(fStock.value),
+            lowStockAlert: fLow.value === "" ? null : Number(fLow.value),
+            note: fNote.value.trim(),
+          };
+
+          if (editingMedId) {
+            snapshotUndo(`编辑药物：${medObj.name}`);
+            const idx = state.meds.findIndex((m) => m.id === editingMedId);
+            if (idx >= 0) state.meds[idx] = medObj;
+            saveState();
+            showToast("已保存修改", true);
+          } else {
+            snapshotUndo(`添加药物：${medObj.name}`);
+            state.meds.push(medObj);
+            saveState();
+            showToast("已添加药物", true);
+          }
+
+          closeMedModal();
+          renderAll(false);
+        }
+
+        /* =========================
+     一键与智能补录
+  ========================= */
+        function markAllTakenForDay(iso) {
+          const plan = buildDayPlan(iso);
+          if (plan.length === 0) return;
+
+          snapshotUndo(`一键全已服：${iso}`);
+
+          const isToday = iso === toISODate(new Date());
+          for (const dose of plan) {
+            // 只填未记录的
+            const st = getDoseStatus(iso, dose.doseId).status;
+            if (st === "none") {
+              setDoseStatus(
+                iso,
+                dose.doseId,
+                "taken",
+                isToday ? nowHHMM() : dose.time
+              );
+            }
+          }
+          showToast("当天未记录的剂量已全部标记为「已服」", true);
+        }
+
+        function markAllMissedForDay(iso) {
+          const plan = buildDayPlan(iso);
+          if (plan.length === 0) return;
+
+          snapshotUndo(`一键全漏服：${iso}`);
+          for (const dose of plan) {
+            const st = getDoseStatus(iso, dose.doseId).status;
+            if (st === "none") {
+              setDoseStatus(iso, dose.doseId, "missed", null);
+            }
+          }
+          showToast("当天未记录的剂量已全部标记为「漏服」", true);
+        }
+
+        /* =========================
+     确认/撤销/提示
+  ========================= */
+        let confirmHandler = null;
+
+        function confirmAction(title, text, onOk) {
+          confirmTitle.textContent = title;
+          confirmText.textContent = text;
+          confirmOverlay.classList.add("show");
+          confirmHandler = onOk;
+        }
+
+        function closeConfirm() {
+          confirmOverlay.classList.remove("show");
+          confirmHandler = null;
+        }
+
+        function snapshotUndo(label) {
+          undoStack = {
+            label,
+            snapshot: JSON.parse(JSON.stringify(state)),
+          };
+        }
+
+        function restoreUndo() {
+          if (!undoStack) return;
+          state = undoStack.snapshot;
+          saveState();
+          showToast(`已撤销：${undoStack.label}`, false);
+          undoStack = null;
+          renderAll(false);
+        }
+
+        let toastTimer = null;
+        function showToast(msg, canUndo = false, isError = false) {
+          toastMsg.textContent = msg;
+          toast.classList.add("show");
+          toastUndo.style.display = canUndo ? "inline-flex" : "none";
+          toast.style.borderColor = isError
+            ? "rgba(255,77,77,.35)"
+            : "color-mix(in oklab, var(--border) 70%, white)";
+          if (toastTimer) clearTimeout(toastTimer);
+          toastTimer = setTimeout(() => toast.classList.remove("show"), 3600);
+        }
+
+        /* =========================
+     导入/导出/重置
+  ========================= */
+        function exportJSON() {
+          const blob = new Blob([JSON.stringify(state, null, 2)], {
+            type: "application/json",
+          });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `katy-med-tracker-backup-${toISODate(new Date())}.json`;
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          URL.revokeObjectURL(url);
+          showToast("已导出 JSON", false);
+        }
+
+        function importJSONFile(file) {
+          const reader = new FileReader();
+          reader.onload = () => {
             try {
-              a.onClick?.();
-            } finally {
-              t.remove();
+              const obj = JSON.parse(reader.result);
+              if (
+                !obj ||
+                !Array.isArray(obj.meds) ||
+                typeof obj.records !== "object"
+              )
+                throw new Error("bad");
+              snapshotUndo("导入数据");
+              state = obj;
+              saveState();
+              renderAll(false);
+              showToast("导入成功", true);
+            } catch {
+              showToast("导入失败：文件格式不正确。", false, true);
             }
           };
-          right.appendChild(b);
-        });
-        t.appendChild(right);
-        wrap.appendChild(t);
-
-        setTimeout(() => {
-          if (t.isConnected) t.remove();
-        }, 4200);
-      }
-
-      /* =========================
-   Modals
-   ========================= */
-      function openModal(id) {
-        document.getElementById(id).classList.add("show");
-      }
-      function closeModal(id) {
-        document.getElementById(id).classList.remove("show");
-      }
-      function maskClose(e, id) {
-        if (e.target && e.target.id === id) closeModal(id);
-      }
-
-      /* =========================
-   Privacy / links
-   ========================= */
-      function baseUrl() {
-        return location.origin + location.pathname;
-      }
-      function selfLink() {
-        const k = getKeyFromUrl();
-        if (!k) return "";
-        return baseUrl() + `?${KEY_PARAM}=` + encodeURIComponent(k);
-      }
-      function publicLink() {
-        return baseUrl();
-      }
-
-      async function copyText(text) {
-        try {
-          await navigator.clipboard.writeText(text);
-          toast("已复制到剪贴板 ✅");
-        } catch {
-          prompt("复制下面链接：", text);
+          reader.readAsText(file);
         }
-      }
-      function createPrivateKey() {
-        const k =
-          "k_" +
-          Math.random().toString(36).slice(2, 10) +
-          Math.random().toString(36).slice(2, 6);
-        const url = new URL(baseUrl());
-        url.searchParams.set(KEY_PARAM, k);
-        location.href = url.toString();
-      }
-      function goWithKey() {
-        const raw = document.getElementById("inKey").value.trim();
-        if (!/^k_[a-zA-Z0-9_-]{6,64}$/.test(raw)) {
-          toast("k 格式不对（示例：k_ab12cd34）");
-          return;
-        }
-        const url = new URL(baseUrl());
-        url.searchParams.set(KEY_PARAM, raw);
-        location.href = url.toString();
-      }
-      function switchToPublic() {
-        location.href = baseUrl();
-      }
-      function copySelfLink() {
-        const link = selfLink();
-        if (!link) {
-          toast("当前不是私人空间，先生成/进入私人空间");
-          return;
-        }
-        copyText(link);
-      }
-      function copyPublicLink() {
-        copyText(publicLink());
-      }
-      function openPrivacy() {
-        const desc = document.getElementById("spaceDesc");
-        desc.textContent = isPrivate()
-          ? `私人空间（${spaceId()}）`
-          : `公共空白模式（分享给别人默认是空白）`;
-        openModal("privacyMask");
-      }
 
-      /* =========================
-   Data tools
-   ========================= */
-      function openDataTools() {
-        openModal("dataMask");
-      }
-      function downloadFile(filename, content, mime) {
-        const blob = new Blob([content], { type: mime });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = filename;
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        URL.revokeObjectURL(url);
-      }
-      function exportJSON() {
-        const payload = { exportedAt: Date.now(), space: spaceId(), state };
-        downloadFile(
-          `katy-med-${spaceId()}-${nowISODate()}.json`,
-          JSON.stringify(payload, null, 2),
-          "application/json"
-        );
-        toast("已导出 JSON 📦");
-      }
-      function exportCSV() {
-        const rows = [
-          ["date", "medName", "scheduleTime", "taken", "takenTime", "note"],
-        ];
-        const medMap = new Map(state.meds.map((m) => [m.id, m]));
-        const dates = Object.keys(state.records).sort();
-        for (const d of dates) {
-          const doses = state.records[d]?.doses || {};
-          for (const key of Object.keys(doses)) {
-            const entry = doses[key];
-            const [medId, sch] = key.split("@");
-            const med = medMap.get(medId);
-            rows.push([
-              d,
-              med?.name || medId,
-              sch || "",
-              entry?.taken ? "1" : "0",
-              entry?.takenTime || "",
-              (entry?.note || "").replace(/\n/g, " "),
-            ]);
-          }
-        }
-        const csv = rows
-          .map((r) =>
-            r
-              .map((cell) => {
-                const s = String(cell ?? "");
-                return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
-              })
-              .join(",")
-          )
-          .join("\n");
-        downloadFile(
-          `katy-med-records-${spaceId()}-${nowISODate()}.csv`,
-          csv,
-          "text/csv"
-        );
-        toast("已导出 CSV 📄");
-      }
-      function importJSON() {
-        const text = document.getElementById("importText").value.trim();
-        if (!text) {
-          toast("没有内容");
-          return;
-        }
-        try {
-          const p = JSON.parse(text);
-          const incoming = p.state ? p.state : p;
-          state = normalizeState(incoming);
-          saveState();
-          renderAll();
-          toast("导入完成（已覆盖）✅");
-        } catch {
-          toast("JSON 解析失败");
-        }
-      }
-
-      /* 不再用 confirm()，改用站内确认 */
-      function askWipeSpace() {
-        openConfirmDanger({
-          title: "确认清空当前空间",
-          line1: `清空空间：${spaceId()}`,
-          line2: "将删除：药箱 + 所有打卡记录。确认后立即生效。",
-          okText: "⚠️ 立即清空",
-          onOk: () => {
-            state = clone(defaultState);
-            saveState();
-            renderAll();
-            toast("已清空当前空间", []);
-          },
-        });
-      }
-
-      /* =========================
-   Plan / Records
-   ========================= */
-      function plannedKeysForDate(ymd) {
-        const out = [];
-        for (const m of state.meds) {
-          const sched = (m.schedule || []).slice(0, m.timesPerDay || 1);
-          for (const t of sched) {
-            out.push({ med: m, time: t, key: `${m.id}@${t}` });
-          }
-        }
-        out.sort((a, b) =>
-          a.time !== b.time
-            ? a.time.localeCompare(b.time)
-            : a.med.name.localeCompare(b.med.name)
-        );
-        return out;
-      }
-      function getDayRecord(ymd) {
-        if (!state.records[ymd]) state.records[ymd] = { doses: {} };
-        if (!state.records[ymd].doses) state.records[ymd].doses = {};
-        return state.records[ymd];
-      }
-      function getDoseEntry(ymd, doseKey) {
-        const rec = getDayRecord(ymd);
-        if (!rec.doses[doseKey])
-          rec.doses[doseKey] = {
-            taken: false,
-            takenTime: "",
-            note: "",
-            updatedAt: Date.now(),
-          };
-        return rec.doses[doseKey];
-      }
-
-      /* =========================
-   Smart Confirm (Take) + Danger Confirm
-   ========================= */
-      let pendingConfirm = null; // {type:"take"|"danger", ...}
-
-      function openConfirmTake({ ymd, doseKey, medName, scheduleTime }) {
-        pendingConfirm = { type: "take", ymd, doseKey, medName, scheduleTime };
-
-        document.getElementById("confirmTitle").textContent = "确认记录已服用";
-        document.getElementById("confirmLine1").textContent = medName;
-        document.getElementById("confirmLine2").textContent = `${fmtCN(
-          ymd
-        )} · 计划时间 ${scheduleTime}`;
-        document.getElementById("confirmTime").value =
-          scheduleTime || nowTimeHHMM();
-        document.getElementById("confirmNote").value = "";
-
-        document.getElementById("confirmRight").style.display = "";
-        document.getElementById("confirmQuick").style.display = "flex";
-        document.getElementById("confirmDangerHint").style.display = "none";
-
-        const btn = document.getElementById("btnSetSchedule");
-        btn.textContent = "按计划";
-        btn.disabled = !scheduleTime;
-
-        const okBtn = document.getElementById("confirmOkBtn");
-        okBtn.className = "btn ok";
-        okBtn.textContent = "✅ 确认记录";
-
-        openModal("confirmMask");
-      }
-
-      /* 风险动作确认（删除/清空等） */
-      function openConfirmDanger({ title, line1, line2, okText, onOk }) {
-        pendingConfirm = { type: "danger", onOk };
-
-        document.getElementById("confirmTitle").textContent = title;
-        document.getElementById("confirmLine1").textContent = line1;
-        document.getElementById("confirmLine2").textContent = line2;
-
-        document.getElementById("confirmRight").style.display = "none";
-        document.getElementById("confirmQuick").style.display = "none";
-        document.getElementById("confirmDangerHint").style.display = "flex";
-
-        const okBtn = document.getElementById("confirmOkBtn");
-        okBtn.className = "btn danger";
-        okBtn.textContent = okText || "确认";
-
-        openModal("confirmMask");
-      }
-
-      function confirmSetNow() {
-        document.getElementById("confirmTime").value = nowTimeHHMM();
-      }
-      function confirmSetSchedule() {
-        if (pendingConfirm?.type !== "take") return;
-        if (!pendingConfirm.scheduleTime) return;
-        document.getElementById("confirmTime").value =
-          pendingConfirm.scheduleTime;
-      }
-      function confirmClearNote() {
-        document.getElementById("confirmNote").value = "";
-      }
-
-      function confirmCommit() {
-        if (!pendingConfirm) return;
-
-        if (pendingConfirm.type === "take") {
-          const { ymd, doseKey, scheduleTime } = pendingConfirm;
-          const rec = getDayRecord(ymd);
-          const t =
-            document.getElementById("confirmTime").value.trim() ||
-            scheduleTime ||
-            nowTimeHHMM();
-          const note = document.getElementById("confirmNote").value.trim();
-          rec.doses[doseKey] = {
-            taken: true,
-            takenTime: t,
-            note,
-            updatedAt: Date.now(),
-          };
-          saveState();
-          closeModal("confirmMask");
-          renderAll();
-          toast("已确认记录 ✅", [
-            {
-              label: "撤销",
-              onClick: () => undoDose(ymd, doseKey),
-            },
-          ]);
-        } else {
-          // danger
-          const onOk = pendingConfirm.onOk;
-          closeModal("confirmMask");
-          pendingConfirm = null;
-          onOk?.();
-        }
-        pendingConfirm = null;
-      }
-
-      /* =========================
-   One-click undo (fix your issue)
-   ========================= */
-      function undoDose(ymd, doseKey) {
-        const rec = getDayRecord(ymd);
-        const prev = rec.doses[doseKey] ? clone(rec.doses[doseKey]) : null;
-
-        rec.doses[doseKey] = {
-          taken: false,
-          takenTime: "",
-          note: "",
-          updatedAt: Date.now(),
-        };
-        saveState();
-        renderAll();
-
-        toast("已撤销 ✅", [
-          {
-            label: "恢复",
-            onClick: () => {
-              if (prev) {
-                rec.doses[doseKey] = prev;
-              } else {
-                delete rec.doses[doseKey];
-              }
+        function resetEmpty() {
+          confirmAction(
+            "新建空白药箱？",
+            "会清空当前设备上的全部药箱与打卡记录。",
+            () => {
+              snapshotUndo("新建空白药箱");
+              state = defaultState();
               saveState();
-              renderAll();
-              toast("已恢复");
-            },
-          },
-        ]);
-      }
-
-      /* =========================
-   Calendar status
-   ========================= */
-      function dayStatus(ymd) {
-        const plan = plannedKeysForDate(ymd);
-        if (plan.length === 0) return { kind: "bad", label: "无药", chips: [] };
-
-        const rec = state.records[ymd]?.doses || {};
-        let taken = 0,
-          hasAny = false;
-        const chips = [];
-
-        for (const p of plan) {
-          const e = rec[p.key];
-          if (e) {
-            hasAny = true;
-            if (e.taken) taken++;
-          }
-        }
-
-        const today = nowISODate();
-        const isPast = ymd < today;
-        const isFuture = ymd > today;
-
-        if (taken === plan.length && plan.length > 0) {
-          chips.push(`全部已服用 ${taken}/${plan.length}`);
-          return { kind: "ok", label: "✅", chips };
-        }
-        if (!hasAny && isFuture) {
-          chips.push(`计划 ${plan.length} 次`);
-          return { kind: "bad", label: "•", chips };
-        }
-        if (isPast) {
-          chips.push(`已记录 ${taken}/${plan.length}`);
-          if (taken === 0) return { kind: "bad", label: "⛔", chips };
-          return { kind: "warn", label: "⚠️", chips };
-        }
-        chips.push(`进度 ${taken}/${plan.length}`);
-        return { kind: "warn", label: "⏳", chips };
-      }
-
-      function monthStats(startDate, endDate) {
-        let ok = 0,
-          warn = 0,
-          none = 0;
-        for (
-          let d = new Date(startDate);
-          d <= endDate;
-          d.setDate(d.getDate() + 1)
-        ) {
-          const ymd = nowISODate(d);
-          const st = dayStatus(ymd);
-          if (st.label === "✅") ok++;
-          else if (st.label === "⚠️" || st.label === "⏳") warn++;
-          else none++;
-        }
-        return { ok, warn, none };
-      }
-
-      /* =========================
-   Calendar render
-   ========================= */
-      function monthLabel(d) {
-        return `${d.getFullYear()}年${d.getMonth() + 1}月`;
-      }
-      function calPrev() {
-        calCursor = new Date(
-          calCursor.getFullYear(),
-          calCursor.getMonth() - 1,
-          1
-        );
-        renderCalendar();
-      }
-      function calNext() {
-        calCursor = new Date(
-          calCursor.getFullYear(),
-          calCursor.getMonth() + 1,
-          1
-        );
-        renderCalendar();
-      }
-      function goToday() {
-        selectedDay = nowISODate();
-        calCursor = new Date();
-        renderAll();
-        openDay(selectedDay);
-      }
-
-      function makeDayCell(date, muted, todayYmd) {
-        const ymd = nowISODate(date);
-        const cell = document.createElement("div");
-        cell.className =
-          "dayCell" +
-          (muted ? " muted" : "") +
-          (ymd === todayYmd ? " today" : "");
-        cell.onclick = () => openDay(ymd);
-
-        const top = document.createElement("div");
-        top.className = "dayNum";
-        const left = document.createElement("span");
-        left.textContent = String(date.getDate());
-        const badge = document.createElement("span");
-        badge.className = "badge";
-
-        const st = dayStatus(ymd);
-        badge.textContent = st.label;
-        badge.classList.toggle("ok", st.kind === "ok");
-        badge.classList.toggle("warn", st.kind === "warn");
-        badge.classList.toggle("bad", st.kind === "bad");
-        top.appendChild(left);
-        top.appendChild(badge);
-        cell.appendChild(top);
-
-        const mini = document.createElement("div");
-        mini.className = "miniInfo";
-        const chips = st.chips.slice(0, 3);
-        if (chips.length === 0) {
-          const chip = document.createElement("span");
-          chip.className = "miniChip";
-          chip.textContent = "—";
-          mini.appendChild(chip);
-        } else {
-          for (const c of chips) {
-            const chip = document.createElement("span");
-            chip.className = "miniChip";
-            chip.textContent = c;
-            mini.appendChild(chip);
-          }
-        }
-        cell.appendChild(mini);
-        return cell;
-      }
-
-      function renderCalendar() {
-        const grid = document.getElementById("calGrid");
-        grid.innerHTML = "";
-
-        const dows = ["日", "一", "二", "三", "四", "五", "六"];
-        for (const w of dows) {
-          const el = document.createElement("div");
-          el.className = "dow";
-          el.textContent = w;
-          grid.appendChild(el);
-        }
-
-        const y = calCursor.getFullYear();
-        const m = calCursor.getMonth();
-        document.getElementById("calMonthText").textContent =
-          monthLabel(calCursor);
-
-        const first = new Date(y, m, 1);
-        const startDow = first.getDay();
-        const daysInMonth = new Date(y, m + 1, 0).getDate();
-
-        const prevDays = startDow;
-        const prevLast = new Date(y, m, 0).getDate();
-        const today = nowISODate();
-
-        const stats = monthStats(new Date(y, m, 1), new Date(y, m + 1, 0));
-        document.getElementById(
-          "calStatsTag"
-        ).textContent = `✅${stats.ok} ⚠️${stats.warn} •${stats.none}`;
-
-        for (let i = prevDays; i > 0; i--) {
-          const dayNum = prevLast - i + 1;
-          grid.appendChild(
-            makeDayCell(new Date(y, m - 1, dayNum), true, today)
+              renderAll(false);
+              showToast("已新建空白药箱", true);
+            }
           );
         }
-        for (let day = 1; day <= daysInMonth; day++) {
-          grid.appendChild(makeDayCell(new Date(y, m, day), false, today));
-        }
-        const totalCells = prevDays + daysInMonth;
-        const extra = (7 - (totalCells % 7)) % 7;
-        for (let i = 1; i <= extra; i++) {
-          grid.appendChild(makeDayCell(new Date(y, m + 1, i), true, today));
-        }
-      }
 
-      /* =========================
-   Day modal
-   ========================= */
-      function openDay(ymd) {
-        selectedDay = ymd;
-        document.getElementById("jumpDate").value = ymd;
-
-        const plan = plannedKeysForDate(ymd);
-        const rec = getDayRecord(ymd).doses;
-
-        document.getElementById("dayModalTitle").textContent = `📌 ${fmtCN(
-          ymd
-        )} 用药明细`;
-        const st = dayStatus(ymd);
-        document.getElementById(
-          "dayModalBadge"
-        ).textContent = `状态：${st.label}`;
-        const taken = plan.filter((p) => rec[p.key]?.taken).length;
-        document.getElementById(
-          "dayModalSummary"
-        ).textContent = `进度：${taken}/${plan.length}`;
-
-        const list = document.getElementById("dayDoseList");
-        list.innerHTML = "";
-
-        if (plan.length === 0) {
-          const empty = document.createElement("div");
-          empty.className = "item";
-          empty.innerHTML = `<div style="font-weight:900">当前药箱为空</div><div style="margin-top:6px;color:var(--muted);font-size:12px">先在右侧添加药物，再回来打卡。</div>`;
-          list.appendChild(empty);
-        } else {
-          for (const p of plan) {
-            const entry = rec[p.key] || {
-              taken: false,
-              takenTime: "",
-              note: "",
-            };
-
-            const row = document.createElement("div");
-            row.className = "doseRow";
-
-            const left = document.createElement("div");
-            left.className = "doseLeft";
-
-            const l1 = document.createElement("div");
-            l1.className = "line1";
-            const name = document.createElement("span");
-            name.className = "mname";
-            name.textContent = p.med.name;
-            const tag = document.createElement("span");
-            tag.className = "tagLite";
-            tag.textContent = `计划 ${p.time}`;
-            l1.appendChild(name);
-            l1.appendChild(tag);
-
-            const l2 = document.createElement("div");
-            l2.className = "line2";
-            const doseTxt = [p.med.unit, p.med.dose]
-              .filter(Boolean)
-              .join(" · ");
-            l2.innerHTML = `<span>剂量：<b>${
-              doseTxt || "未注明"
-            }</b></span><span>备注：<b>${p.med.note || "—"}</b></span>`;
-
-            left.appendChild(l1);
-            left.appendChild(l2);
-
-            const right = document.createElement("div");
-            right.className = "doseRight";
-
-            const stp = document.createElement("span");
-            stp.className =
-              "statusPill " +
-              (entry.taken ? "ok" : ymd < nowISODate() ? "bad" : "warn");
-            stp.textContent = entry.taken
-              ? `✅ 已服用 ${entry.takenTime || ""}`
-              : ymd < nowISODate()
-              ? "⛔ 未记录"
-              : "⏳ 待服用";
-
-            const btn = document.createElement("button");
-            btn.type = "button";
-            btn.className = "btn small " + (entry.taken ? "secondary" : "ok");
-            btn.textContent = entry.taken ? "一键撤销" : "标记已服用";
-            btn.onclick = () => {
-              if (entry.taken) {
-                undoDose(ymd, p.key);
-              } else {
-                openConfirmTake({
-                  ymd,
-                  doseKey: p.key,
-                  medName: p.med.name,
-                  scheduleTime: p.time,
-                });
-              }
-            };
-
-            right.appendChild(stp);
-            right.appendChild(btn);
-
-            row.appendChild(left);
-            row.appendChild(right);
-            list.appendChild(row);
-          }
-        }
-
-        openModal("dayModalMask");
-      }
-      function jumpToDate(value) {
-        if (!value) return;
-        openDay(value);
-        const d = ymdToDate(value);
-        calCursor = new Date(d.getFullYear(), d.getMonth(), 1);
-        renderCalendar();
-      }
-
-      /* =========================
-   Today render (撤销一键)
-   ========================= */
-      function renderToday() {
-        const ymd = nowISODate();
-        const plan = plannedKeysForDate(ymd);
-        const list = document.getElementById("todayList");
-        list.innerHTML = "";
-
-        document.getElementById("todayHint").textContent = plan.length
-          ? `今天计划 ${plan.length} 次`
-          : "药箱为空";
-
-        const modeLabel = document.getElementById("modeLabel");
-        modeLabel.textContent = isPrivate()
-          ? `私人空间（${spaceId()}）`
-          : `公共空白模式`;
-
-        if (plan.length === 0) {
-          const empty = document.createElement("div");
-          empty.className = "item";
-          empty.innerHTML = `<div style="font-weight:900">今天没有计划</div><div style="margin-top:6px;color:var(--muted);font-size:12px">添加药物后，这里会自动生成计划。</div>`;
-          list.appendChild(empty);
-          return;
-        }
-
-        const rec = getDayRecord(ymd).doses;
-        let done = 0;
-
-        for (const p of plan) {
-          const entry = rec[p.key] || { taken: false, takenTime: "", note: "" };
-          if (entry.taken) done++;
-
-          const it = document.createElement("div");
-          it.className = "item";
-
-          const top = document.createElement("div");
-          top.className = "itemTop";
-
-          const left = document.createElement("div");
-          left.style.minWidth = "0";
-
-          const name = document.createElement("div");
-          name.className = "itemName";
-          name.innerHTML = `<span>${
-            entry.taken ? "✅" : "⏳"
-          }</span><span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:360px">${
-            p.med.name
-          }</span>`;
-          const tag = document.createElement("span");
-          tag.className = "tagLite";
-          tag.textContent = `计划 ${p.time}`;
-          name.appendChild(tag);
-
-          const meta = document.createElement("div");
-          meta.className = "itemMeta";
-          const doseTxt = [p.med.unit, p.med.dose].filter(Boolean).join(" · ");
-          meta.innerHTML = `<span>剂量：<b>${
-            doseTxt || "未注明"
-          }</b></span><span>记录：<b>${
-            entry.taken ? entry.takenTime || "已确认" : "—"
-          }</b></span>`;
-
-          left.appendChild(name);
-          left.appendChild(meta);
-
-          const btns = document.createElement("div");
-          btns.className = "itemBtns";
-
-          const btn = document.createElement("button");
-          btn.type = "button";
-          btn.className = "btn small " + (entry.taken ? "secondary" : "ok");
-          btn.textContent = entry.taken ? "一键撤销" : "确认已服用";
-          btn.onclick = () => {
-            if (entry.taken) {
-              undoDose(ymd, p.key);
-            } else {
-              openConfirmTake({
-                ymd,
-                doseKey: p.key,
-                medName: p.med.name,
-                scheduleTime: p.time,
-              });
-            }
-          };
-
-          const btnDetail = document.createElement("button");
-          btnDetail.type = "button";
-          btnDetail.className = "btn small secondary";
-          btnDetail.textContent = "详情/补录";
-          btnDetail.onclick = () => openDay(ymd);
-
-          btns.appendChild(btn);
-          btns.appendChild(btnDetail);
-
-          top.appendChild(left);
-          top.appendChild(btns);
-
-          it.appendChild(top);
-          list.appendChild(it);
-        }
-
-        // show progress in subtitle
-        const sub = isPrivate()
-          ? `私人空间 · 今日 ${done}/${plan.length}`
-          : `公共空白模式 · 今日 ${done}/${plan.length}`;
-        document.getElementById("modeLabel").textContent = sub;
-      }
-
-      /* =========================
-   Med CRUD (删除改为站内确认)
-   ========================= */
-      function addMed() {
-        const name = document.getElementById("inMedName").value.trim();
-        if (!name) {
-          toast("药物名称不能为空");
-          return;
-        }
-        const dose = document.getElementById("inMedDose").value.trim();
-        const unit = document.getElementById("inMedUnit").value.trim();
-        const timesPerDay = clamp(
-          parseInt(
-            document.getElementById("inMedTimes").value.trim() || "1",
-            10
-          ) || 1,
-          1,
-          6
-        );
-        const scheduleRaw = document
-          .getElementById("inMedSchedule")
-          .value.trim();
-        const schedule = scheduleRaw
-          ? scheduleRaw
-              .split(",")
-              .map((s) => s.trim())
-              .filter(Boolean)
-              .filter((s) => /^\d{2}:\d{2}$/.test(s))
-          : [];
-        const note = document.getElementById("inMedNote").value.trim();
-
-        const med = normalizeMed({
-          id: uid(),
-          name,
-          dose,
-          unit,
-          timesPerDay,
-          schedule: schedule.length ? schedule : undefined,
-          note,
-        });
-        state.meds.unshift(med);
-        saveState();
-
-        document.getElementById("inMedName").value = "";
-        document.getElementById("inMedDose").value = "";
-        document.getElementById("inMedUnit").value = "";
-        document.getElementById("inMedTimes").value = "";
-        document.getElementById("inMedSchedule").value = "";
-        document.getElementById("inMedNote").value = "";
-
-        renderAll();
-        toast("已添加到药箱 ✅");
-      }
-
-      function openEdit(medId) {
-        const m = state.meds.find((x) => x.id === medId);
-        if (!m) return;
-        document.getElementById("editId").value = m.id;
-        document.getElementById("editName").value = m.name;
-        document.getElementById("editDose").value = m.dose || "";
-        document.getElementById("editUnit").value = m.unit || "";
-        document.getElementById("editTimes").value = String(m.timesPerDay || 1);
-        document.getElementById("editSchedule").value = (m.schedule || []).join(
-          ","
-        );
-        document.getElementById("editNote").value = m.note || "";
-        openModal("editMask");
-      }
-      function saveEdit() {
-        const id = document.getElementById("editId").value;
-        const idx = state.meds.findIndex((x) => x.id === id);
-        if (idx < 0) return;
-
-        const updated = normalizeMed({
-          id,
-          name: document.getElementById("editName").value.trim(),
-          dose: document.getElementById("editDose").value.trim(),
-          unit: document.getElementById("editUnit").value.trim(),
-          timesPerDay:
-            parseInt(
-              document.getElementById("editTimes").value.trim() || "1",
-              10
-            ) || 1,
-          schedule: document.getElementById("editSchedule").value.trim(),
-          note: document.getElementById("editNote").value.trim(),
-          createdAt: state.meds[idx].createdAt,
-        });
-        if (!updated) {
-          toast("药物名称不能为空");
-          return;
-        }
-
-        state.meds[idx] = updated;
-        saveState();
-        closeModal("editMask");
-        renderAll();
-        toast("药物已更新 ✅");
-      }
-
-      /* 删除：不用 confirm()，用 confirmMask */
-      function askDeleteMed() {
-        const id = document.getElementById("editId").value;
-        const m = state.meds.find((x) => x.id === id);
-        if (!m) {
-          toast("找不到该药物");
-          return;
-        }
-
-        openConfirmDanger({
-          title: "确认删除药物",
-          line1: `删除：${m.name}`,
-          line2: "将同时移除所有历史记录里与该药相关的条目。",
-          okText: "🗑 立即删除",
-          onOk: () => {
-            deleteMedHard(id);
-          },
-        });
-      }
-      function deleteMedHard(id) {
-        const m = state.meds.find((x) => x.id === id);
-        // backup for undo
-        const backup = m ? clone(m) : null;
-        const removedRecordKeys = []; // [{date, key, value}]
-        for (const d of Object.keys(state.records)) {
-          const doses = state.records[d]?.doses;
-          if (!doses) continue;
-          for (const k of Object.keys(doses)) {
-            if (k.startsWith(id + "@")) {
-              removedRecordKeys.push({
-                date: d,
-                key: k,
-                value: clone(doses[k]),
-              });
-              delete doses[k];
-            }
-          }
-        }
-        state.meds = state.meds.filter((x) => x.id !== id);
-        saveState();
-        closeModal("editMask");
-        renderAll();
-
-        toast("已删除 ✅", [
-          {
-            label: "撤回",
-            onClick: () => {
-              if (backup) state.meds.unshift(backup);
-              for (const it of removedRecordKeys) {
-                if (!state.records[it.date])
-                  state.records[it.date] = { doses: {} };
-                if (!state.records[it.date].doses)
-                  state.records[it.date].doses = {};
-                state.records[it.date].doses[it.key] = it.value;
-              }
+        function wipeAll() {
+          confirmAction(
+            "确认清空全部数据？",
+            "此操作会删除药箱与所有历史打卡记录。",
+            () => {
+              localStorage.removeItem(STORAGE_KEY);
+              state = defaultState();
               saveState();
-              renderAll();
-              toast("已撤回删除");
-            },
-          },
-        ]);
-      }
-
-      /* =========================
-   Med list render
-   ========================= */
-      function renderMedList() {
-        const list = document.getElementById("medList");
-        list.innerHTML = "";
-
-        if (state.meds.length === 0) {
-          const empty = document.createElement("div");
-          empty.className = "item";
-          empty.innerHTML = `<div style="font-weight:900">药箱还是空的</div><div style="margin-top:6px;color:var(--muted);font-size:12px">添加药物后，月历与今日计划会自动生成。</div>`;
-          list.appendChild(empty);
-          return;
+              renderAll(false);
+              showToast("已清空全部数据", false);
+            }
+          );
         }
 
-        for (const m of state.meds) {
-          const it = document.createElement("div");
-          it.className = "item";
+        /* =========================
+     渲染总控
+  ========================= */
+        function renderStats() {
+          const ms = computeMonthStats(viewDate);
+          statRate.textContent = `${ms.rate}%`;
+          statTaken.textContent = `${ms.taken}`;
+          statMissed.textContent = `${ms.missed}`;
+          monthRate.textContent = `📈 本月：${ms.rate}%`;
+          totalDosesChip.textContent = `🧮 本月剂量：${ms.total}`;
 
-          const top = document.createElement("div");
-          top.className = "itemTop";
-
-          const left = document.createElement("div");
-          left.style.minWidth = "0";
-
-          const nm = document.createElement("div");
-          nm.className = "itemName";
-          nm.innerHTML = `<span>💊</span><span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:420px">${m.name}</span>`;
-
-          const meta = document.createElement("div");
-          meta.className = "itemMeta";
-          const doseTxt = [m.unit, m.dose].filter(Boolean).join(" · ");
-          meta.innerHTML =
-            `<span>次数：<b>${m.timesPerDay} / 天</b></span>` +
-            `<span>时间：<b>${
-              (m.schedule || []).join(", ") || "—"
-            }</b></span>` +
-            `<span>剂量：<b>${doseTxt || "未注明"}</b></span>` +
-            `<span>备注：<b>${m.note || "—"}</b></span>`;
-
-          left.appendChild(nm);
-          left.appendChild(meta);
-
-          const btns = document.createElement("div");
-          btns.className = "itemBtns";
-
-          const b1 = document.createElement("button");
-          b1.type = "button";
-          b1.className = "btn small secondary";
-          b1.textContent = "编辑";
-          b1.onclick = () => openEdit(m.id);
-
-          const b2 = document.createElement("button");
-          b2.type = "button";
-          b2.className = "btn small secondary";
-          b2.textContent = "去今天打卡";
-          b2.onclick = () => openDay(nowISODate());
-
-          btns.appendChild(b1);
-          btns.appendChild(b2);
-
-          top.appendChild(left);
-          top.appendChild(btns);
-          it.appendChild(top);
-          list.appendChild(it);
+          const st = computeStreak();
+          streak.textContent = `🔥 连续：${st}天`;
         }
-      }
 
-      /* =========================
-   Render all
-   ========================= */
-      function renderAll() {
-        renderCalendar();
-        renderToday();
-        renderMedList();
-      }
+        function renderAll(keepToast = true) {
+          if (!keepToast) toast.classList.remove("show");
+          renderCalendar();
+          renderSelectedDay();
+          renderMedBox();
+          renderStats();
+          refreshStorageChip();
+        }
 
-      /* =========================
-   Init
-   ========================= */
-      function init() {
-        applyUI();
-        document.getElementById("themeSelect").value = ui.theme;
+        /* =========================
+     事件绑定
+  ========================= */
+        // Theme
+        themeSelect.addEventListener("change", () => {
+          settings.theme = themeSelect.value;
+          applySettings();
+          renderAll();
+        });
 
-        const t = ymdToDate(nowISODate());
-        calCursor = new Date(t.getFullYear(), t.getMonth(), 1);
+        btnDecor.addEventListener("click", () => {
+          settings.decorOn = !settings.decorOn;
+          applySettings();
+          renderAll();
+        });
 
-        renderAll();
-        toast(
-          isPrivate()
-            ? "已进入私人空间 ✅"
-            : "公共空白模式：分享给别人默认空白 ✅"
+        btnMotion.addEventListener("click", () => {
+          settings.motionOn = !settings.motionOn;
+          applySettings();
+          renderAll();
+        });
+
+        // Calendar nav
+        prevMonth.addEventListener("click", () => {
+          viewDate = new Date(
+            viewDate.getFullYear(),
+            viewDate.getMonth() - 1,
+            1
+          );
+          renderAll();
+        });
+        nextMonth.addEventListener("click", () => {
+          viewDate = new Date(
+            viewDate.getFullYear(),
+            viewDate.getMonth() + 1,
+            1
+          );
+          renderAll();
+        });
+        todayBtn.addEventListener("click", () => {
+          const t = new Date();
+          viewDate = new Date(t.getFullYear(), t.getMonth(), 1);
+          selectedDate = t;
+          renderAll();
+        });
+
+        // Add med
+        btnAddMed.addEventListener("click", () => openMedModal(null));
+        modalClose.addEventListener("click", closeMedModal);
+        modalCancel.addEventListener("click", closeMedModal);
+        modalOverlay.addEventListener("click", (e) => {
+          if (e.target === modalOverlay) closeMedModal();
+        });
+
+        modalSave.addEventListener("click", saveMed);
+
+        modalDelete.addEventListener("click", () => {
+          if (!editingMedId) return;
+          const med = state.meds.find((m) => m.id === editingMedId);
+          confirmAction(
+            "确认删除？",
+            `删除药物「${med?.name || ""}」后无法自动恢复（可用撤销）。`,
+            () => {
+              snapshotUndo(`删除药物：${med?.name || ""}`);
+              state.meds = state.meds.filter((x) => x.id !== editingMedId);
+              saveState();
+              closeMedModal();
+              showToast("已删除药物", true);
+              renderAll(false);
+            }
+          );
+        });
+
+        // Mark all
+        markAllBtn.addEventListener("click", () => {
+          const iso = toISODate(selectedDate);
+          if (buildDayPlan(iso).length === 0) {
+            showToast("当天没有计划剂量（药箱为空或未设置时间）", false, true);
+            return;
+          }
+          confirmAction(
+            "一键全已服？",
+            "会把“未记录”的剂量全部标记为已服（已记录的不动）。",
+            () => {
+              markAllTakenForDay(iso);
+              renderAll(false);
+            }
+          );
+        });
+
+        // Quick missed
+        btnQuickMissed.addEventListener("click", () => {
+          const iso = toISODate(selectedDate);
+          if (buildDayPlan(iso).length === 0) {
+            showToast("当天没有计划剂量", false, true);
+            return;
+          }
+          confirmAction(
+            "一键标记漏服？",
+            "会把“未记录”的剂量全部标记为漏服（已记录的不动）。",
+            () => {
+              markAllMissedForDay(iso);
+              renderAll(false);
+            }
+          );
+        });
+
+        // Clear day
+        btnClearDay.addEventListener("click", () => {
+          const iso = toISODate(selectedDate);
+          confirmAction(
+            "清空当天记录？",
+            `将清空 ${iso} 的所有打卡状态（只影响这一天）。`,
+            () => {
+              snapshotUndo(`清空当天：${iso}`);
+              clearDay(iso);
+              showToast("已清空当天记录", true);
+              renderAll(false);
+            }
+          );
+        });
+
+        // Reset empty
+        btnReset.addEventListener("click", resetEmpty);
+
+        // Tools
+        btnTools.addEventListener("click", () =>
+          toolsOverlay.classList.add("show")
         );
-      }
-      init();
+        toolsClose.addEventListener("click", () =>
+          toolsOverlay.classList.remove("show")
+        );
+        toolsOk.addEventListener("click", () =>
+          toolsOverlay.classList.remove("show")
+        );
+        toolsOverlay.addEventListener("click", (e) => {
+          if (e.target === toolsOverlay) toolsOverlay.classList.remove("show");
+        });
+
+        btnExport.addEventListener("click", exportJSON);
+        btnImport.addEventListener("click", () => fileImport.click());
+        fileImport.addEventListener("change", () => {
+          const f = fileImport.files?.[0];
+          if (f) importJSONFile(f);
+          fileImport.value = "";
+        });
+        btnWipeAll.addEventListener("click", wipeAll);
+
+        // Confirm
+        confirmClose.addEventListener("click", closeConfirm);
+        confirmCancel.addEventListener("click", closeConfirm);
+        confirmOverlay.addEventListener("click", (e) => {
+          if (e.target === confirmOverlay) closeConfirm();
+        });
+        confirmOk.addEventListener("click", () => {
+          const fn = confirmHandler;
+          closeConfirm();
+          if (fn) fn();
+        });
+
+        // Toast
+        toastUndo.addEventListener("click", () => {
+          restoreUndo();
+          toast.classList.remove("show");
+        });
+        toastClose.addEventListener("click", () =>
+          toast.classList.remove("show")
+        );
+
+        // 键盘：ESC 关闭弹窗
+        window.addEventListener("keydown", (e) => {
+          if (e.key === "Escape") {
+            modalOverlay.classList.remove("show");
+            toolsOverlay.classList.remove("show");
+            confirmOverlay.classList.remove("show");
+            toast.classList.remove("show");
+          }
+        });
+
+        /* =========================
+     工具：HTML 转义 & 文本截断
+  ========================= */
+        function escapeHTML(str) {
+          return String(str)
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
+        }
+        function shorten(str, n) {
+          const s = String(str);
+          return s.length > n ? s.slice(0, n - 1) + "…" : s;
+        }
+
+        /* =========================
+     初始化
+  ========================= */
+        function init() {
+          applySettings();
+          renderDOW();
+          viewDate = new Date(
+            new Date().getFullYear(),
+            new Date().getMonth(),
+            1
+          );
+          selectedDate = new Date();
+          renderAll();
+        }
+
+        init();
+      })();
     </script>
+
+    <
   </body>
 </html>
+
