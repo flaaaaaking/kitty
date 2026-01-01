@@ -1,240 +1,1376 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Hello Kitty Medication Tracker</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Hello Kitty 用药记录器</title>
+  <style>
+    :root{
+      --bg:#fff5fb;
+      --panel:#ffffff;
+      --text:#222;
+      --muted:#6b7280;
+      --border:rgba(0,0,0,.08);
+      --shadow:0 12px 30px rgba(0,0,0,.08);
+      --accent:#ff4fa3;
+      --accent2:#ff8cc7;
+      --good:#16a34a;
+      --warn:#f59e0b;
+      --bad:#ef4444;
+      --radius:18px;
+      --font: ui-rounded, "SF Pro Rounded","PingFang SC","Microsoft YaHei","Noto Sans SC",system-ui,-apple-system,Segoe UI,Arial,sans-serif;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
+    }
 
-<style>
-/* =========================
-   基础 / 主题变量
-   ========================= */
-:root{
-  --bg:#fff5fb;
-  --bg2:#ffe9f5;
-  --card:#ffffff;
-  --text:#2a2a2a;
-  --muted:#7b7b7b;
-  --border:rgba(0,0,0,.08);
-  --shadow:0 10px 30px rgba(0,0,0,.08);
-  --primary:#ff5fa8;
-  --primary2:#ff87c0;
-  --accent:#ffe1ef;
-  --good:#17b26a;
-  --warn:#f59e0b;
-  --bad:#ef4444;
-  --chip:#f4f4f6;
-  --focus:rgba(255,95,168,.28);
-  --radius:18px;
-  --radius2:14px;
-  --font: ui-rounded, "SF Pro Rounded","PingFang SC","Microsoft YaHei",system-ui,-apple-system,Segoe UI,Arial;
-}
+    /* ===== Themes (skin) ===== */
+    html[data-theme="kitty"]{
+      --bg:#fff5fb; --panel:#ffffff; --text:#231f20; --muted:#6b7280;
+      --border:rgba(255,79,163,.18);
+      --accent:#ff4fa3; --accent2:#ff8cc7;
+      --shadow:0 16px 34px rgba(255,79,163,.12);
+    }
+    html[data-theme="blue"]{
+      --bg:#eff7ff; --panel:#ffffff; --text:#0f172a; --muted:#475569;
+      --border:rgba(59,130,246,.18);
+      --accent:#3b82f6; --accent2:#93c5fd;
+      --shadow:0 18px 38px rgba(59,130,246,.14);
+    }
+    html[data-theme="mint"]{
+      --bg:#eefcf6; --panel:#ffffff; --text:#052e2b; --muted:#155e63;
+      --border:rgba(16,185,129,.18);
+      --accent:#10b981; --accent2:#86efac;
+      --shadow:0 18px 38px rgba(16,185,129,.14);
+    }
+    html[data-theme="noir"]{
+      --bg:#0b1020; --panel:#0f172a; --text:#e5e7eb; --muted:#94a3b8;
+      --border:rgba(148,163,184,.18);
+      --accent:#a78bfa; --accent2:#60a5fa;
+      --shadow:0 18px 44px rgba(0,0,0,.40);
+    }
+    html[data-theme="minimal"]{
+      --bg:#ffffff; --panel:#ffffff; --text:#111827; --muted:#6b7280;
+      --border:rgba(17,24,39,.12);
+      --accent:#111827; --accent2:#6b7280;
+      --shadow:0 10px 26px rgba(0,0,0,.06);
+    }
 
-/* Blue */
-html[data-theme="blue"]{
-  --bg:#eef6ff; --bg2:#dbeeff; --card:#ffffff; --text:#1f2937; --muted:#64748b;
-  --primary:#3b82f6; --primary2:#60a5fa; --accent:#dbeafe; --chip:#eef2ff;
-  --focus:rgba(59,130,246,.25);
-}
-/* Mint */
-html[data-theme="mint"]{
-  --bg:#effaf6; --bg2:#d7f6ea; --card:#ffffff; --text:#0f2d24; --muted:#5a7c71;
-  --primary:#16a34a; --primary2:#34d399; --accent:#d1fae5; --chip:#ecfdf5;
-  --focus:rgba(22,163,74,.18);
-}
-/* Night Owl */
-html[data-theme="night"]{
-  --bg:#0b0f19; --bg2:#0f172a; --card:#111827; --text:#e5e7eb; --muted:#94a3b8;
-  --border:rgba(255,255,255,.10);
-  --shadow:0 18px 45px rgba(0,0,0,.55);
-  --primary:#8ab4ff; --primary2:#a5c7ff; --accent:#1f2a44; --chip:#0f172a;
-  --focus:rgba(138,180,255,.22);
-}
-/* Minimal */
-html[data-theme="minimal"]{
-  --bg:#ffffff; --bg2:#f6f6f6; --card:#ffffff; --text:#111111; --muted:#6b7280;
-  --primary:#111111; --primary2:#333333; --accent:#f2f2f2; --chip:#f5f5f5;
-  --shadow:0 10px 26px rgba(0,0,0,.05);
-  --focus:rgba(0,0,0,.12);
-}
+    /* ===== Global ===== */
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:var(--font);
+      background:var(--bg);
+      color:var(--text);
+      min-height:100vh;
+    }
+    a{color:inherit}
+    .wrap{
+      max-width:1080px;
+      margin:0 auto;
+      padding:22px 18px 80px;
+    }
+    .row{display:flex; gap:14px; flex-wrap:wrap}
+    .grid{
+      display:grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap:14px;
+      align-items:start;
+    }
+    @media (max-width: 980px){
+      .grid{grid-template-columns:1fr}
+    }
+    .card{
+      background:var(--panel);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+    .card-h{
+      padding:14px 16px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      border-bottom:1px solid var(--border);
+      gap:10px;
+    }
+    .card-b{padding:14px 16px}
+    .title{
+      display:flex; align-items:center; gap:10px;
+      font-weight:800; letter-spacing:.2px;
+    }
+    .subtitle{color:var(--muted); font-size:13px}
+    .pill{
+      font-size:12px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      color:var(--muted);
+      background:rgba(255,255,255,.6);
+      display:inline-flex; gap:8px; align-items:center;
+    }
+    html[data-theme="noir"] .pill{background:rgba(255,255,255,.06)}
+    .btn{
+      appearance:none;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.7);
+      color:var(--text);
+      border-radius:12px;
+      padding:10px 12px;
+      cursor:pointer;
+      font-weight:700;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      user-select:none;
+    }
+    html[data-theme="noir"] .btn{background:rgba(255,255,255,.06)}
+    .btn.primary{
+      background:linear-gradient(135deg,var(--accent),var(--accent2));
+      color:#fff;
+      border-color:transparent;
+    }
+    .btn.danger{
+      background:rgba(239,68,68,.12);
+      border-color:rgba(239,68,68,.28);
+      color:var(--bad);
+    }
+    .btn.ghost{
+      background:transparent;
+    }
+    .btn.small{padding:8px 10px; border-radius:11px; font-size:13px}
+    .btn:active{transform:translateY(1px)}
+    .controls{display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end}
 
-*{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:var(--font);
-  background:
-    radial-gradient(1200px 700px at 10% 0%, var(--bg2), transparent 58%),
-    radial-gradient(1000px 600px at 100% 0%, rgba(255,255,255,.55), transparent 55%),
-    linear-gradient(180deg, var(--bg), var(--bg));
-  color:var(--text);
-}
+    .kv{
+      display:flex; gap:10px; flex-wrap:wrap; align-items:center;
+      font-size:13px; color:var(--muted);
+    }
 
-/* 让用户设备打开“干净链接”也不“漏”：先隐藏再由JS决定是否展示 */
-body[data-boot="0"]{opacity:0}
-body[data-boot="1"]{opacity:1; transition:opacity .18s ease}
+    .select, .input{
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.65);
+      color:var(--text);
+      border-radius:12px;
+      padding:10px 12px;
+      font-family:var(--font);
+      outline:none;
+    }
+    html[data-theme="noir"] .select, html[data-theme="noir"] .input{background:rgba(255,255,255,.06)}
+    .input{width:100%}
+    .label{font-size:12px; color:var(--muted); margin:8px 0 6px}
+    .hr{height:1px; background:var(--border); margin:12px 0}
 
-/* =========================
-   Layout
-   ========================= */
-.shell{
-  max-width: 980px;
-  margin: 0 auto;
-  padding: 18px 16px 64px;
-}
-.topbar{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  margin-bottom:14px;
-}
-.brand{
-  display:flex; align-items:center; gap:10px;
-}
-.logo{
-  width:44px; height:44px; border-radius:16px;
-  background: linear-gradient(135deg, var(--primary), var(--primary2));
-  box-shadow: var(--shadow);
-  display:grid; place-items:center;
-  color:#fff; font-size:22px;
-}
-.titleblock{
-  display:flex; flex-direction:column; gap:2px;
-}
-.h1{
-  font-size:18px; font-weight:800; letter-spacing:.2px;
-}
-.sub{
-  font-size:12px; color:var(--muted);
-}
-.actions{
-  margin-left:auto;
-  display:flex; flex-wrap:wrap;
-  gap:8px;
-  justify-content:flex-end;
-}
+    /* ===== Decor & Motion toggles ===== */
+    .decor{
+      position:absolute; inset:0;
+      pointer-events:none;
+      opacity:.95;
+    }
+    .bg-pattern{
+      position:absolute; inset:0;
+      background:
+        radial-gradient(circle at 18px 18px, rgba(255,255,255,.7) 0 3px, transparent 4px) 0 0/34px 34px,
+        radial-gradient(circle at 18px 18px, rgba(0,0,0,.03) 0 3px, transparent 4px) 17px 17px/34px 34px;
+      mix-blend-mode:soft-light;
+      opacity:.6;
+    }
+    html[data-theme="noir"] .bg-pattern{opacity:.22; mix-blend-mode:screen}
+    html[data-theme="minimal"] .bg-pattern{opacity:.25}
+    .corner-bow{
+      position:absolute;
+      width:86px; height:86px;
+      right:-10px; top:-10px;
+      opacity:.25;
+      filter: drop-shadow(0 10px 18px rgba(0,0,0,.10));
+    }
+    html[data-theme="noir"] .corner-bow{opacity:.18}
+    .corner-bow svg{width:100%; height:100%}
 
-.grid{
-  display:grid;
-  grid-template-columns: 1.2fr .8fr;
-  gap:12px;
-}
-@media (max-width: 880px){
-  .grid{grid-template-columns: 1fr; }
-}
+    html.decor-off .decor,
+    html.decor-off .bg-pattern,
+    html.decor-off .corner-bow{display:none!important}
 
-.card{
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  padding: 14px;
-}
-.card h2{
-  margin:0 0 10px;
-  font-size:14px;
-  letter-spacing:.2px;
-}
-.row{display:flex; align-items:center; gap:10px;}
-.col{display:flex; flex-direction:column; gap:8px;}
-.space{flex:1}
-.muted{color:var(--muted)}
-.small{font-size:12px}
+    html.motion-off *{
+      animation:none!important;
+      transition:none!important;
+      scroll-behavior:auto!important;
+    }
 
-/* =========================
-   Inputs / Buttons
-   ========================= */
-button, .btn{
-  border:none;
-  border-radius: 14px;
-  padding: 10px 12px;
-  background: linear-gradient(135deg, var(--primary), var(--primary2));
-  color:#fff;
-  cursor:pointer;
-  font-weight:700;
-  letter-spacing:.2px;
-  box-shadow: 0 10px 22px rgba(0,0,0,.10);
-  transition: transform .12s ease, filter .12s ease;
-  user-select:none;
-}
-button:hover{filter:brightness(1.03)}
-button:active{transform: translateY(1px)}
-button.secondary{
-  background: var(--accent);
-  color: var(--text);
-  box-shadow:none;
-  border:1px solid var(--border);
-}
-button.ghost{
-  background: transparent;
-  color: var(--text);
-  border: 1px solid var(--border);
-  box-shadow:none;
-}
-button.danger{
-  background: linear-gradient(135deg, #ef4444, #fb7185);
-}
-button:focus{outline:none; box-shadow:0 0 0 4px var(--focus)}
+    .floaty{
+      animation: floaty 3.2s ease-in-out infinite;
+    }
+    @keyframes floaty{
+      0%,100%{transform:translateY(0)}
+      50%{transform:translateY(-4px)}
+    }
 
-select, input, textarea{
-  width:100%;
-  border: 1px solid var(--border);
-  background: transparent;
-  color: var(--text);
-  padding: 10px 10px;
-  border-radius: 12px;
-  font-family: var(--font);
-  outline:none;
-}
-textarea{min-height: 86px; resize:vertical}
-select:focus, input:focus, textarea:focus{ box-shadow:0 0 0 4px var(--focus); }
+    /* ===== Header ===== */
+    .topbar{
+      display:flex; align-items:center; justify-content:space-between;
+      margin-bottom:14px;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      padding:10px 12px;
+      border-radius:16px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.6);
+    }
+    html[data-theme="noir"] .brand{background:rgba(255,255,255,.06)}
+    .logo{
+      width:40px; height:40px; border-radius:14px;
+      background:linear-gradient(135deg,var(--accent),var(--accent2));
+      display:grid; place-items:center;
+      color:#fff; font-weight:900;
+      box-shadow:0 14px 26px rgba(0,0,0,.10);
+    }
+    .brand strong{font-size:14px}
+    .brand small{display:block; color:var(--muted); margin-top:2px}
 
-.toggle{
-  display:flex; align-items:center; gap:10px;
-  padding:10px 12px;
-  border-radius: 14px;
-  border: 1px solid var(--border);
-  background: rgba(255,255,255,.30);
-}
-.toggle input{width:auto}
+    /* ===== Calendar ===== */
+    .cal{
+      display:grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap:8px;
+    }
+    .cal-head{
+      font-size:12px; color:var(--muted);
+      text-align:center;
+      padding:6px 0;
+    }
+    .day{
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:10px;
+      min-height:74px;
+      background:rgba(255,255,255,.55);
+      position:relative;
+      cursor:pointer;
+    }
+    html[data-theme="noir"] .day{background:rgba(255,255,255,.05)}
+    .day:hover{outline:2px solid rgba(0,0,0,.03)}
+    html[data-theme="noir"] .day:hover{outline:2px solid rgba(255,255,255,.08)}
+    .day .n{font-weight:900; font-size:13px}
+    .day .m{position:absolute; right:10px; top:10px; font-size:13px; opacity:.95}
+    .day .mini{
+      position:absolute; left:10px; bottom:10px;
+      font-size:11px; color:var(--muted);
+    }
+    .day.today{
+      border-color:rgba(0,0,0,.18);
+      outline:2px solid rgba(0,0,0,.04);
+    }
+    html[data-theme="noir"] .day.today{
+      border-color:rgba(255,255,255,.22);
+      outline:2px solid rgba(255,255,255,.10);
+    }
+    .status-ok{color:var(--good)}
+    .status-warn{color:var(--warn)}
+    .status-bad{color:var(--bad)}
+    .status-part{color:var(--accent)}
 
-/* 夜猫：保证可读 */
-html[data-theme="night"] input,
-html[data-theme="night"] textarea,
-html[data-theme="night"] select{
-  background: rgba(255,255,255,.04);
-}
+    /* ===== Today list ===== */
+    .dose{
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:12px;
+      background:rgba(255,255,255,.55);
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:10px;
+    }
+    html[data-theme="noir"] .dose{background:rgba(255,255,255,.05)}
+    .dose strong{display:block; font-size:14px}
+    .dose small{color:var(--muted)}
+    .tag{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      font-size:12px;
+      color:var(--muted);
+    }
+    .ok{background:rgba(22,163,74,.10); border-color:rgba(22,163,74,.25); color:var(--good)}
+    .miss{background:rgba(245,158,11,.10); border-color:rgba(245,158,11,.25); color:var(--warn)}
+    .late{background:rgba(239,68,68,.10); border-color:rgba(239,68,68,.25); color:var(--bad)}
+    .part{background:rgba(255,79,163,.10); border-color:rgba(255,79,163,.25); color:var(--accent)}
 
-/* =========================
-   Chips / Pills
-   ========================= */
-.chips{display:flex; flex-wrap:wrap; gap:8px;}
-.chip{
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  padding: 8px 10px;
-  border-radius: 999px;
-  background: var(--chip);
-  border: 1px solid var(--border);
-  font-size:12px;
-}
-.dot{
-  width:8px; height:8px; border-radius:99px; background: var(--primary);
-}
-.badge{
-  display:inline-flex; align-items:center; gap:6px;
-  font-size:12px; padding:7px 10px; border-radius:999px;
-  border:1px solid var(--border);
-  background: rgba(255,255,255,.22);
-}
-.badge.good{color:var(--good)}
-.badge.warn{color:var(--warn)}
-.badge.bad{color:var(--bad)}
+    /* ===== Med list ===== */
+    .med{
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:12px;
+      background:rgba(255,255,255,.55);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+    }
+    html[data-theme="noir"] .med{background:rgba(255,255,255,.05)}
+    .med .left{display:flex; gap:10px; align-items:center}
+    .med .ico{
+      width:40px; height:40px; border-radius:14px;
+      background:linear-gradient(135deg,var(--accent),var(--accent2));
+      display:grid; place-items:center;
+      color:#fff; font-weight:900;
+      flex:0 0 auto;
+      box-shadow:0 14px 26px rgba(0,0,0,.10);
+    }
+    .med .meta strong{display:block}
+    .med .meta small{color:var(--muted)}
 
-/* =========================
-   Welcome (空态也体面)
-   ========================= */
-.welcome{
-  padding:16px;
-  background:
-    radial-gradient(800px 420px at 10%
+    /* ===== Modal ===== */
+    .mask{
+      position:fixed; inset:0;
+      background:rgba(0,0,0,.48);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+      z-index:50;
+    }
+    .mask.show{display:flex}
+    .modal{
+      width:min(620px, 100%);
+      background:var(--panel);
+      border:1px solid var(--border);
+      border-radius:18px;
+      box-shadow:0 26px 70px rgba(0,0,0,.22);
+      overflow:hidden;
+      position:relative;
+    }
+    .modal .mh{padding:14px 16px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; gap:10px}
+    .modal .mb{padding:14px 16px}
+    .modal .mf{padding:14px 16px; border-top:1px solid var(--border); display:flex; justify-content:flex-end; gap:10px; flex-wrap:wrap}
+
+    /* ===== Footer ===== */
+    .author{
+      position:fixed;
+      right:14px; bottom:12px;
+      font-family:var(--mono);
+      font-size:12px;
+      opacity:.55;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.55);
+      backdrop-filter: blur(10px);
+      z-index:10;
+    }
+    html[data-theme="noir"] .author{background:rgba(255,255,255,.06); opacity:.62}
+  </style>
+</head>
+
+<body>
+  <div class="wrap" id="app">
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo floaty" id="logoText">🎀</div>
+        <div>
+          <strong id="appName">Hello Kitty 用药记录器</strong>
+          <small id="modeLine">模式：—</small>
+        </div>
+      </div>
+
+      <div class="controls">
+        <select class="select" id="themeSel" title="皮肤">
+          <option value="kitty">🎀 Kitty 粉</option>
+          <option value="blue">💠 Blue 蓝</option>
+          <option value="mint">🍃 Mint 薄荷</option>
+          <option value="noir">🌙 夜猫</option>
+          <option value="minimal">• 极简</option>
+        </select>
+
+        <button class="btn small" id="toggleDecor">装饰：开</button>
+        <button class="btn small" id="toggleMotion">动效：开</button>
+
+        <button class="btn small" id="copyShare">复制分享链接</button>
+        <button class="btn small" id="copyPrivate">复制我的私密链接</button>
+      </div>
+    </div>
+
+    <div class="grid">
+      <!-- Left: Calendar -->
+      <div class="card" id="calCard">
+        <div class="decor">
+          <div class="bg-pattern"></div>
+          <div class="corner-bow" aria-hidden="true">
+            <svg viewBox="0 0 120 120" fill="none">
+              <path d="M30 50c-10-10-22-12-28-2s2 26 22 28c18 2 22-14 24-22 2-10-6-4-18-4z" fill="currentColor" opacity=".85"/>
+              <path d="M90 50c10-10 22-12 28-2s-2 26-22 28c-18 2-22-14-24-22-2-10 6-4 18-4z" fill="currentColor" opacity=".85"/>
+              <circle cx="60" cy="58" r="12" fill="currentColor" opacity=".95"/>
+              <path d="M52 58c-10-8-14-18-8-24s16 0 22 10c4 6-4 14-14 14z" fill="currentColor" opacity=".75"/>
+              <path d="M68 58c10-8 14-18 8-24s-16 0-22 10c-4 6 4 14 14 14z" fill="currentColor" opacity=".75"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="card-h">
+          <div>
+            <div class="title"><span id="calEmoji">📅</span><span id="calTitle">—</span></div>
+            <div class="subtitle" id="hintBar">—</div>
+          </div>
+          <div class="controls">
+            <button class="btn small" id="prevM">← 上月</button>
+            <button class="btn small" id="toToday">今天</button>
+            <button class="btn small" id="nextM">下月 →</button>
+          </div>
+        </div>
+
+        <div class="card-b">
+          <div class="cal" id="calGrid"></div>
+        </div>
+      </div>
+
+      <!-- Right: Today + Meds -->
+      <div class="row" style="flex-direction:column">
+        <div class="card" id="todayCard">
+          <div class="decor">
+            <div class="bg-pattern"></div>
+          </div>
+          <div class="card-h">
+            <div>
+              <div class="title"><span id="todayEmoji">💊</span><span>今日用药</span></div>
+              <div class="subtitle" id="todaySub">—</div>
+            </div>
+            <div class="controls">
+              <button class="btn small primary" id="quickMark">一键按计划打卡</button>
+              <button class="btn small" id="openBackfill">补录/改记录</button>
+            </div>
+          </div>
+          <div class="card-b" id="todayList"></div>
+        </div>
+
+        <div class="card" id="medCard">
+          <div class="decor">
+            <div class="bg-pattern"></div>
+          </div>
+          <div class="card-h">
+            <div>
+              <div class="title"><span id="medEmoji">🧰</span><span>我的药箱</span></div>
+              <div class="subtitle">药名、剂量、服用时间（纯前端）</div>
+            </div>
+            <div class="controls">
+              <button class="btn small primary" id="openMedEditor">添加药物</button>
+              <button class="btn small danger" id="resetGuest" title="清空当前设备访客数据（不影响私密数据）">清空访客</button>
+            </div>
+          </div>
+          <div class="card-b" id="medList"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-h">
+            <div>
+              <div class="title"><span id="statEmoji">📈</span><span>本月统计</span></div>
+              <div class="subtitle">按计划完成率、连续天数</div>
+            </div>
+          </div>
+          <div class="card-b" id="stats"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="author">FLAAAAKING</div>
+
+  <!-- Modal: Med Editor -->
+  <div class="mask" id="maskMed">
+    <div class="modal">
+      <div class="mh">
+        <div class="title"><span id="medModalEmoji">➕</span><span id="medModalTitle">添加/编辑药物</span></div>
+        <button class="btn small" id="closeMed">关闭</button>
+      </div>
+      <div class="mb">
+        <div class="label">药物名称</div>
+        <input class="input" id="mName" placeholder="例如：碳酸锂缓释片" />
+
+        <div class="row">
+          <div style="flex:1">
+            <div class="label">单次剂量（数字）</div>
+            <input class="input" id="mDose" placeholder="例如：1" />
+          </div>
+          <div style="flex:1">
+            <div class="label">单位</div>
+            <input class="input" id="mUnit" placeholder="例如：片 / 粒 / mg" />
+          </div>
+        </div>
+
+        <div class="row">
+          <div style="flex:1">
+            <div class="label">每日次数</div>
+            <select class="select" id="mTimes">
+              <option value="1">1 次</option>
+              <option value="2" selected>2 次</option>
+              <option value="3">3 次</option>
+              <option value="4">4 次</option>
+            </select>
+          </div>
+          <div style="flex:1">
+            <div class="label">时间点（用逗号分隔）</div>
+            <input class="input" id="mSchedule" placeholder="08:00,20:00" />
+          </div>
+        </div>
+
+        <div class="label">图标（可填 emoji）</div>
+        <input class="input" id="mIcon" placeholder="例如：💊 / 🍃 / 🌙" />
+
+        <div class="hr"></div>
+        <div class="pill" id="medModalHint">提示：每日次数与时间点建议一致（例如 2 次→两个时间）</div>
+      </div>
+      <div class="mf">
+        <button class="btn danger" id="delMed" style="display:none">删除</button>
+        <button class="btn" id="cancelMed">取消</button>
+        <button class="btn primary" id="saveMed">保存</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Backfill -->
+  <div class="mask" id="maskBack">
+    <div class="modal">
+      <div class="mh">
+        <div class="title"><span>🧷</span><span>补录 / 修改记录（更“确认感”）</span></div>
+        <button class="btn small" id="closeBack">关闭</button>
+      </div>
+      <div class="mb">
+        <div class="row">
+          <div style="flex:1">
+            <div class="label">日期</div>
+            <input class="input" id="bfDate" type="date" />
+          </div>
+          <div style="flex:1">
+            <div class="label">药物</div>
+            <select class="select" id="bfMed"></select>
+          </div>
+        </div>
+
+        <div class="row">
+          <div style="flex:1">
+            <div class="label">计划时间点</div>
+            <select class="select" id="bfSlot"></select>
+          </div>
+          <div style="flex:1">
+            <div class="label">实际服用时间（可留空=按计划时间）</div>
+            <input class="input" id="bfTakenAt" type="time" />
+          </div>
+        </div>
+
+        <div class="row">
+          <div style="flex:1">
+            <div class="label">状态</div>
+            <select class="select" id="bfStatus">
+              <option value="taken">已服用 ✅</option>
+              <option value="missed">漏服 ⚠️</option>
+              <option value="clear">清除此条记录 🧽</option>
+            </select>
+          </div>
+          <div style="flex:1">
+            <div class="label">备注（可选）</div>
+            <input class="input" id="bfNote" placeholder="例如：饭后补服 / 头晕所以延后" />
+          </div>
+        </div>
+
+        <div class="hr"></div>
+        <div class="pill" id="bfPreview">将要执行：—</div>
+      </div>
+      <div class="mf">
+        <button class="btn" id="bfCancel">取消</button>
+        <button class="btn primary" id="bfConfirm">我确认执行</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+(function(){
+  /* =========================
+     Workspace / Privacy
+     - wid：URL ?wid=xxx （工作区）
+     - k：URL hash #k=xxx （私密钥匙，仅你设备使用）
+     规则：
+       1) 带 #k 且匹配本设备保存的 ownerKey => 私密模式：读写私密数据
+       2) 其他情况 => 访客模式：永远从空模板开始（可在本设备自己填，不影响私密）
+     ========================= */
+
+  function makeId(len=12){
+    const chars = "ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789";
+    let s=""; for(let i=0;i<len;i++) s += chars[Math.floor(Math.random()*chars.length)];
+    return s;
+  }
+  function getWid(){
+    const u = new URL(location.href);
+    return u.searchParams.get("wid");
+  }
+  function setWid(wid){
+    const u = new URL(location.href);
+    u.searchParams.set("wid", wid);
+    history.replaceState(null,"",u.toString());
+  }
+  function getHashKey(){
+    const h = (location.hash || "").replace(/^#/,"");
+    const sp = new URLSearchParams(h);
+    return sp.get("k");
+  }
+  function setHashKey(k){
+    const sp = new URLSearchParams((location.hash||"").replace(/^#/,""));
+    sp.set("k", k);
+    location.hash = sp.toString();
+  }
+
+  let WID = getWid();
+  if(!WID){
+    WID = makeId(12);
+    setWid(WID);
+  }
+
+  const OWNER_KEY_STORAGE = `kitty_owner_key__${WID}`;
+  let ownerKey = localStorage.getItem(OWNER_KEY_STORAGE);
+  if(!ownerKey){
+    ownerKey = makeId(18);
+    localStorage.setItem(OWNER_KEY_STORAGE, ownerKey);
+  }
+
+  // 自动把“私密钥匙”写进当前设备的URL（你自己用更省心）
+  // 分享时用“复制分享链接”按钮（不会带 #k）
+  if(!getHashKey()){
+    setHashKey(ownerKey);
+  }
+
+  const hashKey = getHashKey();
+  const isPrivate = (hashKey && hashKey === ownerKey);
+
+  const STORE_PRIVATE = `kitty_private__${WID}`;          // 你的真实数据
+  const STORE_GUEST   = `kitty_guest__${WID}__${makeId(6)}`; // 访客：每设备每次隔离（不碰私密）
+
+  const STORAGE_PRIVATE = localStorage;
+  const STORAGE_GUEST = localStorage; // 访客也可本机保存，但永远与私密隔离
+
+  const THEME_EMOJI = {
+    kitty:   { logo:"🎀", cal:"📅", pill:"💊", med:"🧰", stat:"📈", tag:"🎀", ok:"✅", warn:"⚠️", edit:"✏️", add:"➕" },
+    blue:    { logo:"💠", cal:"🗓️", pill:"💊", med:"🧰", stat:"📊", tag:"💠", ok:"✅", warn:"⚠️", edit:"🛠️", add:"➕" },
+    mint:    { logo:"🍃", cal:"📆", pill:"🫧", med:"🧰", stat:"📈", tag:"🍃", ok:"✅", warn:"⚠️", edit:"✏️", add:"➕" },
+    noir:    { logo:"🌙", cal:"🗓️", pill:"💊", med:"🧰", stat:"📉", tag:"🌙", ok:"✅", warn:"⚠️", edit:"✏️", add:"➕" },
+    minimal: { logo:"•",  cal:"",   pill:"",   med:"",   stat:"",   tag:"•",  ok:"✓",  warn:"!",  edit:"e",  add:"+"  }
+  };
+
+  function E(key){
+    const t = state.ui.theme || "kitty";
+    const p = THEME_EMOJI[t] || THEME_EMOJI.kitty;
+    return (p[key] ?? "");
+  }
+
+  // Default empty template (访客与首次都从空开始)
+  function defaultState(){
+    return {
+      v: 3,
+      ui: { theme: "kitty", decor: true, motion: true },
+      meds: [], // {id,name,dose,unit,icon,times, schedule[]}
+      records: {} // date -> { medId -> { slotTime -> {status,takenAt,note} } }
+    };
+  }
+
+  function loadState(){
+    try{
+      if(isPrivate){
+        const raw = STORAGE_PRIVATE.getItem(STORE_PRIVATE);
+        return raw ? JSON.parse(raw) : null;
+      }else{
+        // 访客永远从空模板开始（你的要求：其他设备点进去都是未填状态）
+        // 如果你希望访客也能“下次还能看到自己填的”，把下面 return null 改成读取 STORAGE_GUEST.getItem(STORE_GUEST)
+        return null;
+      }
+    }catch(e){
+      return null;
+    }
+  }
+
+  function saveState(){
+    try{
+      if(isPrivate){
+        STORAGE_PRIVATE.setItem(STORE_PRIVATE, JSON.stringify(state));
+      }else{
+        // 访客默认不保存：保证“回到未填状态”
+        // 如要保存访客自己数据：STORAGE_GUEST.setItem(STORE_GUEST, JSON.stringify(state))
+      }
+    }catch(e){}
+  }
+
+  function ymd(d){
+    const yyyy=d.getFullYear();
+    const mm=String(d.getMonth()+1).padStart(2,"0");
+    const dd=String(d.getDate()).padStart(2,"0");
+    return `${yyyy}-${mm}-${dd}`;
+  }
+  function parseHM(s){
+    const [h,m]=String(s||"00:00").split(":").map(x=>parseInt(x,10));
+    return (isFinite(h)?h:0)*60 + (isFinite(m)?m:0);
+  }
+  function fmtDateCN(d){
+    return `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`;
+  }
+  function sameDay(a,b){
+    return a.getFullYear()===b.getFullYear() && a.getMonth()===b.getMonth() && a.getDate()===b.getDate();
+  }
+
+  let state = loadState() || defaultState();
+  let view = new Date();
+  view.setDate(1);
+
+  /* ===== DOM ===== */
+  const $ = (id)=>document.getElementById(id);
+
+  const themeSel = $("themeSel");
+  const toggleDecor = $("toggleDecor");
+  const toggleMotion = $("toggleMotion");
+  const copyShare = $("copyShare");
+  const copyPrivate = $("copyPrivate");
+
+  const calTitle = $("calTitle");
+  const calGrid = $("calGrid");
+  const calEmoji = $("calEmoji");
+  const hintBar = $("hintBar");
+
+  const prevM = $("prevM");
+  const nextM = $("nextM");
+  const toToday = $("toToday");
+
+  const todaySub = $("todaySub");
+  const todayList = $("todayList");
+  const quickMark = $("quickMark");
+  const openBackfill = $("openBackfill");
+
+  const medList = $("medList");
+  const openMedEditor = $("openMedEditor");
+  const resetGuest = $("resetGuest");
+
+  const stats = $("stats");
+
+  const modeLine = $("modeLine");
+  const logoText = $("logoText");
+  const todayEmoji = $("todayEmoji");
+  const medEmoji = $("medEmoji");
+  const statEmoji = $("statEmoji");
+
+  // Med modal
+  const maskMed = $("maskMed");
+  const closeMed = $("closeMed");
+  const cancelMed = $("cancelMed");
+  const saveMedBtn = $("saveMed");
+  const delMedBtn = $("delMed");
+
+  const mName = $("mName");
+  const mDose = $("mDose");
+  const mUnit = $("mUnit");
+  const mTimes = $("mTimes");
+  const mSchedule = $("mSchedule");
+  const mIcon = $("mIcon");
+  const medModalTitle = $("medModalTitle");
+  const medModalEmoji = $("medModalEmoji");
+
+  // Backfill modal
+  const maskBack = $("maskBack");
+  const closeBack = $("closeBack");
+  const bfDate = $("bfDate");
+  const bfMed = $("bfMed");
+  const bfSlot = $("bfSlot");
+  const bfTakenAt = $("bfTakenAt");
+  const bfStatus = $("bfStatus");
+  const bfNote = $("bfNote");
+  const bfPreview = $("bfPreview");
+  const bfCancel = $("bfCancel");
+  const bfConfirm = $("bfConfirm");
+
+  let editingMedId = null;
+
+  function applyUi(){
+    document.documentElement.dataset.theme = state.ui.theme || "kitty";
+
+    document.documentElement.classList.toggle("decor-off", !state.ui.decor);
+    document.documentElement.classList.toggle("motion-off", !state.ui.motion);
+
+    themeSel.value = state.ui.theme;
+
+    toggleDecor.textContent = `装饰：${state.ui.decor ? "开" : "关"}`;
+    toggleMotion.textContent = `动效：${state.ui.motion ? "开" : "关"}`;
+
+    logoText.textContent = E("logo") || "🎀";
+    calEmoji.textContent = E("cal") || "📅";
+    todayEmoji.textContent = E("pill") || "💊";
+    medEmoji.textContent = E("med") || "🧰";
+    statEmoji.textContent = E("stat") || "📈";
+
+    modeLine.textContent = isPrivate
+      ? `模式：私密（仅此设备可见）${E("ok")}`
+      : `模式：访客（默认空白）${E("warn")}`;
+
+    hintBar.textContent = isPrivate
+      ? `提示：分享给别人请用“复制分享链接”（不会带私密钥匙）`
+      : `提示：这是访客模式：药箱与打卡默认空白，需要你手动填写`;
+
+    $("appName").textContent = "Hello Kitty 用药记录器";
+  }
+
+  function ensureDateRecord(dateStr){
+    if(!state.records[dateStr]) state.records[dateStr] = {};
+    return state.records[dateStr];
+  }
+
+  function getDosePlanForDate(dateStr){
+    // 返回 [{med, slotTime}]
+    const out = [];
+    for(const med of state.meds){
+      const sch = Array.isArray(med.schedule) ? med.schedule : [];
+      for(const t of sch){
+        out.push({ med, slotTime: t });
+      }
+    }
+    out.sort((a,b)=>parseHM(a.slotTime)-parseHM(b.slotTime));
+    return out;
+  }
+
+  function getDoseStatus(dateStr, medId, slotTime){
+    const day = state.records[dateStr];
+    if(!day) return null;
+    const m = day[medId];
+    if(!m) return null;
+    return m[slotTime] || null;
+  }
+
+  function setDoseStatus(dateStr, medId, slotTime, payload){
+    const day = ensureDateRecord(dateStr);
+    if(!day[medId]) day[medId] = {};
+    if(payload === null){
+      if(day[medId] && day[medId][slotTime]) delete day[medId][slotTime];
+      if(day[medId] && Object.keys(day[medId]).length===0) delete day[medId];
+    }else{
+      day[medId][slotTime] = payload;
+    }
+    if(Object.keys(day).length===0) delete state.records[dateStr];
+    saveState();
+  }
+
+  function calcDaySummary(dateStr){
+    const plan = getDosePlanForDate(dateStr);
+    if(plan.length===0) return { total:0, taken:0, missed:0, none:true };
+    let taken=0, missed=0;
+    for(const p of plan){
+      const s = getDoseStatus(dateStr, p.med.id, p.slotTime);
+      if(!s) continue;
+      if(s.status==="taken") taken++;
+      if(s.status==="missed") missed++;
+    }
+    return { total:plan.length, taken, missed, none:false };
+  }
+
+  function renderCalendar(){
+    const y = view.getFullYear();
+    const m = view.getMonth();
+    calTitle.textContent = `${y}年${m+1}月`;
+
+    calGrid.innerHTML = "";
+    const heads = ["日","一","二","三","四","五","六"];
+    for(const h of heads){
+      const el = document.createElement("div");
+      el.className = "cal-head";
+      el.textContent = h;
+      calGrid.appendChild(el);
+    }
+
+    const first = new Date(y,m,1);
+    const startDow = first.getDay();
+    const daysInMonth = new Date(y,m+1,0).getDate();
+
+    // 6周布局：42格
+    const cells = 42;
+    const today = new Date();
+
+    for(let i=0;i<cells;i++){
+      const dayNum = i - startDow + 1;
+      const cell = document.createElement("div");
+      cell.className = "day";
+
+      if(dayNum < 1 || dayNum > daysInMonth){
+        cell.style.opacity = ".35";
+        cell.style.cursor = "default";
+        cell.innerHTML = `<div class="n"> </div>`;
+        calGrid.appendChild(cell);
+        continue;
+      }
+
+      const d = new Date(y,m,dayNum);
+      if(sameDay(d, today)) cell.classList.add("today");
+
+      const dateStr = ymd(d);
+      const sum = calcDaySummary(dateStr);
+
+      // status emoji
+      let mark = "";
+      let mini = "";
+      if(sum.total===0){
+        mark = "";
+        mini = "无计划";
+      }else{
+        const done = sum.taken;
+        const miss = sum.missed;
+        const filled = done + miss;
+        if(filled===0){
+          mark = "";
+          mini = `${sum.total}项未填`;
+        }else if(done===sum.total && miss===0){
+          mark = `<span class="status-ok">${E("ok")||"✅"}</span>`;
+          mini = `全完成 ${done}/${sum.total}`;
+        }else if(miss>0 && done===0){
+          mark = `<span class="status-bad">${E("warn")||"⚠️"}</span>`;
+          mini = `漏服 ${miss}/${sum.total}`;
+        }else{
+          mark = `<span class="status-part">${E("tag")||"🎀"}</span>`;
+          mini = `已填 ${filled}/${sum.total}`;
+        }
+      }
+
+      cell.innerHTML = `
+        <div class="n">${dayNum}</div>
+        <div class="m">${mark}</div>
+        <div class="mini">${mini}</div>
+      `;
+
+      cell.addEventListener("click", ()=>{
+        // 点击日期：打开补录并默认选中该日
+        openBackfillModal(dateStr);
+      });
+
+      calGrid.appendChild(cell);
+    }
+  }
+
+  function renderToday(){
+    const now = new Date();
+    const dateStr = ymd(now);
+    todaySub.textContent = `${fmtDateCN(now)} · ${isPrivate ? "私密模式" : "访客模式"}`;
+
+    const plan = getDosePlanForDate(dateStr);
+    if(plan.length===0){
+      todayList.innerHTML = `<div class="pill">${E("warn")||"⚠️"} 你的药箱还没有药物。先去“我的药箱”添加。</div>`;
+      return;
+    }
+
+    let html = `<div class="row" style="flex-direction:column">`;
+    for(const p of plan){
+      const s = getDoseStatus(dateStr, p.med.id, p.slotTime);
+      const doseText = `${p.med.dose || ""}${p.med.unit || ""}`.trim();
+      const icon = (p.med.icon || E("pill") || "💊");
+      let tagClass = "tag";
+      let tagText = `未填`;
+      if(s){
+        if(s.status==="taken"){ tagClass = "tag ok"; tagText = `已服用 ${E("ok")||"✅"} ${s.takenAt || p.slotTime}`; }
+        if(s.status==="missed"){ tagClass = "tag miss"; tagText = `漏服 ${E("warn")||"⚠️"}`; }
+      }
+      html += `
+        <div class="dose">
+          <div>
+            <strong>${icon} ${p.med.name}</strong>
+            <small>计划：${p.slotTime} · 单次：${doseText || "-"}</small>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end">
+            <span class="${tagClass}">${tagText}</span>
+            <button class="btn small primary" data-act="take" data-med="${p.med.id}" data-slot="${p.slotTime}">${E("ok")||"✅"} 标记已服</button>
+            <button class="btn small" data-act="miss" data-med="${p.med.id}" data-slot="${p.slotTime}">${E("warn")||"⚠️"} 标记漏服</button>
+          </div>
+        </div>
+      `;
+    }
+    html += `</div>`;
+    todayList.innerHTML = html;
+
+    todayList.querySelectorAll("button[data-act]").forEach(btn=>{
+      btn.addEventListener("click", ()=>{
+        const act = btn.getAttribute("data-act");
+        const medId = btn.getAttribute("data-med");
+        const slot = btn.getAttribute("data-slot");
+        if(act==="take"){
+          setDoseStatus(dateStr, medId, slot, { status:"taken", takenAt: now.toTimeString().slice(0,5), note:"" });
+        }else{
+          setDoseStatus(dateStr, medId, slot, { status:"missed", takenAt:"", note:"" });
+        }
+        renderAll();
+      });
+    });
+  }
+
+  function renderMeds(){
+    if(state.meds.length===0){
+      medList.innerHTML = `<div class="pill">${E("warn")||"⚠️"} 药箱为空。点击右上角“添加药物”。</div>`;
+      return;
+    }
+    let html = `<div class="row" style="flex-direction:column">`;
+    for(const med of state.meds){
+      const icon = med.icon || E("pill") || "💊";
+      const doseText = `${med.dose || ""}${med.unit || ""}`.trim();
+      const sch = (med.schedule || []).join(", ");
+      html += `
+        <div class="med">
+          <div class="left">
+            <div class="ico">${icon}</div>
+            <div class="meta">
+              <strong>${med.name}</strong>
+              <small>单次：${doseText || "-"} · 计划：${sch || "-"}</small>
+            </div>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end">
+            <button class="btn small" data-edit="${med.id}">${E("edit")||"✏️"} 编辑</button>
+          </div>
+        </div>
+      `;
+    }
+    html += `</div>`;
+    medList.innerHTML = html;
+
+    medList.querySelectorAll("button[data-edit]").forEach(b=>{
+      b.addEventListener("click", ()=>{
+        const id = b.getAttribute("data-edit");
+        openMedModal(id);
+      });
+    });
+  }
+
+  function renderStats(){
+    const y = view.getFullYear();
+    const m = view.getMonth();
+    const start = new Date(y,m,1);
+    const end = new Date(y,m+1,0);
+    let totalPlan=0, totalTaken=0, totalMiss=0;
+
+    let streak=0;
+    // 连续天数：从今天往回，全部计划项都“已服用”才算
+    const today = new Date();
+    for(let i=0;i<60;i++){
+      const d = new Date(today);
+      d.setDate(today.getDate()-i);
+      const ds = ymd(d);
+      const plan = getDosePlanForDate(ds);
+      if(plan.length===0) break;
+      let ok = true;
+      for(const p of plan){
+        const s = getDoseStatus(ds, p.med.id, p.slotTime);
+        if(!s || s.status!=="taken"){ ok=false; break; }
+      }
+      if(ok) streak++;
+      else break;
+    }
+
+    for(let d=new Date(start); d<=end; d.setDate(d.getDate()+1)){
+      const ds = ymd(d);
+      const sum = calcDaySummary(ds);
+      totalPlan += sum.total;
+      totalTaken += sum.taken;
+      totalMiss += sum.missed;
+    }
+
+    let rate = totalPlan===0 ? 0 : Math.round((totalTaken/totalPlan)*100);
+    stats.innerHTML = `
+      <div class="row">
+        <div class="pill">${E("ok")||"✅"} 按计划完成率：<b style="color:var(--text)">${rate}%</b></div>
+        <div class="pill">📌 已服用：<b style="color:var(--text)">${totalTaken}</b> / ${totalPlan}</div>
+        <div class="pill">${E("warn")||"⚠️"} 标记漏服：<b style="color:var(--text)">${totalMiss}</b></div>
+        <div class="pill">🔥 连续全完成：<b style="color:var(--text)">${streak}</b> 天</div>
+      </div>
+    `;
+  }
+
+  function renderAll(){
+    applyUi();
+    renderCalendar();
+    renderToday();
+    renderMeds();
+    renderStats();
+  }
+
+  /* ===== Med modal logic ===== */
+  function openMedModal(id){
+    editingMedId = id || null;
+
+    if(editingMedId){
+      const med = state.meds.find(x=>x.id===editingMedId);
+      if(!med) return;
+      medModalTitle.textContent = "编辑药物";
+      medModalEmoji.textContent = E("edit") || "✏️";
+      delMedBtn.style.display = "";
+      mName.value = med.name || "";
+      mDose.value = med.dose || "";
+      mUnit.value = med.unit || "";
+      mTimes.value = String(med.times || (med.schedule||[]).length || 2);
+      mSchedule.value = (med.schedule || []).join(",");
+      mIcon.value = med.icon || "";
+    }else{
+      medModalTitle.textContent = "添加药物";
+      medModalEmoji.textContent = E("add") || "➕";
+      delMedBtn.style.display = "none";
+      mName.value = "";
+      mDose.value = "";
+      mUnit.value = "";
+      mTimes.value = "2";
+      mSchedule.value = "08:00,20:00";
+      mIcon.value = "";
+    }
+
+    maskMed.classList.add("show");
+  }
+  function closeMedModal(){
+    maskMed.classList.remove("show");
+  }
+  function normalizeSchedule(str){
+    const parts = String(str||"").split(",").map(s=>s.trim()).filter(Boolean);
+    // 简单去重并排序
+    const uniq = Array.from(new Set(parts));
+    uniq.sort((a,b)=>parseHM(a)-parseHM(b));
+    return uniq;
+  }
+
+  saveMedBtn.addEventListener("click", ()=>{
+    const name = mName.value.trim();
+    if(!name){ alert("药物名称不能为空"); return; }
+
+    const dose = mDose.value.trim();
+    const unit = mUnit.value.trim();
+    const icon = mIcon.value.trim();
+    const sch = normalizeSchedule(mSchedule.value);
+
+    const times = parseInt(mTimes.value,10) || sch.length || 1;
+    // 若时间点为空，按次数给默认
+    const defaults = ["08:00","13:00","18:00","22:00"];
+    const schedule = sch.length ? sch.slice(0, times) : defaults.slice(0, times);
+
+    if(editingMedId){
+      const idx = state.meds.findIndex(x=>x.id===editingMedId);
+      if(idx<0) return;
+      state.meds[idx] = {
+        ...state.meds[idx],
+        name, dose, unit, icon,
+        times,
+        schedule
+      };
+    }else{
+      state.meds.push({
+        id: "m_" + makeId(10),
+        name, dose, unit, icon,
+        times,
+        schedule
+      });
+    }
+
+    saveState();
+    closeMedModal();
+    renderAll();
+  });
+
+  delMedBtn.addEventListener("click", ()=>{
+    if(!editingMedId) return;
+    if(!confirm("确认删除该药物？（不会自动删除历史记录）")) return;
+    state.meds = state.meds.filter(x=>x.id!==editingMedId);
+    saveState();
+    closeMedModal();
+    renderAll();
+  });
+
+  closeMed.addEventListener("click", closeMedModal);
+  cancelMed.addEventListener("click", closeMedModal);
+  maskMed.addEventListener("click", (e)=>{ if(e.target===maskMed) closeMedModal(); });
+
+  openMedEditor.addEventListener("click", ()=>openMedModal(null));
+
+  /* ===== Backfill modal logic (smarter confirmation) ===== */
+  function openBackfillModal(dateStr){
+    if(state.meds.length===0){
+      alert("药箱为空，先添加药物。");
+      return;
+    }
+    maskBack.classList.add("show");
+
+    // date
+    const d = dateStr ? new Date(dateStr) : new Date();
+    bfDate.value = ymd(d);
+
+    // meds
+    bfMed.innerHTML = state.meds.map(m=>`<option value="${m.id}">${(m.icon||"💊")} ${m.name}</option>`).join("");
+    bfMed.value = state.meds[0].id;
+
+    refreshSlots();
+    bfTakenAt.value = "";
+    bfStatus.value = "taken";
+    bfNote.value = "";
+    refreshPreview();
+  }
+  function closeBackfillModal(){
+    maskBack.classList.remove("show");
+  }
+
+  function refreshSlots(){
+    const med = state.meds.find(x=>x.id===bfMed.value);
+    const sch = (med && med.schedule) ? med.schedule : [];
+    bfSlot.innerHTML = sch.map(t=>`<option value="${t}">${t}</option>`).join("");
+    if(sch.length===0){
+      bfSlot.innerHTML = `<option value="08:00">08:00</option>`;
+    }
+    bfSlot.value = bfSlot.options[0].value;
+  }
+
+  function refreshPreview(){
+    const dateStr = bfDate.value;
+    const med = state.meds.find(x=>x.id===bfMed.value);
+    const slot = bfSlot.value;
+    const status = bfStatus.value;
+    const takenAt = (bfTakenAt.value || slot);
+    const note = bfNote.value.trim();
+
+    let line = `日期 ${dateStr} · ${(med?.icon||"💊")} ${med?.name||"-"} · 槽位 ${slot} · `;
+    if(status==="taken"){
+      line += `标记为 已服用 ✅（时间：${takenAt}）`;
+    }else if(status==="missed"){
+      line += `标记为 漏服 ⚠️`;
+    }else{
+      line += `清除此条记录 🧽`;
+    }
+    if(note) line += ` · 备注：“${note}”`;
+    bfPreview.textContent = "将要执行：" + line;
+  }
+
+  bfMed.addEventListener("change", ()=>{ refreshSlots(); refreshPreview(); });
+  bfDate.addEventListener("change", refreshPreview);
+  bfSlot.addEventListener("change", refreshPreview);
+  bfTakenAt.addEventListener("input", refreshPreview);
+  bfStatus.addEventListener("change", refreshPreview);
+  bfNote.addEventListener("input", refreshPreview);
+
+  bfConfirm.addEventListener("click", ()=>{
+    const dateStr = bfDate.value;
+    const medId = bfMed.value;
+    const slot = bfSlot.value;
+    const status = bfStatus.value;
+    const note = bfNote.value.trim();
+
+    // 二次确认感：用 confirm 再加一道闸
+    if(!confirm(bfPreview.textContent.replace("将要执行：","确认执行：\n"))){
+      return;
+    }
+
+    if(status==="clear"){
+      setDoseStatus(dateStr, medId, slot, null);
+    }else if(status==="taken"){
+      setDoseStatus(dateStr, medId, slot, { status:"taken", takenAt:(bfTakenAt.value || slot), note });
+    }else{
+      setDoseStatus(dateStr, medId, slot, { status:"missed", takenAt:"", note });
+    }
+
+    closeBackfillModal();
+    renderAll();
+  });
+
+  bfCancel.addEventListener("click", closeBackfillModal);
+  closeBack.addEventListener("click", closeBackfillModal);
+  maskBack.addEventListener("click", (e)=>{ if(e.target===maskBack) closeBackfillModal(); });
+
+  openBackfill.addEventListener("click", ()=>openBackfillModal(null));
+
+  /* ===== Quick Mark (today) ===== */
+  quickMark.addEventListener("click", ()=>{
+    const dateStr = ymd(new Date());
+    const plan = getDosePlanForDate(dateStr);
+    if(plan.length===0){ alert("今天没有计划项。"); return; }
+    if(!confirm(`确认：将今天所有计划项统一标记为“已服用”吗？`)) return;
+    for(const p of plan){
+      setDoseStatus(dateStr, p.med.id, p.slotTime, { status:"taken", takenAt:p.slotTime, note:"" });
+    }
+    renderAll();
+  });
+
+  /* ===== Month nav ===== */
+  prevM.addEventListener("click", ()=>{
+    view.setMonth(view.getMonth()-1);
+    renderAll();
+  });
+  nextM.addEventListener("click", ()=>{
+    view.setMonth(view.getMonth()+1);
+    renderAll();
+  });
+  toToday.addEventListener("click", ()=>{
+    view = new Date();
+    view.setDate(1);
+    renderAll();
+  });
+
+  /* ===== UI toggles ===== */
+  themeSel.addEventListener("change", ()=>{
+    state.ui.theme = themeSel.value;
+    saveState();
+    renderAll();
+  });
+
+  toggleDecor.addEventListener("click", ()=>{
+    state.ui.decor = !state.ui.decor;
+    saveState();
+    renderAll();
+  });
+  toggleMotion.addEventListener("click", ()=>{
+    state.ui.motion = !state.ui.motion;
+    saveState();
+    renderAll();
+  });
+
+  /* ===== Copy links ===== */
+  function cleanUrl(withWid){
+    const u = new URL(location.href);
+    // 删除私密 hash
+    u.hash = "";
+    if(!withWid) u.searchParams.delete("wid");
+    return u.toString();
+  }
+  function privateUrl(){
+    // 带 wid + 带 #k（私密钥匙）
+    const u = new URL(location.href);
+    if(!u.searchParams.get("wid")) u.searchParams.set("wid", WID);
+    const sp = new URLSearchParams((u.hash||"").replace(/^#/,""));
+    sp.set("k", ownerKey);
+    u.hash = sp.toString();
+    return u.toString();
+  }
+
+  async function copyText(t){
+    try{
+      await navigator.clipboard.writeText(t);
+      alert("已复制");
+    }catch(e){
+      prompt("复制失败，请手动复制：", t);
+    }
+  }
+
+  copyShare.addEventListener("click", ()=>{
+    // 分享链接：不带 #k，默认访客空白；是否保留 wid 无所谓，这里给“干净入口”（不带 wid）
+    copyText(cleanUrl(false));
+  });
+  copyPrivate.addEventListener("click", ()=>{
+    // 私密链接：你自己多设备使用（谁拿到就能看，别外发）
+    copyText(privateUrl());
+  });
+
+  /* ===== Reset guest (current device) ===== */
+  resetGuest.addEventListener("click", ()=>{
+    if(!confirm("确认：清空访客模式下的填写？（私密数据不受影响）")) return;
+    state = defaultState();
+    // 访客默认不保存，本按钮只是把当前页面变回空
+    renderAll();
+  });
+
+  /* ===== Safety: night theme text contrast already handled by theme vars ===== */
+
+  /* ===== boot ===== */
+  applyUi();
+  renderAll();
+
+})();
+</script>
+</body>
+</html>
