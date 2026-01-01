@@ -1,1145 +1,1019 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
-  <head>
-    <meta charset="UTF-8" />
-    <title>🎀 吃药记录器</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <style>
-      :root {
-        --pink: #ff69b4;
-        --pink2: #ffb6c1;
-        --bg: #fff3f8;
-        --card: #ffffff;
-        --ink: #333;
-        --muted: #777;
-        --bad: #ff3b6b;
-        --ok: #19a974;
-        --warn: #ff8a00;
-        --line: rgba(255, 105, 180, 0.16);
-      }
-      * {
-        box-sizing: border-box;
-      }
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Kitty Med Tracker</title>
 
-      body {
-        margin: 0;
-        min-height: 100vh;
-        font-family: "PingFang SC", "Microsoft YaHei", system-ui, -apple-system,
-          Segoe UI, Arial, sans-serif;
-        color: var(--ink);
-        display: flex;
-        justify-content: center;
-        background: radial-gradient(
-          1200px 800px at 20% 0%,
-          #ffe3f0 0%,
-          var(--bg) 45%,
-          #ffffff 100%
-        );
-      }
+<style>
+/* =========================
+   主题系统（CSS 变量）
+   ========================= */
+:root{
+  --bg1:#fff5fb; --bg2:#ffffff;
+  --card:#ffffffcc;
+  --stroke:rgba(0,0,0,.06);
+  --shadow:rgba(18, 18, 22, .10);
+  --text:#23262a;
+  --muted:#6b7280;
 
-      /* ✅ 高级可爱装饰层：软糖云朵 + 樱花 + 星星点光 */
-      .decor {
-        position: fixed;
-        inset: 0;
-        pointer-events: none;
-        z-index: 0;
-        overflow: hidden;
-      }
-      .decor::before {
-        content: "";
-        position: absolute;
-        inset: -40px;
-        background: radial-gradient(
-            circle at 12% 10%,
-            rgba(255, 182, 193, 0.55),
-            transparent 28%
-          ),
-          radial-gradient(
-            circle at 88% 14%,
-            rgba(255, 105, 180, 0.22),
-            transparent 30%
-          ),
-          radial-gradient(
-            circle at 18% 82%,
-            rgba(255, 182, 193, 0.32),
-            transparent 32%
-          ),
-          radial-gradient(
-            circle at 82% 78%,
-            rgba(255, 105, 180, 0.18),
-            transparent 34%
-          );
-        opacity: 0.9;
-      }
-      .decor .cloud {
-        position: absolute;
-        width: 240px;
-        height: 120px;
-        background: linear-gradient(
-          135deg,
-          rgba(255, 255, 255, 0.96),
-          rgba(255, 240, 248, 0.96)
-        );
-        border: 1px solid rgba(255, 105, 180, 0.14);
-        border-radius: 999px;
-        box-shadow: 0 22px 55px rgba(255, 105, 180, 0.12);
-        filter: blur(0.1px);
-      }
-      .decor .cloud::before,
-      .decor .cloud::after {
-        content: "";
-        position: absolute;
-        background: inherit;
-        border: inherit;
-        border-radius: 999px;
-      }
-      .decor .cloud::before {
-        width: 120px;
-        height: 96px;
-        left: 22px;
-        top: -36px;
-      }
-      .decor .cloud::after {
-        width: 150px;
-        height: 120px;
-        right: 18px;
-        top: -52px;
-      }
+  --brand:#ff69b4;
+  --brand2:#ff4fa6;
+  --brandSoft:rgba(255,105,180,.14);
 
-      .decor .cloud.c1 {
-        left: -80px;
-        top: 110px;
-        transform: rotate(-6deg);
-        opacity: 0.72;
-      }
-      .decor .cloud.c2 {
-        right: -100px;
-        top: 260px;
-        transform: rotate(8deg);
-        opacity: 0.68;
-      }
-      .decor .cloud.c3 {
-        left: -110px;
-        bottom: 120px;
-        transform: rotate(4deg);
-        opacity: 0.58;
-      }
+  --good:#20c997;
+  --warn:#ff9f1a;
+  --bad:#ff3b6b;
 
-      .decor .sparkle {
-        position: absolute;
-        width: 12px;
-        height: 12px;
-        background: radial-gradient(
-          circle,
-          rgba(255, 105, 180, 0.6),
-          rgba(255, 105, 180, 0)
-        );
-        border-radius: 999px;
-        opacity: 0.75;
-      }
-      .decor .s1 {
-        left: 18%;
-        top: 18%;
-      }
-      .decor .s2 {
-        left: 74%;
-        top: 22%;
-      }
-      .decor .s3 {
-        left: 84%;
-        top: 64%;
-      }
-      .decor .s4 {
-        left: 22%;
-        top: 72%;
-      }
-      .decor .s5 {
-        left: 52%;
-        top: 10%;
-      }
-      .decor .s6 {
-        left: 58%;
-        top: 86%;
-      }
+  --calHas: rgba(255,105,180,.14);
+  --calDone: rgba(32,201,151,.18);
+  --calMiss: rgba(255,59,107,.16);
 
-      .decor .petal {
-        position: absolute;
-        width: 18px;
-        height: 18px;
-        background: radial-gradient(
-          circle at 30% 30%,
-          rgba(255, 182, 193, 0.85),
-          rgba(255, 105, 180, 0.22)
-        );
-        border-radius: 60% 40% 60% 40%;
-        transform: rotate(18deg);
-        opacity: 0.65;
-        filter: blur(0.15px);
-      }
-      .decor .p1 {
-        left: 10%;
-        top: 42%;
-      }
-      .decor .p2 {
-        left: 84%;
-        top: 40%;
-      }
-      .decor .p3 {
-        left: 76%;
-        top: 84%;
-      }
-      .decor .p4 {
-        left: 18%;
-        top: 88%;
-      }
-      .decor .p5 {
-        left: 90%;
-        top: 16%;
-      }
+  --focus: rgba(255,105,180,.35);
+  --ring: rgba(255,105,180,.25);
 
-      .app {
-        width: 100%;
-        max-width: 520px;
-        padding: 18px 14px 52px;
-        position: relative;
-        z-index: 1;
-      }
+  --radius:18px;
+  --radius2:14px;
 
-      .header {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 12px;
-        margin-bottom: 6px;
-        padding-top: 6px;
-      }
-      .logo {
-        width: 46px;
-        height: 46px;
-        border-radius: 16px;
-        background: linear-gradient(135deg, var(--pink2), var(--pink));
-        display: grid;
-        place-items: center;
-        font-size: 22px;
-        box-shadow: 0 12px 28px rgba(255, 105, 180, 0.26);
-        user-select: none;
-      }
-      h1 {
-        font-size: 20px;
-        margin: 0;
-        letter-spacing: 0.2px;
-      }
-      .sub {
-        margin: 2px 0 0 0;
-        text-align: center;
-        color: var(--muted);
-        font-size: 12px;
-      }
+  --font: ui-rounded, system-ui, -apple-system, "PingFang SC", "Microsoft YaHei", "Segoe UI", Arial, sans-serif;
+}
 
-      .tabs {
-        display: flex;
-        gap: 8px;
-        margin: 12px 0 6px;
-      }
-      .tab {
-        flex: 1;
-        padding: 10px 12px;
-        border-radius: 999px;
-        border: 1px solid var(--line);
-        background: #fff;
-        cursor: pointer;
-        font-weight: 900;
-      }
-      .tab.active {
-        background: linear-gradient(135deg, var(--pink), #ff4fa6);
-        color: #fff;
-        border: none;
-      }
+/* ===== 主题：蓝 ===== */
+body.theme-blue{
+  --bg1:#eff6ff; --bg2:#ffffff;
+  --card:#ffffffcc;
+  --stroke:rgba(30, 64, 175, .10);
+  --shadow:rgba(15, 23, 42, .10);
+  --text:#0f172a;
+  --muted:#64748b;
 
-      .card {
-        background: var(--card);
-        border-radius: 22px;
-        padding: 16px;
-        margin: 12px 0;
-        box-shadow: 0 16px 34px rgba(17, 17, 17, 0.08);
-        border: 1px solid var(--line);
-        position: relative;
-        overflow: hidden;
-      }
-      .card::after {
-        content: "";
-        position: absolute;
-        right: -18px;
-        top: -18px;
-        width: 78px;
-        height: 78px;
-        background: radial-gradient(
-            circle at 30% 30%,
-            rgba(255, 105, 180, 0.25),
-            transparent 58%
-          ),
-          radial-gradient(
-            circle at 70% 60%,
-            rgba(255, 182, 193, 0.35),
-            transparent 62%
-          );
-        transform: rotate(18deg);
-        border-radius: 28px;
-        pointer-events: none;
-      }
+  --brand:#4a90e2;
+  --brand2:#2563eb;
+  --brandSoft:rgba(37,99,235,.14);
 
-      .card h2 {
-        margin: 0 0 10px 0;
-        font-size: 16px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-      .card h2::before {
-        content: "🌸";
-        display: inline-block;
-        transform: translateY(-1px);
-      }
+  --calHas: rgba(37,99,235,.12);
+  --calDone: rgba(16,185,129,.18);
+  --calMiss: rgba(244,63,94,.14);
 
-      .row {
-        display: flex;
-        gap: 10px;
-        align-items: center;
-      }
-      .grow {
-        flex: 1;
-      }
+  --focus: rgba(37,99,235,.35);
+  --ring: rgba(37,99,235,.22);
+}
 
-      .btn {
-        appearance: none;
-        border: 0;
-        background: linear-gradient(135deg, var(--pink), #ff4fa6);
-        color: #fff;
-        padding: 12px 14px;
-        border-radius: 999px;
-        font-weight: 950;
-        cursor: pointer;
-        box-shadow: 0 10px 18px rgba(255, 105, 180, 0.22);
-      }
-      .btn:active {
-        transform: translateY(1px);
-      }
-      .btn.secondary {
-        background: #fff;
-        color: var(--ink);
-        border: 1px solid var(--line);
-        box-shadow: none;
-        font-weight: 850;
-      }
-      .btn.danger {
-        background: linear-gradient(135deg, #ff3b6b, #ff6b9b);
-      }
+/* ===== 主题：薄荷 ===== */
+body.theme-mint{
+  --bg1:#effffb; --bg2:#ffffff;
+  --card:#ffffffcc;
+  --stroke:rgba(16, 185, 129, .10);
+  --shadow:rgba(6, 95, 70, .12);
+  --text:#064e3b;
+  --muted:#3f7667;
 
-      .hint {
-        color: var(--muted);
-        font-size: 12px;
-        margin-top: 8px;
-        line-height: 1.45;
-      }
+  --brand:#2ec4b6;
+  --brand2:#0ea5a4;
+  --brandSoft:rgba(14,165,164,.14);
 
-      .pill {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        border: 1px solid var(--line);
-        background: #fff7fb;
-        padding: 6px 10px;
-        border-radius: 999px;
-        font-size: 12px;
-        color: var(--muted);
-      }
-      .tag-ok {
-        color: var(--ok);
-        font-weight: 950;
-      }
-      .tag-warn {
-        color: var(--warn);
-        font-weight: 950;
-      }
-      .tag-bad {
-        color: var(--bad);
-        font-weight: 950;
-      }
+  --calHas: rgba(14,165,164,.12);
+  --calDone: rgba(34,197,94,.18);
+  --calMiss: rgba(244,63,94,.14);
 
-      input,
-      select,
-      textarea {
-        width: 100%;
-        padding: 10px 12px;
-        border-radius: 14px;
-        border: 1px solid var(--line);
-        background: #fff;
-        outline: none;
-        font-size: 14px;
-      }
-      textarea {
-        min-height: 70px;
-        resize: vertical;
-      }
-      label {
-        font-size: 12px;
-        color: var(--muted);
-        display: block;
-        margin: 10px 0 6px;
-      }
-      .grid2 {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
-      }
+  --focus: rgba(14,165,164,.35);
+  --ring: rgba(14,165,164,.22);
+}
 
-      .list {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        margin-top: 8px;
-      }
-      .item {
-        border: 1px solid var(--line);
-        border-radius: 18px;
-        padding: 12px;
-        background: #fff;
-      }
-      .item-title {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 8px;
-      }
-      .name {
-        font-weight: 950;
-      }
-      .meta {
-        color: var(--muted);
-        font-size: 12px;
-        margin-top: 6px;
-        line-height: 1.45;
-      }
-      .divider {
-        height: 1px;
-        background: var(--line);
-        margin: 10px 0;
-      }
+/* ===== 主题：薰衣草 ===== */
+body.theme-lavender{
+  --bg1:#f6f3ff; --bg2:#ffffff;
+  --card:#ffffffcc;
+  --stroke:rgba(124, 58, 237, .10);
+  --shadow:rgba(31, 17, 67, .10);
+  --text:#241a3a;
+  --muted:#6b5f85;
 
-      .checkline {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 10px;
-        padding: 10px 0;
-      }
-      .check-left {
-        display: flex;
-        flex-direction: column;
-        gap: 3px;
-      }
-      .check-title {
-        font-weight: 900;
-      }
-      .check-sub {
-        font-size: 12px;
-        color: var(--muted);
-      }
-      .checkbox {
-        width: 26px;
-        height: 26px;
-        border-radius: 10px;
-        border: 1px solid var(--line);
-        display: grid;
-        place-items: center;
-        cursor: pointer;
-        user-select: none;
-        background: #fff;
-        box-shadow: 0 10px 16px rgba(255, 105, 180, 0.1);
-      }
-      .checkbox.on {
-        background: #ffe3f0;
-        border-color: #ffc0da;
-      }
-      .checkbox.on::after {
-        content: "✅";
-        font-size: 14px;
-      }
+  --brand:#8e7dff;
+  --brand2:#7c3aed;
+  --brandSoft:rgba(124,58,237,.14);
 
-      .calendar {
-        display: grid;
-        grid-template-columns: repeat(7, 1fr);
-        gap: 8px;
-        margin-top: 10px;
-      }
-      .day {
-        background: #fff7fb;
-        border: 1px solid var(--line);
-        border-radius: 14px;
-        padding: 10px 6px;
-        text-align: center;
-        font-size: 13px;
-      }
-      .day.done {
-        background: #ffe3f0;
-        font-weight: 950;
-      }
-      .day.miss {
-        background: #fff0f0;
-        border-color: rgba(255, 59, 107, 0.25);
-        font-weight: 950;
-      }
+  --calHas: rgba(124,58,237,.12);
+  --calDone: rgba(16,185,129,.18);
+  --calMiss: rgba(244,63,94,.14);
 
-      .footer-actions {
-        display: flex;
-        gap: 10px;
-        margin-top: 10px;
-        flex-wrap: wrap;
-      }
-      .mono {
-        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-          "Liberation Mono", monospace;
-      }
-      .hidden {
-        display: none;
-      }
-    </style>
-  </head>
+  --focus: rgba(124,58,237,.35);
+  --ring: rgba(124,58,237,.22);
+}
 
-  <body>
-    <!-- 装饰层（不会影响点击） -->
-    <div class="decor" aria-hidden="true">
-      <div class="cloud c1"></div>
-      <div class="cloud c2"></div>
-      <div class="cloud c3"></div>
+/* ===== 主题：夜间 ===== */
+body.theme-night{
+  --bg1:#0b0d12; --bg2:#101420;
+  --card:rgba(20, 24, 36, .82);
+  --stroke:rgba(255,255,255,.10);
+  --shadow:rgba(0,0,0,.45);
+  --text:#f3f5ff;
+  --muted:#b7bccb;
 
-      <div class="sparkle s1"></div>
-      <div class="sparkle s2"></div>
-      <div class="sparkle s3"></div>
-      <div class="sparkle s4"></div>
-      <div class="sparkle s5"></div>
-      <div class="sparkle s6"></div>
+  --brand:#ff69b4;
+  --brand2:#ff4fa6;
+  --brandSoft:rgba(255,105,180,.18);
 
-      <div class="petal p1"></div>
-      <div class="petal p2"></div>
-      <div class="petal p3"></div>
-      <div class="petal p4"></div>
-      <div class="petal p5"></div>
-    </div>
+  --calHas: rgba(255,105,180,.14);
+  --calDone: rgba(34,197,94,.18);
+  --calMiss: rgba(244,63,94,.14);
 
-    <div class="app">
-      <div class="header">
+  --focus: rgba(255,105,180,.40);
+  --ring: rgba(255,105,180,.22);
+}
+
+/* ===== 主题：单色（极简） ===== */
+body.theme-mono{
+  --bg1:#f7f7f8; --bg2:#ffffff;
+  --card:#ffffffcc;
+  --stroke:rgba(0,0,0,.08);
+  --shadow:rgba(0,0,0,.08);
+  --text:#1f2937;
+  --muted:#6b7280;
+
+  --brand:#111827;
+  --brand2:#111827;
+  --brandSoft:rgba(17,24,39,.10);
+
+  --calHas: rgba(17,24,39,.10);
+  --calDone: rgba(34,197,94,.18);
+  --calMiss: rgba(244,63,94,.14);
+
+  --focus: rgba(17,24,39,.26);
+  --ring: rgba(17,24,39,.16);
+}
+
+/* =========================
+   基础布局 / 质感
+   ========================= */
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:var(--font);
+  color:var(--text);
+  background:
+    radial-gradient(900px 600px at 18% 10%, var(--brandSoft), transparent 55%),
+    radial-gradient(900px 600px at 85% 18%, rgba(255,255,255,.45), transparent 55%),
+    linear-gradient(180deg, var(--bg1), var(--bg2));
+}
+
+.app{
+  width:100%;
+  max-width:520px;
+  margin:0 auto;
+  padding:18px 14px 62px;
+}
+
+/* 顶部条 */
+.topbar{
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  margin-bottom:12px;
+}
+.brand{
+  display:flex; align-items:center; gap:10px;
+}
+.logo{
+  width:44px; height:44px; border-radius:16px;
+  background: linear-gradient(135deg, var(--brand), var(--brand2));
+  box-shadow: 0 16px 36px var(--shadow);
+  display:grid; place-items:center;
+  user-select:none;
+}
+.brand h1{
+  margin:0; font-size:18px; letter-spacing:.2px;
+}
+.brand .sub{
+  margin-top:2px; font-size:12px; color:var(--muted);
+}
+
+/* 卡片 */
+.card{
+  background: var(--card);
+  backdrop-filter: blur(10px);
+  border:1px solid var(--stroke);
+  border-radius: var(--radius);
+  box-shadow: 0 18px 45px var(--shadow);
+  padding:14px;
+  margin:12px 0;
+  position:relative;
+  overflow:hidden;
+}
+.card::after{
+  content:"";
+  position:absolute; right:-28px; top:-28px;
+  width:120px; height:120px;
+  background:
+    radial-gradient(circle at 30% 30%, var(--brandSoft), transparent 60%),
+    radial-gradient(circle at 70% 70%, rgba(255,255,255,.18), transparent 60%);
+  transform: rotate(16deg);
+  border-radius: 32px;
+  pointer-events:none;
+}
+
+/* Tabs */
+.tabs{
+  display:flex; gap:8px; margin:10px 0 6px;
+}
+.tab{
+  flex:1;
+  border:1px solid var(--stroke);
+  background: rgba(255,255,255,.55);
+  color: var(--text);
+  padding:10px 12px;
+  border-radius:999px;
+  font-weight:800;
+  cursor:pointer;
+}
+.tab.active{
+  border:none;
+  background: linear-gradient(135deg, var(--brand), var(--brand2));
+  color:#fff;
+}
+
+/* 主题选择 */
+.themeBox{
+  display:flex; align-items:center; gap:8px;
+  padding:8px 10px;
+  border-radius:999px;
+  border:1px solid var(--stroke);
+  background: rgba(255,255,255,.65);
+}
+.themeBox label{
+  font-size:12px; color:var(--muted);
+}
+select{
+  border:1px solid var(--stroke);
+  background: rgba(255,255,255,.85);
+  padding:6px 10px;
+  border-radius:999px;
+  font-weight:800;
+  color:var(--text);
+  outline:none;
+}
+select:focus{box-shadow:0 0 0 4px var(--ring)}
+
+/* 通用 */
+h2{
+  margin:0 0 10px 0;
+  font-size:15px;
+  display:flex; align-items:center; gap:8px;
+}
+h2::before{content:"🌸"; transform: translateY(-1px)}
+.muted{color:var(--muted); font-size:12px; line-height:1.45}
+.pill{
+  display:inline-flex; align-items:center; gap:6px;
+  padding:6px 10px;
+  border-radius:999px;
+  border:1px solid var(--stroke);
+  background: rgba(255,255,255,.65);
+  font-size:12px;
+  color:var(--muted);
+}
+.row{display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap}
+.mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace}
+
+/* 按钮 */
+.btn{
+  border:0;
+  border-radius:999px;
+  padding:11px 14px;
+  font-weight:900;
+  cursor:pointer;
+  background: linear-gradient(135deg, var(--brand), var(--brand2));
+  color:#fff;
+  box-shadow: 0 12px 24px rgba(0,0,0,.10);
+}
+.btn.secondary{
+  background: rgba(255,255,255,.70);
+  color: var(--text);
+  border:1px solid var(--stroke);
+  box-shadow:none;
+}
+.btn:active{transform: translateY(1px)}
+.btn:focus{outline:none; box-shadow:0 0 0 4px var(--ring)}
+
+/* 今日条目 */
+.list{display:flex; flex-direction:column; gap:10px; margin-top:8px}
+.item{
+  border:1px solid var(--stroke);
+  background: rgba(255,255,255,.70);
+  border-radius: var(--radius2);
+  padding:12px;
+}
+.itemTop{display:flex; align-items:center; justify-content:space-between; gap:10px}
+.name{font-weight:950}
+.small{font-size:12px; color:var(--muted); margin-top:6px; line-height:1.45}
+.divider{height:1px; background: var(--stroke); margin:10px 0}
+
+/* 打卡开关 */
+.checkline{display:flex; align-items:center; justify-content:space-between; gap:12px}
+.stateTag{
+  font-size:12px; font-weight:900;
+}
+.ok{color:var(--good)}
+.bad{color:var(--bad)}
+.warn{color:var(--warn)}
+.box{
+  width:30px;height:30px;border-radius:12px;
+  border:1px solid var(--stroke);
+  background: rgba(255,255,255,.85);
+  display:grid; place-items:center;
+  cursor:pointer; user-select:none;
+  box-shadow: 0 12px 18px rgba(0,0,0,.06);
+}
+.box.on{
+  background: var(--brandSoft);
+  border-color: var(--focus);
+}
+.box.on::after{content:"✅"; font-size:15px}
+
+/* 日历 */
+.calendar{
+  display:grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap:8px;
+  margin-top:10px;
+}
+.day{
+  border:1px solid var(--stroke);
+  background: rgba(255,255,255,.70);
+  border-radius: 14px;
+  padding:10px 6px;
+  text-align:center;
+  cursor:pointer;
+  user-select:none;
+  font-size:13px;
+}
+.day:hover{transform: translateY(-1px)}
+.day.has{background: var(--calHas)}
+.day.done{background: var(--calDone); font-weight:900}
+.day.miss{background: var(--calMiss); font-weight:900}
+.day.active{outline: 2px solid var(--focus)}
+
+/* 表单 */
+input,textarea{
+  width:100%;
+  padding:10px 12px;
+  border-radius: 14px;
+  border:1px solid var(--stroke);
+  background: rgba(255,255,255,.85);
+  outline:none;
+  font-size:14px;
+  color:var(--text);
+}
+textarea{min-height:72px; resize:vertical}
+label{display:block; font-size:12px; color:var(--muted); margin:10px 0 6px}
+.grid2{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+
+/* 右下角作者 */
+.author-fixed{
+  position:fixed;
+  right:10px;
+  bottom:8px;
+  font-size:12px;
+  color:var(--muted);
+  opacity:.85;
+  pointer-events:none;
+  z-index:5;
+}
+.hidden{display:none}
+</style>
+</head>
+
+<body class="theme-pink">
+  <div class="app">
+
+    <div class="topbar">
+      <div class="brand">
         <div class="logo">🎀</div>
         <div>
-          <h1>治愈系吃药记录器</h1>
-          <div class="sub">单文件 · 本地保存 · 双击就能用</div>
+          <h1>Kitty Med Tracker</h1>
+          <div class="sub">点日历补录 · 本地保存 · 多皮肤</div>
         </div>
       </div>
 
-      <div class="tabs">
-        <button class="tab active" id="tabToday">今日打卡</button>
-        <button class="tab" id="tabMeds">我的药箱</button>
-        <button class="tab" id="tabStats">日历统计</button>
+      <div class="themeBox">
+        <label for="themeSelect">皮肤</label>
+        <select id="themeSelect">
+          <option value="theme-pink">Pink 粉樱</option>
+          <option value="theme-blue">Blue 清爽</option>
+          <option value="theme-mint">Mint 薄荷</option>
+          <option value="theme-lavender">Lavender 薰衣草</option>
+          <option value="theme-night">Night 夜猫</option>
+          <option value="theme-mono">Mono 极简</option>
+        </select>
       </div>
-
-      <!-- 今日 -->
-      <section id="viewToday">
-        <div class="card">
-          <h2>今天要吃什么</h2>
-          <div class="pill">日期：<span class="mono" id="todayKey"></span></div>
-          <div class="list" id="todayList"></div>
-
-          <div class="divider"></div>
-
-          <div class="row">
-            <button class="btn grow" id="btnMarkAll">一键全部标记已服用</button>
-          </div>
-          <div class="hint" id="todayHint"></div>
-        </div>
-      </section>
-
-      <!-- 药箱 -->
-      <section id="viewMeds" class="hidden">
-        <div class="card">
-          <h2>添加新药</h2>
-
-          <label>药物名称</label>
-          <input id="fName" placeholder="比如：草酸艾司西酞普兰" />
-
-          <div class="grid2">
-            <div>
-              <label>规格/剂量（展示用）</label>
-              <input id="fSpec" placeholder="比如：10mg/片" />
-            </div>
-            <div>
-              <label>单次用量</label>
-              <input id="fDose" placeholder="比如：1片 / 1粒 / 10ml" />
-            </div>
-          </div>
-
-          <div class="grid2">
-            <div>
-              <label>每天次数</label>
-              <select id="fTimes">
-                <option value="1">1 次</option>
-                <option value="2" selected>2 次</option>
-                <option value="3">3 次</option>
-                <option value="4">4 次</option>
-              </select>
-            </div>
-            <div>
-              <label>服用时间（逗号分隔）</label>
-              <input id="fSchedule" placeholder="08:00,20:00" />
-            </div>
-          </div>
-
-          <div class="grid2">
-            <div>
-              <label>总数量（库存）</label>
-              <input id="fStock" type="number" min="0" placeholder="比如：30" />
-            </div>
-            <div>
-              <label>低库存提醒（≤）</label>
-              <input id="fLow" type="number" min="0" placeholder="比如：7" />
-            </div>
-          </div>
-
-          <label>备注</label>
-          <textarea
-            id="fNote"
-            placeholder="比如：饭后服用 / 可能嗜睡 / 不能喝酒"
-          ></textarea>
-
-          <div class="footer-actions">
-            <button class="btn grow" id="btnAdd">添加到药箱</button>
-            <button class="btn secondary" id="btnSeed">快速填充示例</button>
-          </div>
-          <div class="hint">
-            时间用 24 小时制，例如
-            08:00,20:00；库存会在你每次打卡时自动扣减（每勾一次扣 1）。
-          </div>
-        </div>
-
-        <div class="card">
-          <h2>我的药箱</h2>
-          <div class="list" id="medList"></div>
-        </div>
-
-        <div class="card">
-          <h2>备份与迁移</h2>
-          <div class="row" style="gap: 10px; flex-wrap: wrap">
-            <button class="btn secondary" id="btnExport">导出 JSON</button>
-            <button class="btn secondary" id="btnImport">导入 JSON</button>
-            <button class="btn danger" id="btnReset">清空所有数据</button>
-          </div>
-          <textarea
-            class="mono"
-            id="backupBox"
-            placeholder="导出会出现在这里；导入请把 JSON 粘贴到这里"
-          ></textarea>
-          <div class="hint">导入会覆盖本地数据，建议先导出一份保存。</div>
-        </div>
-      </section>
-
-      <!-- 统计 -->
-      <section id="viewStats" class="hidden">
-        <div class="card">
-          <h2>本月日历</h2>
-          <div class="pill">✅ 全部完成　⚠️ 有漏服　空白 = 没记录</div>
-          <div class="calendar" id="calendar"></div>
-          <div class="hint" id="statHint"></div>
-        </div>
-
-        <div class="card">
-          <h2>概览</h2>
-          <div class="list" id="overview"></div>
-        </div>
-      </section>
     </div>
 
-    <script>
-      const STORE_KEY = "kitty-med-v3";
-      const now = new Date();
-      const todayKey = new Date(now.getTime() - now.getTimezoneOffset() * 60000)
-        .toISOString()
-        .slice(0, 10);
+    <div class="tabs">
+      <button class="tab active" id="tabToday">今日打卡</button>
+      <button class="tab" id="tabMeds">我的药箱</button>
+      <button class="tab" id="tabStats">日历统计</button>
+    </div>
 
-      function load() {
-        try {
-          return JSON.parse(localStorage.getItem(STORE_KEY) || "");
-        } catch {
-          return null;
+    <!-- 今日 -->
+    <section id="viewToday">
+      <div class="card">
+        <h2>当天用药打卡</h2>
+
+        <div class="row">
+          <div class="pill">日期：<span class="mono" id="currentKey"></span></div>
+          <button class="btn secondary" id="btnBackToday">回到今天</button>
+        </div>
+
+        <div class="muted" id="backfillHint" style="margin-top:10px;"></div>
+
+        <div class="list" id="todayList"></div>
+
+        <div class="divider"></div>
+
+        <div class="row">
+          <button class="btn" style="flex:1" id="btnMarkAll">一键全部标记已服用</button>
+        </div>
+        <div class="muted" id="todayHint" style="margin-top:10px;"></div>
+      </div>
+    </section>
+
+    <!-- 药箱 -->
+    <section id="viewMeds" class="hidden">
+      <div class="card">
+        <h2>添加新药</h2>
+
+        <label>药物名称</label>
+        <input id="fName" placeholder="例如：草酸艾司西酞普兰 / 碳酸锂缓释片" />
+
+        <div class="grid2">
+          <div>
+            <label>规格/剂量（展示用）</label>
+            <input id="fSpec" placeholder="例如：10mg/片" />
+          </div>
+          <div>
+            <label>单次用量</label>
+            <input id="fDose" placeholder="例如：1片 / 1粒 / 10ml" />
+          </div>
+        </div>
+
+        <div class="grid2">
+          <div>
+            <label>每天次数</label>
+            <select id="fTimes" style="width:100%; border-radius:14px; padding:10px 12px;">
+              <option value="1">1 次</option>
+              <option value="2" selected>2 次</option>
+              <option value="3">3 次</option>
+              <option value="4">4 次</option>
+            </select>
+          </div>
+          <div>
+            <label>服用时间（逗号分隔）</label>
+            <input id="fSchedule" placeholder="08:00,20:00" />
+          </div>
+        </div>
+
+        <div class="grid2">
+          <div>
+            <label>总数量（库存）</label>
+            <input id="fStock" type="number" min="0" placeholder="例如：30" />
+          </div>
+          <div>
+            <label>低库存提醒（≤）</label>
+            <input id="fLow" type="number" min="0" placeholder="例如：7" />
+          </div>
+        </div>
+
+        <label>备注</label>
+        <textarea id="fNote" placeholder="例如：饭后服用 / 可能嗜睡 / 不要喝酒"></textarea>
+
+        <div class="row" style="margin-top:10px;">
+          <button class="btn" style="flex:1" id="btnAdd">添加到药箱</button>
+          <button class="btn secondary" id="btnSeed">填充示例</button>
+        </div>
+
+        <div class="muted" style="margin-top:10px;">
+          规则：只有“今天”打卡会扣库存；补录默认不扣库存（避免库存被扣乱）。
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>我的药箱</h2>
+        <div class="list" id="medList"></div>
+      </div>
+
+      <div class="card">
+        <h2>备份与迁移</h2>
+        <div class="row" style="gap:8px;">
+          <button class="btn secondary" id="btnExport">导出 JSON</button>
+          <button class="btn secondary" id="btnImport">导入 JSON</button>
+          <button class="btn secondary" id="btnReset">清空数据</button>
+        </div>
+        <textarea class="mono" id="backupBox" placeholder="导出会出现在这里；导入请把 JSON 粘贴到这里" style="margin-top:10px;"></textarea>
+        <div class="muted" style="margin-top:10px;">导入会覆盖本地数据，建议先导出一份留存。</div>
+      </div>
+    </section>
+
+    <!-- 日历统计 -->
+    <section id="viewStats" class="hidden">
+      <div class="card">
+        <h2>本月日历（点日期补录）</h2>
+        <div class="row">
+          <div class="pill">✅ 完成</div>
+          <div class="pill">⚠️ 部分完成</div>
+          <div class="pill">空白 = 无记录</div>
+        </div>
+
+        <div class="calendar" id="calendar"></div>
+        <div class="muted" id="statHint" style="margin-top:10px;"></div>
+      </div>
+
+      <div class="card">
+        <h2>概览</h2>
+        <div class="list" id="overview"></div>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="author-fixed">by FLAAAAKING</div>
+
+<script>
+/* =========================
+   存储与状态
+   ========================= */
+const STORE_KEY = "kitty-med-single-v1";
+const THEME_KEY = "kitty-med-theme-v1";
+
+function isoDateKey(d){
+  const local = new Date(d.getTime() - d.getTimezoneOffset()*60000);
+  return local.toISOString().slice(0,10);
+}
+const todayKey = isoDateKey(new Date());
+let currentDateKey = todayKey;
+
+function uid(){ return "id_" + Math.random().toString(16).slice(2) + Date.now().toString(16); }
+function hhmm(d){ return String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0"); }
+
+function loadState(){
+  try{
+    const raw = localStorage.getItem(STORE_KEY);
+    if(!raw) return null;
+    return JSON.parse(raw);
+  }catch{ return null; }
+}
+function saveState(){
+  localStorage.setItem(STORE_KEY, JSON.stringify(state));
+}
+
+/* 默认示例（您也可以删掉） */
+const defaultState = {
+  meds: [
+    { id: uid(), name:"碳酸锂缓释片", spec:"—", dose:"1片", timesPerDay:2, schedule:"08:00,20:00", stock:30, lowStock:7, note:"饭后服用" },
+    { id: uid(), name:"草酸艾司西酞普兰", spec:"—", dose:"1片", timesPerDay:1, schedule:"22:00", stock:30, lowStock:7, note:"遵医嘱" },
+  ],
+  records: {}
+};
+
+const state = loadState() || structuredClone(defaultState);
+
+/* =========================
+   主题切换
+   ========================= */
+const themeSelect = document.getElementById("themeSelect");
+const savedTheme = localStorage.getItem(THEME_KEY) || "theme-pink";
+document.body.className = savedTheme;
+themeSelect.value = savedTheme;
+
+themeSelect.onchange = ()=>{
+  document.body.className = themeSelect.value;
+  localStorage.setItem(THEME_KEY, themeSelect.value);
+};
+
+/* =========================
+   Tabs
+   ========================= */
+const tabToday = document.getElementById("tabToday");
+const tabMeds  = document.getElementById("tabMeds");
+const tabStats = document.getElementById("tabStats");
+const viewToday = document.getElementById("viewToday");
+const viewMeds  = document.getElementById("viewMeds");
+const viewStats = document.getElementById("viewStats");
+
+function setTab(which){
+  tabToday.classList.toggle("active", which==="today");
+  tabMeds.classList.toggle("active", which==="meds");
+  tabStats.classList.toggle("active", which==="stats");
+  viewToday.classList.toggle("hidden", which!=="today");
+  viewMeds.classList.toggle("hidden", which!=="meds");
+  viewStats.classList.toggle("hidden", which!=="stats");
+}
+tabToday.onclick = ()=>setTab("today");
+tabMeds.onclick  = ()=>setTab("meds");
+tabStats.onclick = ()=>setTab("stats");
+
+/* =========================
+   计划生成 / 补录策略
+   ========================= */
+function parseSchedule(str, times){
+  const arr = (str||"").split(",").map(s=>s.trim()).filter(Boolean);
+  const defaults = ["08:00","12:00","18:00","22:00"];
+  while(arr.length < times) arr.push(defaults[arr.length] || "");
+  return arr.slice(0, times);
+}
+function getMed(id){ return state.meds.find(m=>m.id===id); }
+
+function buildPlanForDate(dateKey){
+  if(state.records[dateKey]) return;
+
+  const entries = [];
+  for(const med of state.meds){
+    const times = Math.max(1, parseInt(med.timesPerDay||1,10));
+    const schedule = parseSchedule(med.schedule, times);
+    for(let i=0;i<times;i++){
+      entries.push({
+        id: uid(),
+        medId: med.id,
+        name: med.name,
+        dose: med.dose || "",
+        scheduledTime: schedule[i] || "",
+        taken: false,
+        takenTime: "",
+        backfilled: dateKey !== todayKey
+      });
+    }
+  }
+  state.records[dateKey] = { entries, summary:{ allTaken:false, miss:false } };
+  saveState();
+}
+
+function recomputeSummary(dateKey){
+  const rec = state.records[dateKey];
+  if(!rec) return;
+  const entries = rec.entries || [];
+  const total = entries.length;
+  const done = entries.filter(e=>e.taken).length;
+  rec.summary = {
+    allTaken: total>0 && done===total,
+    miss: total>0 && done<total && done>0
+  };
+  saveState();
+}
+
+function shouldAffectStock(){
+  // 只有“今天”打卡影响库存；补录不扣库存（避免历史补录把库存扣乱）
+  return currentDateKey === todayKey;
+}
+
+/* =========================
+   今日视图渲染
+   ========================= */
+const currentKeyEl = document.getElementById("currentKey");
+const backfillHint = document.getElementById("backfillHint");
+const todayList = document.getElementById("todayList");
+const todayHint = document.getElementById("todayHint");
+const btnBackToday = document.getElementById("btnBackToday");
+const btnMarkAll = document.getElementById("btnMarkAll");
+
+btnBackToday.onclick = ()=>{
+  currentDateKey = todayKey;
+  setTab("today");
+  renderAll();
+};
+
+btnMarkAll.onclick = ()=>{
+  buildPlanForDate(currentDateKey);
+  const rec = state.records[currentDateKey];
+  const nowStr = hhmm(new Date());
+
+  for(const e of rec.entries){
+    if(!e.taken){
+      e.taken = true;
+      e.takenTime = nowStr;
+      if(shouldAffectStock()){
+        const med = getMed(e.medId);
+        if(med){
+          const stock = Number(med.stock||0);
+          med.stock = Math.max(0, stock - 1);
         }
       }
-      function save() {
-        localStorage.setItem(STORE_KEY, JSON.stringify(state));
-      }
-      function uid() {
-        return (
-          "m_" + Math.random().toString(16).slice(2) + Date.now().toString(16)
-        );
-      }
-      function hhmm(d) {
-        return (
-          String(d.getHours()).padStart(2, "0") +
-          ":" +
-          String(d.getMinutes()).padStart(2, "0")
-        );
-      }
+    }
+  }
+  recomputeSummary(currentDateKey);
+  renderAll();
+};
 
-      const state = load() || { meds: [], records: {} };
+function renderToday(){
+  currentKeyEl.textContent = currentDateKey;
 
-      // tabs
-      const tabToday = document.getElementById("tabToday");
-      const tabMeds = document.getElementById("tabMeds");
-      const tabStats = document.getElementById("tabStats");
-      const viewToday = document.getElementById("viewToday");
-      const viewMeds = document.getElementById("viewMeds");
-      const viewStats = document.getElementById("viewStats");
+  const isBackfill = currentDateKey !== todayKey;
+  backfillHint.textContent = isBackfill
+    ? `您正在补录：${currentDateKey}（补录默认不扣库存）`
+    : `今天：按时打卡会扣库存`;
 
-      function setTab(which) {
-        tabToday.classList.toggle("active", which === "today");
-        tabMeds.classList.toggle("active", which === "meds");
-        tabStats.classList.toggle("active", which === "stats");
-        viewToday.classList.toggle("hidden", which !== "today");
-        viewMeds.classList.toggle("hidden", which !== "meds");
-        viewStats.classList.toggle("hidden", which !== "stats");
-      }
-      tabToday.onclick = () => setTab("today");
-      tabMeds.onclick = () => setTab("meds");
-      tabStats.onclick = () => setTab("stats");
+  buildPlanForDate(currentDateKey);
 
-      // helpers
-      function parseSchedule(str, times) {
-        const arr = (str || "")
-          .split(",")
-          .map((s) => s.trim())
-          .filter(Boolean);
-        if (arr.length >= times) return arr.slice(0, times);
-        const defaults = ["08:00", "12:00", "18:00", "22:00"];
-        while (arr.length < times) arr.push(defaults[arr.length] || "");
-        return arr;
-      }
-      function getMedById(id) {
-        return state.meds.find((m) => m.id === id);
-      }
-      function hasAnyTaken(entries) {
-        return entries.some((e) => e.taken);
-      }
+  const rec = state.records[currentDateKey];
+  const entries = rec.entries || [];
 
-      function recomputeSummary(dateKey) {
-        const rec = state.records[dateKey];
-        if (!rec) return;
-        const entries = rec.entries || [];
-        const total = entries.length;
-        const done = entries.filter((e) => e.taken).length;
-        rec.summary = {
-          allTaken: total > 0 && done === total,
-          miss: total > 0 && done < total && hasAnyTaken(entries),
-        };
-        save();
-      }
+  if(state.meds.length===0){
+    todayList.innerHTML = `<div class="muted">药箱为空。先去「我的药箱」添加药物。</div>`;
+    todayHint.textContent = "";
+    btnMarkAll.disabled = true;
+    return;
+  }
 
-      // today
-      document.getElementById("todayKey").textContent = todayKey;
-      const todayList = document.getElementById("todayList");
-      const todayHint = document.getElementById("todayHint");
-      const btnMarkAll = document.getElementById("btnMarkAll");
+  btnMarkAll.disabled = entries.length===0;
 
-      function buildTodayPlan() {
-        if (!state.records[todayKey]) {
-          const entries = [];
-          for (const med of state.meds) {
-            const times = parseInt(med.timesPerDay || 1, 10);
-            const schedule = parseSchedule(med.schedule, times);
-            for (let i = 0; i < times; i++) {
-              entries.push({
-                id: uid(),
-                medId: med.id,
-                name: med.name,
-                dose: med.dose || "",
-                scheduledTime: schedule[i] || "",
-                taken: false,
-                takenTime: "",
-              });
-            }
+  todayList.innerHTML = "";
+  entries.forEach(e=>{
+    const med = getMed(e.medId);
+    const stock = med ? Number(med.stock??0) : 0;
+    const low = med ? Number(med.lowStock??0) : 0;
+    const lowTag = (med && stock<=low) ? ` <span class="stateTag warn">低库存</span>` : "";
+    const bfTag = e.backfilled ? ` <span class="stateTag warn">补录</span>` : "";
+
+    const box = document.createElement("div");
+    box.className = "item";
+    box.innerHTML = `
+      <div class="itemTop">
+        <div class="name">${(med?med.name:e.name)}${bfTag}</div>
+        <div class="pill">🕒 ${e.scheduledTime || "未设置"}</div>
+      </div>
+      <div class="small">
+        💊 用量：${e.dose || (med?med.dose:"—")}　📦 库存：${med?stock:"—"}${lowTag}<br/>
+        📝 备注：${(med && med.note) ? med.note : "—"}
+      </div>
+      <div class="divider"></div>
+      <div class="checkline">
+        <div>
+          ${e.taken
+            ? `<div class="stateTag ok">已服用</div><div class="small">记录时间：${e.takenTime}</div>`
+            : `<div class="stateTag bad">未服用</div><div class="small">点击右侧打卡</div>`
           }
-          state.records[todayKey] = {
-            entries,
-            summary: { allTaken: false, miss: false },
-          };
-          save();
+        </div>
+        <div class="box ${e.taken ? "on":""}" data-id="${e.id}"></div>
+      </div>
+    `;
+    todayList.appendChild(box);
+  });
+
+  todayList.querySelectorAll(".box").forEach(node=>{
+    node.onclick = ()=>{
+      const id = node.getAttribute("data-id");
+      const rec = state.records[currentDateKey];
+      const entry = rec.entries.find(x=>x.id===id);
+      if(!entry) return;
+
+      entry.taken = !entry.taken;
+      entry.takenTime = entry.taken ? hhmm(new Date()) : "";
+
+      if(shouldAffectStock()){
+        const med = getMed(entry.medId);
+        if(med){
+          const stock = Number(med.stock||0);
+          if(entry.taken) med.stock = Math.max(0, stock - 1);
+          else med.stock = stock + 1;
         }
       }
 
-      function renderToday() {
-        buildTodayPlan();
-        const rec = state.records[todayKey];
-        const entries = rec.entries || [];
+      recomputeSummary(currentDateKey);
+      renderAll();
+    };
+  });
 
-        if (state.meds.length === 0) {
-          todayList.innerHTML = `<div class="hint">你还没有添加药物。去「我的药箱」添加后，回到这里就能打卡。</div>`;
-          todayHint.textContent = "";
-          btnMarkAll.disabled = true;
-          btnMarkAll.style.opacity = 0.6;
-          return;
-        }
+  recomputeSummary(currentDateKey);
+  const total = entries.length;
+  const done = entries.filter(x=>x.taken).length;
+  const pct = total? Math.round(done/total*100) : 0;
+  todayHint.textContent = `当天进度：${done}/${total}（${pct}%）`;
+}
 
-        btnMarkAll.disabled = entries.length === 0;
-        btnMarkAll.style.opacity = entries.length === 0 ? 0.6 : 1;
+/* =========================
+   药箱：CRUD（最小可用）
+   ========================= */
+const fName = document.getElementById("fName");
+const fSpec = document.getElementById("fSpec");
+const fDose = document.getElementById("fDose");
+const fTimes = document.getElementById("fTimes");
+const fSchedule = document.getElementById("fSchedule");
+const fStock = document.getElementById("fStock");
+const fLow = document.getElementById("fLow");
+const fNote = document.getElementById("fNote");
+const btnAdd = document.getElementById("btnAdd");
+const btnSeed = document.getElementById("btnSeed");
+const medList = document.getElementById("medList");
 
-        todayList.innerHTML = "";
-        entries.forEach((e) => {
-          const med = getMedById(e.medId);
-          const stock = med ? Number(med.stock ?? 0) : 0;
-          const low = med ? Number(med.lowStock ?? 0) : 0;
-          const warn = med && stock <= low;
-          const lowTag = warn ? ` <span class="tag-warn">低库存</span>` : "";
+btnSeed.onclick = ()=>{
+  fName.value = "盐酸哌唑罗汀";
+  fSpec.value = "—";
+  fDose.value = "1片";
+  fTimes.value = "1";
+  fSchedule.value = "22:30";
+  fStock.value = "30";
+  fLow.value = "7";
+  fNote.value = "遵医嘱";
+};
 
-          const line = document.createElement("div");
-          line.className = "item";
-          line.innerHTML = `
-          <div class="item-title">
-            <div class="name">${med ? med.name : e.name}</div>
-            <div class="pill">🕒 ${e.scheduledTime || "未设置时间"}</div>
-          </div>
-          <div class="meta">
-            💊 用量：${e.dose || (med ? med.dose : "—")}　📦 库存：${
-            med ? stock : "—"
-          }${lowTag}
-            <br/>📝 备注：${med && med.note ? med.note : "—"}
-          </div>
-          <div class="divider"></div>
-          <div class="checkline">
-            <div class="check-left">
-              <div class="check-title">${
-                e.taken
-                  ? '<span class="tag-ok">已服用</span>'
-                  : '<span class="tag-bad">未服用</span>'
-              }</div>
-              <div class="check-sub">${
-                e.taken ? `记录时间：${e.takenTime}` : "点击右侧打卡"
-              }</div>
-            </div>
-            <div class="checkbox ${e.taken ? "on" : ""}" data-id="${
-            e.id
-          }"></div>
-          </div>
-        `;
-          todayList.appendChild(line);
-        });
+btnAdd.onclick = ()=>{
+  const name = fName.value.trim();
+  if(!name) return;
 
-        todayList.querySelectorAll(".checkbox").forEach((box) => {
-          box.onclick = () => {
-            const id = box.getAttribute("data-id");
-            const rec = state.records[todayKey];
-            const entry = rec.entries.find((x) => x.id === id);
-            if (!entry) return;
+  state.meds.push({
+    id: uid(),
+    name,
+    spec: fSpec.value.trim(),
+    dose: fDose.value.trim(),
+    timesPerDay: parseInt(fTimes.value,10) || 1,
+    schedule: fSchedule.value.trim(),
+    stock: Number(fStock.value||0),
+    lowStock: Number(fLow.value||0),
+    note: fNote.value.trim()
+  });
 
-            entry.taken = !entry.taken;
-            entry.takenTime = entry.taken ? hhmm(new Date()) : "";
+  // 新药加入后：不自动重算历史记录，避免污染；但会影响“未来新建日期计划”
+  saveState();
 
-            const med = getMedById(entry.medId);
-            if (med) {
-              const stock = Number(med.stock || 0);
-              if (entry.taken) med.stock = Math.max(0, stock - 1);
-              else med.stock = stock + 1;
-            }
+  // 清空表单
+  fName.value=""; fSpec.value=""; fDose.value="";
+  fSchedule.value=""; fStock.value=""; fLow.value=""; fNote.value="";
+  fTimes.value="2";
 
-            recomputeSummary(todayKey);
-            save();
-            renderToday();
-            renderCalendar();
-            renderOverview();
-          };
-        });
+  renderAll();
+};
 
-        recomputeSummary(todayKey);
-        const total = entries.length;
-        const done = entries.filter((e) => e.taken).length;
-        const pct = total ? Math.round((done / total) * 100) : 0;
-        todayHint.innerHTML = `今日进度：<span class="tag-ok">${done}</span> / ${total}（${pct}%）`;
-      }
+function renderMeds(){
+  medList.innerHTML = "";
+  if(state.meds.length===0){
+    medList.innerHTML = `<div class="muted">药箱为空。</div>`;
+    return;
+  }
 
-      btnMarkAll.onclick = () => {
-        buildTodayPlan();
-        const rec = state.records[todayKey];
-        const entries = rec.entries || [];
-        const nowStr = hhmm(new Date());
+  state.meds.forEach(m=>{
+    const stock = Number(m.stock||0);
+    const low = Number(m.lowStock||0);
+    const lowTag = stock<=low ? ` <span class="stateTag warn">低库存</span>` : "";
+    const el = document.createElement("div");
+    el.className = "item";
+    el.innerHTML = `
+      <div class="itemTop">
+        <div class="name">${m.name}${lowTag}</div>
+        <button class="btn secondary" data-id="${m.id}" style="padding:8px 12px;">删除</button>
+      </div>
+      <div class="small">
+        规格：${m.spec||"—"}　用量：${m.dose||"—"}　次数：${m.timesPerDay||1}/天<br/>
+        时间：${m.schedule||"—"}　库存：${stock}（提醒≤${low}）<br/>
+        备注：${m.note||"—"}
+      </div>
+    `;
+    medList.appendChild(el);
+  });
 
-        entries.forEach((e) => {
-          if (!e.taken) {
-            e.taken = true;
-            e.takenTime = nowStr;
-            const med = getMedById(e.medId);
-            if (med) {
-              const stock = Number(med.stock || 0);
-              med.stock = Math.max(0, stock - 1);
-            }
-          }
-        });
+  medList.querySelectorAll("button[data-id]").forEach(btn=>{
+    btn.onclick = ()=>{
+      const id = btn.getAttribute("data-id");
+      state.meds = state.meds.filter(x=>x.id!==id);
+      saveState();
+      renderAll();
+    };
+  });
+}
 
-        recomputeSummary(todayKey);
-        save();
-        renderToday();
-        renderCalendar();
-        renderOverview();
-      };
+/* =========================
+   备份
+   ========================= */
+const btnExport = document.getElementById("btnExport");
+const btnImport = document.getElementById("btnImport");
+const btnReset  = document.getElementById("btnReset");
+const backupBox = document.getElementById("backupBox");
 
-      // meds
-      const fName = document.getElementById("fName");
-      const fSpec = document.getElementById("fSpec");
-      const fDose = document.getElementById("fDose");
-      const fTimes = document.getElementById("fTimes");
-      const fSchedule = document.getElementById("fSchedule");
-      const fStock = document.getElementById("fStock");
-      const fLow = document.getElementById("fLow");
-      const fNote = document.getElementById("fNote");
-      const btnAdd = document.getElementById("btnAdd");
-      const btnSeed = document.getElementById("btnSeed");
-      const medList = document.getElementById("medList");
+btnExport.onclick = ()=>{
+  backupBox.value = JSON.stringify(state, null, 2);
+};
+btnImport.onclick = ()=>{
+  try{
+    const obj = JSON.parse(backupBox.value);
+    if(!obj || typeof obj !== "object") return;
+    if(!obj.meds || !obj.records) return;
+    localStorage.setItem(STORE_KEY, JSON.stringify(obj));
+    location.reload();
+  }catch{}
+};
+btnReset.onclick = ()=>{
+  localStorage.removeItem(STORE_KEY);
+  location.reload();
+};
 
-      function renderMeds() {
-        medList.innerHTML = "";
-        if (state.meds.length === 0) {
-          medList.innerHTML = `<div class="hint">药箱还是空的。先添加一个药物吧。</div>`;
-          return;
-        }
+/* =========================
+   日历：点日期补录（偷懒方案）
+   ========================= */
+const calendarEl = document.getElementById("calendar");
+const statHint = document.getElementById("statHint");
+const overview = document.getElementById("overview");
 
-        state.meds.forEach((m) => {
-          const stock = Number(m.stock || 0);
-          const low = Number(m.lowStock || 0);
-          const tag =
-            stock <= low
-              ? `<span class="tag-warn">低库存</span>`
-              : `<span class="tag-ok">正常</span>`;
+function renderCalendar(){
+  calendarEl.innerHTML = "";
 
-          const div = document.createElement("div");
-          div.className = "item";
-          div.innerHTML = `
-          <div class="item-title">
-            <div class="name">${m.name}</div>
-            <div class="pill">📅 每日 ${m.timesPerDay} 次</div>
-          </div>
-          <div class="meta">
-            💠 规格：${m.spec || "—"}　💊 单次：${m.dose || "—"}
-            <br/>🕒 时间：${m.schedule || "—"}
-            <br/>📦 库存：${stock}（阈值 ≤ ${low}） ${tag}
-            <br/>📝 备注：${m.note || "—"}
-          </div>
-          <div class="footer-actions">
-            <button class="btn secondary grow" data-act="addstock" data-id="${
-              m.id
-            }">补充 +10</button>
-            <button class="btn danger" data-act="del" data-id="${
-              m.id
-            }">删除</button>
-          </div>
-        `;
-          medList.appendChild(div);
-        });
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth(); // 0-based
+  const first = new Date(year, month, 1);
+  const last = new Date(year, month+1, 0);
+  const daysInMonth = last.getDate();
 
-        medList.querySelectorAll("button").forEach((btn) => {
-          btn.onclick = () => {
-            const id = btn.getAttribute("data-id");
-            const act = btn.getAttribute("data-act");
-            const med = getMedById(id);
-            if (!med) return;
+  // 周起始空格
+  const startDow = first.getDay(); // 0 Sun - 6 Sat
+  for(let i=0;i<startDow;i++){
+    const pad = document.createElement("div");
+    pad.className="day";
+    pad.style.opacity=".25";
+    pad.textContent="";
+    calendarEl.appendChild(pad);
+  }
 
-            if (act === "addstock") {
-              med.stock = Number(med.stock || 0) + 10;
-            }
-            if (act === "del") {
-              if (
-                !confirm(
-                  "确定删除这个药物吗？（不会删除历史记录，但今天计划会重建）"
-                )
-              )
-                return;
-              state.meds = state.meds.filter((x) => x.id !== id);
-              delete state.records[todayKey];
-            }
-            save();
-            renderMeds();
-            renderToday();
-            renderCalendar();
-            renderOverview();
-          };
-        });
-      }
+  for(let d=1; d<=daysInMonth; d++){
+    const date = new Date(year, month, d);
+    const key = isoDateKey(date);
 
-      btnAdd.onclick = () => {
-        const name = fName.value.trim();
-        if (!name) {
-          alert("请填写药物名称");
-          return;
-        }
+    const rec = state.records[key];
+    let cls = "day";
+    if(rec){
+      const sum = rec.summary || {};
+      if(sum.allTaken) cls += " done";
+      else if(sum.miss) cls += " miss";
+      else cls += " has";
+    }
+    if(key===currentDateKey) cls += " active";
 
-        const med = {
-          id: uid(),
-          name,
-          spec: fSpec.value.trim(),
-          dose: fDose.value.trim(),
-          timesPerDay: parseInt(fTimes.value, 10),
-          schedule: fSchedule.value.trim(),
-          stock: Number(fStock.value || 0),
-          lowStock: Number(fLow.value || 0),
-          note: fNote.value.trim(),
-        };
+    const cell = document.createElement("div");
+    cell.className = cls;
+    cell.textContent = d;
 
-        state.meds.push(med);
-        save();
-        delete state.records[todayKey];
+    cell.onclick = ()=>{
+      currentDateKey = key;
+      buildPlanForDate(key);
+      setTab("today");       // 关键：点日历直接跳到今日页面（偷懒方案）
+      renderAll();
+    };
 
-        [fName, fSpec, fDose, fSchedule, fStock, fLow, fNote].forEach(
-          (x) => (x.value = "")
-        );
-        renderMeds();
-        renderToday();
-        renderCalendar();
-        renderOverview();
-        alert("已添加到药箱 ✅");
-      };
+    calendarEl.appendChild(cell);
+  }
 
-      btnSeed.onclick = () => {
-        fName.value = "维生素C";
-        fSpec.value = "100mg/片";
-        fDose.value = "1片";
-        fTimes.value = "2";
-        fSchedule.value = "08:00,20:00";
-        fStock.value = "30";
-        fLow.value = "7";
-        fNote.value = "饭后服用";
-      };
+  statHint.textContent = `本月：${year}-${String(month+1).padStart(2,"0")}（点任意日期可补录）`;
+}
 
-      // backup
-      const backupBox = document.getElementById("backupBox");
-      document.getElementById("btnExport").onclick = () => {
-        backupBox.value = JSON.stringify(state, null, 2);
-        backupBox.focus();
-        backupBox.select();
-      };
-      document.getElementById("btnImport").onclick = () => {
-        const txt = backupBox.value.trim();
-        if (!txt) {
-          alert("请先把 JSON 粘贴到文本框里");
-          return;
-        }
-        try {
-          const obj = JSON.parse(txt);
-          if (!obj || typeof obj !== "object" || !obj.meds || !obj.records)
-            throw new Error("bad");
-          localStorage.setItem(STORE_KEY, JSON.stringify(obj));
-          location.reload();
-        } catch {
-          alert("导入失败：JSON 不合法或结构不对");
-        }
-      };
-      document.getElementById("btnReset").onclick = () => {
-        if (!confirm("确定清空所有数据吗？此操作不可撤销")) return;
-        localStorage.removeItem(STORE_KEY);
-        location.reload();
-      };
+function renderOverview(){
+  // 统计本月完成/部分/无记录
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth();
+  const last = new Date(year, month+1, 0);
+  const daysInMonth = last.getDate();
 
-      // stats
-      const calendar = document.getElementById("calendar");
-      const statHint = document.getElementById("statHint");
-      const overview = document.getElementById("overview");
+  let has=0, done=0, miss=0;
+  for(let d=1; d<=daysInMonth; d++){
+    const key = isoDateKey(new Date(year, month, d));
+    const rec = state.records[key];
+    if(!rec) continue;
+    has++;
+    const sum = rec.summary || {};
+    if(sum.allTaken) done++;
+    else if(sum.miss) miss++;
+  }
 
-      function renderCalendar() {
-        calendar.innerHTML = "";
-        const y = now.getFullYear();
-        const m = now.getMonth();
-        const days = new Date(y, m + 1, 0).getDate();
+  overview.innerHTML = `
+    <div class="item">
+      <div class="itemTop">
+        <div class="name">本月记录概览</div>
+        <div class="pill">📊</div>
+      </div>
+      <div class="small">
+        有记录：${has} 天<br/>
+        ✅ 完成：${done} 天<br/>
+        ⚠️ 部分完成：${miss} 天<br/>
+        空白：${daysInMonth - has} 天
+      </div>
+    </div>
+    <div class="item">
+      <div class="itemTop">
+        <div class="name">补录说明</div>
+        <div class="pill">📝</div>
+      </div>
+      <div class="small">
+        点击日历日期会直接跳转到当天打卡。补录默认不扣库存；只有“今天”的打卡会扣库存。
+      </div>
+    </div>
+  `;
+}
 
-        let doneDays = 0,
-          missDays = 0,
-          recordDays = 0;
-
-        for (let i = 1; i <= days; i++) {
-          const d = new Date(y, m, i);
-          const k = new Date(d.getTime() - d.getTimezoneOffset() * 60000)
-            .toISOString()
-            .slice(0, 10);
-          const rec = state.records[k];
-
-          const div = document.createElement("div");
-          div.className = "day";
-
-          let mark = "";
-          if (rec && rec.entries && rec.entries.length > 0) {
-            recordDays++;
-            recomputeSummary(k);
-            if (rec.summary.allTaken) {
-              div.classList.add("done");
-              mark = "✅";
-              doneDays++;
-            } else if (rec.summary.miss) {
-              div.classList.add("miss");
-              mark = "⚠️";
-              missDays++;
-            }
-          }
-
-          div.textContent = i + (mark ? " " + mark : "");
-          calendar.appendChild(div);
-        }
-
-        const rate = recordDays ? Math.round((doneDays / recordDays) * 100) : 0;
-        statHint.innerHTML = `本月：记录天数 <span class="tag-ok">${recordDays}</span>，全完成 <span class="tag-ok">${doneDays}</span>，漏服 <span class="tag-bad">${missDays}</span>，按时率（仅对已记录日）≈ <span class="tag-ok">${rate}%</span>`;
-      }
-
-      function renderOverview() {
-        overview.innerHTML = "";
-        let streak = 0;
-        for (let offset = 0; offset < 120; offset++) {
-          const d = new Date(now);
-          d.setDate(now.getDate() - offset);
-          const k = new Date(d.getTime() - d.getTimezoneOffset() * 60000)
-            .toISOString()
-            .slice(0, 10);
-          const rec = state.records[k];
-          if (rec && rec.entries && rec.entries.length > 0) {
-            recomputeSummary(k);
-            if (rec.summary.allTaken) streak++;
-            else break;
-          } else break;
-        }
-
-        const lowOnes = state.meds
-          .map((m) => {
-            const stock = Number(m.stock || 0);
-            const low = Number(m.lowStock || 0);
-            return { m, stock, low, warn: stock <= low };
-          })
-          .filter((x) => x.warn);
-
-        const blocks = [];
-        blocks.push(
-          `<div class="item"><div class="name">连续全完成天数</div><div class="meta"><span class="tag-ok">${streak}</span> 天</div></div>`
-        );
-
-        if (lowOnes.length) {
-          const lines = lowOnes
-            .map((x) => `• ${x.m.name}（库存 ${x.stock} ≤ 阈值 ${x.low}）`)
-            .join("<br/>");
-          blocks.push(
-            `<div class="item"><div class="name">低库存提醒</div><div class="meta">${lines}</div></div>`
-          );
-        } else {
-          blocks.push(
-            `<div class="item"><div class="name">低库存提醒</div><div class="meta"><span class="tag-ok">无</span></div></div>`
-          );
-        }
-
-        overview.innerHTML = blocks.join("");
-      }
-
-      // init
-      renderMeds();
-      renderToday();
-      renderCalendar();
-      renderOverview();
-    </script>
-  </body>
+/* =========================
+   总渲染
+   ========================= */
+function renderAll(){
+  renderToday();
+  renderMeds();
+  renderCalendar();
+  renderOverview();
+}
+renderAll();
+</script>
+</body>
 </html>
+
